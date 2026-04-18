@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#121212" />
+  <title>UltraFit Gym | The Standard of Strength</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    /* Additional style to match admin.html contact card layout (does not affect other sections) */
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      background: rgba(0,0,0,0.05);
+      padding: 0.8rem 1rem;
+      border-radius: 24px;
+    }
+    .contact-info-item i {
+      font-size: 1.8rem;
+      width: 40px;
+      text-align: center;
+    }
+    .contact-info-item div {
+      flex: 1;
+    }
+    .contact-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 0.2rem;
+    }
+    .contact-value {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .contact-button {
+      display: inline-block;
+      background: #121212;
+      color: #FFD700;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      text-decoration: none;
+      margin-top: 0.3rem;
+      transition: 0.2s;
+    }
+    .contact-button:hover {
+      background: #2a2a2a;
+    }
+    .contact-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #121212;
+      color: #FFD700;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .social-link:hover {
+      background: #2a2a2a;
+    }
+    .contact-address {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- PREMIUM NAVIGATION BAR (links fixed) -->
+<header class="navbar" id="navbar">
+  <div class="container nav-container">
+    <div class="logo-wrapper">
+      <img src="UltraFit logo.png" alt="UltraFit Logo" class="nav-logo-img" width="38" height="38" />
+      <div class="logo">
+        <span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span>
+      </div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link join-now-nav">Join Now</a></li>
+      <li><a href="index.html#contact-section" class="nav-link">Contact Us</a></li>
+      <li><a href="diet.html" class="nav-link">Diet Plan</a></li>
+      <li><a href="workout.html" class="nav-link">Workout Plan</a></li>
+      <li><a href="members.html" class="nav-link">Gym Members</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-video-wrapper">
+      <video autoplay loop muted playsinline poster="https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&w=1600">
+        <source src="https://videos.pexels.com/video-files/4349242/4349242-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content container">
+      <div class="hero-logo-wrapper">
+        <img src="UltraFit logo.png" alt="UltraFit Logo" class="hero-logo-img" width="120" height="120" />
+      </div>
+      <div class="hero-brand"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span></div>
+      <h1 class="hero-title" id="heroTitle">The Standard of Strength</h1>
+      <button class="btn-primary btn-vip" id="heroVipBtn">Claim Your 3-Day VIP Pass</button>
+      <div class="live-status">
+        <span class="pulse-dot"></span>
+        <span id="statusText">Open Now – Closing at 10 PM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section class="services-section">
+    <div class="container">
+      <div class="services-icons-row">
+        <div class="service-item"><i class="fas fa-heartbeat"></i><span>Cardio</span></div>
+        <div class="service-item"><i class="fas fa-dumbbell"></i><span>Muscle Training</span></div>
+        <div class="service-item"><i class="fas fa-chalkboard-user"></i><span>Personal Training</span></div>
+        <div class="service-item"><i class="fas fa-utensils"></i><span>Diet Planning</span></div>
+      </div>
+      <div class="safety-cluster">
+        <span><i class="fas fa-shield-virus"></i> Medical-Grade Sanitization</span>
+        <span><i class="fas fa-certificate"></i> Certified Trainers</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar">
+    <div class="container stats-grid">
+      <div class="stat-card"><span class="stat-num" data-count="1500">0</span><span>+ Members</span></div>
+      <div class="stat-card"><span class="stat-num" data-count="20">0</span><span>+ Expert Trainers</span></div>
+      <div class="stat-card"><span class="stat-num" data-count="500">0</span><span>+ Transformations</span></div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP TRAINERS -->
+  <section class="leadership">
+    <div class="container">
+      <h2 class="section-title" id="trainersHeading">Gym Trainers</h2>
+      <div class="leadership-cards">
+        <!-- populated by index.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSFORMATIONS PREVIEW -->
+  <section class="transformations-preview">
+    <div class="container">
+      <h2 class="section-title" id="transformationsHeading">Transformations</h2>
+      <div class="transform-cards" id="transformationsContainer">
+        <!-- populated by index.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- GYM MEMBERS CAROUSEL -->
+  <section class="members-carousel-section" id="members-section">
+    <div class="container">
+      <h2 class="section-title gold-full" id="membersHeading">Gym Members</h2>
+      <div class="members-carousel-container">
+        <div class="members-carousel-main">
+          <div class="members-carousel-items" id="membersCarouselItems"></div>
+          <button class="carousel-arrow members-prev" id="membersPrevBtn"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-arrow members-next" id="membersNextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="members-dots" id="membersDots"></div>
+        <div class="members-cta"><a href="members.html" class="btn-outline-gold view-members-btn">View Members</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIET PLANS -->
+  <section class="diet-plans-section">
+    <div class="container">
+      <h2 class="section-title" id="dietHeading">Diet Plans</h2>
+      <div class="diet-plans-grid" id="dietGrid">
+        <!-- populated by index.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKOUT PLANS -->
+  <section class="workout-plan-section" id="workout-plan">
+    <div class="container">
+      <h2 class="section-title" id="workoutHeading">Workout Plan</h2>
+      <div class="workout-plans-grid" id="workoutGrid">
+        <!-- populated by index.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP SECTION -->
+  <section class="membership-section" id="membership-section">
+    <div class="container">
+      <h2 class="section-title gold-full" id="membershipHeading">Gym Membership</h2>
+      <div class="membership-cards" id="membershipCards">
+        <!-- populated by index.js -->
+      </div>
+      <div class="membership-cta-wrapper"><a href="members.html" class="btn-primary join-now-btn">Join Now</a></div>
+    </div>
+  </section>
+
+  <!-- SHOP PREVIEW -->
+  <section class="proshop-preview" id="proshop-preview">
+    <div class="container">
+      <h2 class="section-title" id="shopHeading"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span> Shop</h2>
+      <div class="product-grid" id="productGrid">
+        <!-- populated by index.js -->
+      </div>
+      <div class="shop-cta-wrapper"><a href="shop.html" class="btn-outline-gold visit-shop-btn">Visit Shop</a></div>
+    </div>
+  </section>
+
+  <!-- GALLERY CAROUSEL -->
+  <section class="premium-carousel-section">
+    <div class="container">
+      <h2 class="section-title" id="galleryHeading"><span class="ultra-white">Ultra</span><span class="fit-gold">Fit</span> Gallery</h2>
+      <div class="gallery-carousel-wrapper" id="galleryCarousel">
+        <div class="carousel-main"><div class="carousel-items" id="galleryItemsContainer"></div><button class="carousel-arrow prev" id="galleryPrevBtn"><i class="fas fa-chevron-left"></i></button><button class="carousel-arrow next" id="galleryNextBtn"><i class="fas fa-chevron-right"></i></button></div>
+        <div class="carousel-dots" id="galleryDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REELS CAROUSEL -->
+  <section class="premium-carousel-section" style="background:#000000;">
+    <div class="container">
+      <h2 class="section-title" id="reelsHeading"><span class="ultra-white">Ultra</span><span class="fit-gold">Fit</span> Reels</h2>
+      <div class="reels-carousel-wrapper" id="reelsCarousel">
+        <div class="carousel-main"><div class="carousel-items" id="reelsItemsContainer"></div><button class="carousel-arrow prev" id="reelsPrevBtn"><i class="fas fa-chevron-left"></i></button><button class="carousel-arrow next" id="reelsNextBtn"><i class="fas fa-chevron-right"></i></button></div>
+        <div class="carousel-dots" id="reelsDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews-luxury-section">
+    <div class="container">
+      <h2 class="section-title gold-full" id="reviewsHeading">Reviews</h2>
+      <div class="review-carousel-container">
+        <div class="review-carousel-main"><div class="review-carousel-items" id="reviewCarouselItems"></div><button class="carousel-arrow review-prev" id="reviewPrevBtn"><i class="fas fa-chevron-left"></i></button><button class="carousel-arrow review-next" id="reviewNextBtn"><i class="fas fa-chevron-right"></i></button></div>
+        <div class="review-dots" id="reviewDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT + MAP (exactly as admin.html) -->
+  <section class="contact-visit-section" id="contact-section">
+    <div class="container">
+      <div class="contact-visit-grid">
+        <div class="contact-card">
+          <h3 class="contact-card-title">Contact Us</h3>
+          <div class="contact-info-item">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <p class="contact-label">Phone</p>
+              <p class="contact-value" id="contactPhone">+1 (212) 555-7890</p>
+              <a href="tel:+12125557890" class="contact-button">Call Now</a>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+              <p class="contact-label">WhatsApp</p>
+              <p class="contact-value" id="contactWhatsapp">+1 (212) 555-7891</p>
+              <a href="https://wa.me/12125557891?text=Hello%20UltraFit%2C%20I'm%20interested" target="_blank" class="contact-button">Chat Now</a>
+            </div>
+          </div>
+          <div class="contact-social">
+            <a href="https://facebook.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i> Facebook <span>Open Now</span></a>
+            <a href="https://instagram.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram <span>Open Now</span></a>
+          </div>
+          <div class="contact-address">
+            <i class="fas fa-map-marker-alt"></i>
+            <p id="contactAddress">123 Strength Avenue, Manhattan, NY 10001, USA</p>
+          </div>
+        </div>
+        <div class="visit-map">
+          <h3 class="visit-map-title">Visit Us</h3>
+          <div class="map-wrapper">
+            <iframe src="https://maps.google.com/maps?q=The+Ultra+Fit+Gym+Unnao&t=&z=16&ie=UTF8&iwloc=&output=embed" style="filter: grayscale(100%) invert(100%) contrast(90%);" loading="lazy" title="UltraFit Gym Location"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-links">
+      <h4>UltraFit Gym</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Refund Policy</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+      </ul>
+      <p class="credit">Designed by <a href="https://ekansh-mishra-webdeveloper.github.io/Brand-Bazar/" target="_blank">Brand Bazaar</a></p>
+    </div>
+  </div>
+</footer>
+
+<div id="modalOverlay" class="modal-overlay"><div class="modal-content"><span class="close-modal">&times;</span><div id="modalDynamicBody"></div></div></div>
+<div class="floating-cta"><button class="floating-trial-btn" id="floatingTrialBtn">Book 3-Day Free Trial</button></div>
+
+<script src="index.js"></script>
+
+<!-- Additional script to fix button links and featured members (works alongside index.js) -->
+<script>
+  (function() {
+    const API_BASE = '/api';
+
+    async function fetchJSON(url) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } catch (err) {
+        console.error(err);
+        return null;
+      }
+    }
+
+    // 1. Update all section headings from siteSettings
+    async function updateHeadings() {
+      const settings = await fetchJSON(`${API_BASE}/sitesettings`);
+      if (!settings) return;
+      const headingMap = {
+        trainersHeading: 'trainersHeading',
+        transformationsHeading: 'transformationsHeading',
+        membersHeading: 'membersHeading',
+        dietHeading: 'dietHeading',
+        workoutHeading: 'workoutHeading',
+        membershipHeading: 'membershipHeading',
+        shopHeading: 'shopHeading',
+        galleryHeading: 'galleryHeading',
+        reelsHeading: 'reelsHeading',
+        reviewsHeading: 'reviewsHeading'
+      };
+      for (const [id, field] of Object.entries(headingMap)) {
+        const el = document.getElementById(id);
+        if (el && settings[field]) {
+          if (id === 'shopHeading') {
+            el.innerHTML = `<span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span> ${settings[field].replace(/^ULTRAFIT\s*/i, '')}`;
+          } else {
+            el.innerHTML = settings[field];
+          }
+        }
+      }
+    }
+
+    // 2. Update contact info from API
+    async function updateContact() {
+      const contact = await fetchJSON(`${API_BASE}/contactinfo`);
+      if (!contact) return;
+      const phoneEl = document.getElementById('contactPhone');
+      if (phoneEl) phoneEl.innerText = contact.phone || '+1 (212) 555-7890';
+      const whatsappEl = document.getElementById('contactWhatsapp');
+      if (whatsappEl) whatsappEl.innerText = contact.whatsappNumber || '+1 (212) 555-7891';
+      const addressEl = document.getElementById('contactAddress');
+      if (addressEl) addressEl.innerText = contact.address || '123 Strength Avenue, Manhattan, NY 10001, USA';
+      const fbLink = document.querySelector('.contact-social a[href*="facebook"]');
+      if (fbLink) fbLink.href = contact.facebookUrl || '#';
+      const igLink = document.querySelector('.contact-social a[href*="instagram"]');
+      if (igLink) igLink.href = contact.instagramUrl || '#';
+    }
+
+    // 3. Filter members carousel to show only featured members
+    async function filterFeaturedMembers() {
+      const container = document.getElementById('membersCarouselItems');
+      if (!container) return;
+      let attempts = 0;
+      const waitForContent = setInterval(async () => {
+        if (container.children.length > 0 || attempts > 20) {
+          clearInterval(waitForContent);
+          const members = await fetchJSON(`${API_BASE}/members`);
+          if (!members) return;
+          const featured = members.filter(m => m.featured === true);
+          if (featured.length === 0) {
+            container.innerHTML = '<div class="carousel-item">No featured members yet.</div>';
+            return;
+          }
+          let itemsHtml = '';
+          featured.forEach(m => {
+            itemsHtml += `
+              <div class="carousel-item">
+                <div class="member-card" data-id="${m._id}">
+                  <img class="member-avatar" src="${m.photoUrl || 'https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette_719432-3512.jpg'}" alt="${escapeHtml(m.name)}">
+                  <div class="member-name">${escapeHtml(m.name)}</div>
+                  <div class="member-role">${escapeHtml(m.position || 'Member')}</div>
+                  <div class="member-age">${m.age} years old</div>
+                  <div class="member-bio">“${escapeHtml(m.feedback || 'No feedback')}”</div>
+                  <button class="btn-outline-gold view-members-btn" onclick="window.location.href='members.html'">View Members</button>
+                </div>
+              </div>
+            `;
+          });
+          container.innerHTML = itemsHtml;
+          const total = featured.length;
+          const prevBtn = document.getElementById('membersPrevBtn');
+          const nextBtn = document.getElementById('membersNextBtn');
+          const dotsContainer = document.getElementById('membersDots');
+          let current = 0;
+          function updateCarousel() {
+            container.style.transform = `translateX(-${current * 100}%)`;
+            if (dotsContainer) {
+              Array.from(dotsContainer.children).forEach((dot, i) => dot.classList.toggle('active', i === current));
+            }
+          }
+          function renderDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+              const dot = document.createElement('div');
+              dot.classList.add('dot');
+              if (i === current) dot.classList.add('active');
+              dot.addEventListener('click', () => { current = i; updateCarousel(); });
+              dotsContainer.appendChild(dot);
+            }
+          }
+          if (prevBtn && nextBtn) {
+            const newPrev = prevBtn.cloneNode(true);
+            const newNext = nextBtn.cloneNode(true);
+            prevBtn.parentNode.replaceChild(newPrev, prevBtn);
+            nextBtn.parentNode.replaceChild(newNext, nextBtn);
+            newPrev.onclick = () => { current = (current - 1 + total) % total; updateCarousel(); };
+            newNext.onclick = () => { current = (current + 1) % total; updateCarousel(); };
+          }
+          renderDots();
+          updateCarousel();
+        }
+        attempts++;
+      }, 300);
+    }
+
+    // 4. Override button links for dynamically generated content
+    function fixButtonLinks() {
+      // Transformations "See more"
+      const seeMoreBtns = () => document.querySelectorAll('.transform-cards .btn-see-more');
+      const handleSeeMore = (e) => {
+        e.preventDefault();
+        window.location.href = 'members.html';
+      };
+      const attachSeeMore = () => {
+        seeMoreBtns().forEach(btn => {
+          btn.removeEventListener('click', handleSeeMore);
+          btn.addEventListener('click', handleSeeMore);
+        });
+      };
+      // Diet plans "Full Diet Plan"
+      const dietBtns = () => document.querySelectorAll('.diet-plans-grid .full-plan-btn');
+      const handleDiet = (e) => {
+        e.preventDefault();
+        window.location.href = 'diet.html';
+      };
+      const attachDiet = () => {
+        dietBtns().forEach(btn => {
+          btn.removeEventListener('click', handleDiet);
+          btn.addEventListener('click', handleDiet);
+        });
+      };
+      // Workout plans "Full Workout Plan"
+      const workoutBtns = () => document.querySelectorAll('.workout-plans-grid .full-workout-btn');
+      const handleWorkout = (e) => {
+        e.preventDefault();
+        window.location.href = 'workout.html';
+      };
+      const attachWorkout = () => {
+        workoutBtns().forEach(btn => {
+          btn.removeEventListener('click', handleWorkout);
+          btn.addEventListener('click', handleWorkout);
+        });
+      };
+      // Shop "Buy Now" buttons
+      const buyBtns = () => document.querySelectorAll('.product-grid .btn-gold-whatsapp');
+      const handleBuy = (e) => {
+        e.preventDefault();
+        window.location.href = 'shop.html';
+      };
+      const attachBuy = () => {
+        buyBtns().forEach(btn => {
+          btn.removeEventListener('click', handleBuy);
+          btn.addEventListener('click', handleBuy);
+        });
+      };
+      // Run initially and observe for dynamic changes
+      const observer = new MutationObserver(() => {
+        attachSeeMore();
+        attachDiet();
+        attachWorkout();
+        attachBuy();
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      attachSeeMore();
+      attachDiet();
+      attachWorkout();
+      attachBuy();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    // Run after index.js has loaded
+    setTimeout(() => {
+      updateHeadings();
+      updateContact();
+      filterFeaturedMembers();
+      fixButtonLinks();
+    }, 1000);
+  })();
+</script>
+</body>
+</html>
