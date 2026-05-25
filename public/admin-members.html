@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* ========== EXACT SAME STYLES AS members.html ========== */
+    /* ========== EXACT SAME STYLES AS members.html (plus admin extras & list view) ========== */
     * {
       margin: 0;
       padding: 0;
@@ -33,6 +33,7 @@
       margin: 0 auto;
       padding: 0 2rem;
     }
+    /* Navbar (same as admin.html) */
     .navbar {
       position: fixed;
       top: 0;
@@ -108,6 +109,7 @@
       border-radius: 40px;
       font-weight: 700;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
     .join-now-nav:hover {
       background: #e6c300;
@@ -138,7 +140,9 @@
       .nav-links.active { display: flex; }
       .hamburger { display: block; }
       .container { padding: 0 1.5rem; }
+      .join-now-nav { padding: 0.5rem 1.2rem !important; font-size: 0.9rem; }
     }
+    /* Hero Section */
     .members-hero {
       position: relative;
       min-height: 65vh;
@@ -152,11 +156,13 @@
       text-align: center;
       border-bottom: 2px solid rgba(255,215,0,0.3);
     }
+    /* Hero overlay (kept for background, but no slider in edit modal) */
     .members-hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background: radial-gradient(circle at 20% 40%, rgba(0,0,0,0.5) 0%, #000000cc 100%);
+      opacity: 0.0;
     }
     .hero-content {
       position: relative;
@@ -181,6 +187,7 @@
       max-width: 600px;
       margin: 1rem auto 0;
     }
+    /* Stats section */
     .stats-section {
       padding: 3rem 0;
       background: #0a0a0a;
@@ -209,6 +216,13 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+    }
+    .section-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
     .membership-cards {
       display: flex;
@@ -280,16 +294,8 @@
       color: var(--gold);
       margin: 0.3rem;
     }
-    .fee-tag-paid {
-      background: #2ecc2e20;
-      color: #2ecc2e;
-      border: 1px solid #2ecc2e;
-    }
-    .fee-tag-unpaid {
-      background: #e74c3c20;
-      color: #e74c3c;
-      border: 1px solid #e74c3c;
-    }
+    .fee-tag-paid { background: #2ecc2e20; color: #2ecc2e; border: 1px solid #2ecc2e; }
+    .fee-tag-unpaid { background: #e74c3c20; color: #e74c3c; border: 1px solid #e74c3c; }
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -331,6 +337,7 @@
       background: var(--gold);
       color: #121212;
     }
+    /* Members Grid & List Views */
     .members-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -371,6 +378,81 @@
     }
     .status-active { background: #2ecc2e20; color: #2ecc2e; border: 1px solid #2ecc2e; }
     .status-inactive { background: #e74c3c20; color: #e74c3c; border: 1px solid #e74c3c; }
+    /* List view (from members.html) */
+    .members-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 2rem 0;
+    }
+    .member-list-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(28,28,32,0.7);
+      backdrop-filter: blur(4px);
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,215,0,0.15);
+      transition: all 0.2s;
+    }
+    .member-list-item:hover {
+      border-color: var(--gold);
+      background: rgba(28,28,32,0.9);
+    }
+    .list-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--gold);
+    }
+    .list-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .list-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .list-status {
+      font-size: 0.7rem;
+    }
+    @media (max-width: 600px) {
+      .list-info { flex-direction: column; align-items: flex-start; }
+      .member-list-item { border-radius: 28px; }
+    }
+    .view-toggle {
+      display: flex;
+      gap: 0.8rem;
+      background: rgba(20,20,25,0.6);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.8rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .toggle-icon {
+      background: transparent;
+      border: none;
+      color: #aaa;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      border-radius: 50%;
+      transition: 0.2s;
+      width: 40px;
+      text-align: center;
+    }
+    .toggle-icon.active {
+      color: #FFD700;
+      background: rgba(255,215,0,0.15);
+    }
+    .toggle-icon:hover { color: #FFD700; }
     .load-more-wrapper {
       text-align: center;
       margin: 2rem 0 3rem;
@@ -389,21 +471,41 @@
       background: var(--gold);
       color: #121212;
     }
+    /* Footer (exactly like admin.html) */
     footer {
       background: #000;
       padding: 3rem 0;
       border-top: 1px solid rgba(255,215,0,0.3);
       text-align: center;
     }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
     .footer-links ul {
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 3rem;
       list-style: none;
+      margin: 1rem 0;
       flex-wrap: wrap;
     }
-    .footer-links a { color: #ccc; text-decoration: none; }
-    .footer-links a:hover { color: var(--gold); }
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .footer-links a:hover { color: #FFD700; }
+    .credit {
+      margin-top: 1rem;
+    }
+    .credit a {
+      color: #FFD700;
+      text-decoration: none;
+    }
+    .credit a:hover { text-decoration: underline; }
+    /* Floating CTA */
     .floating-cta {
       position: fixed;
       bottom: 30px;
@@ -424,29 +526,7 @@
       transform: scale(1.05);
       background: #e6c300;
     }
-    @media (max-width: 768px) {
-      .hero-content h1 { font-size: 2.5rem; }
-      .section-title { font-size: 2rem; }
-      .filter-bar { flex-direction: column; align-items: stretch; }
-      .members-grid { grid-template-columns: 1fr; }
-    }
-    .fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.7s ease;
-    }
-    .fade-up.appear {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    /* ========== ADMIN-SPECIFIC STYLES ========== */
-    .section-header-flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
+    /* Admin specific buttons */
     .admin-add-icon {
       background: rgba(255,215,0,0.1);
       border: 1px solid rgba(255,215,0,0.4);
@@ -465,8 +545,6 @@
       color: #121212;
       transform: scale(1.02);
     }
-    .admin-add-icon i { transition: transform 0.2s; }
-    .admin-add-icon:hover i { transform: rotate(90deg); }
     .card-update-btn {
       display: block;
       margin: 1rem auto 0;
@@ -504,7 +582,7 @@
       transform: scale(1.04);
       box-shadow: 0 0 12px rgba(255,215,0,0.4);
     }
-    /* Premium Modal Styles */
+    /* Premium Modal Styles (without opacity slider) */
     .premium-modal {
       position: fixed;
       top: 0;
@@ -537,6 +615,17 @@
       border: 1px solid #FFD700;
       margin-bottom: 1rem;
     }
+    .modal-image-container {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .modal-image {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 16px;
+      border: 1px solid #FFD700;
+      object-fit: cover;
+    }
     .image-upload-area {
       border: 2px dashed #FFD700;
       border-radius: 20px;
@@ -545,11 +634,14 @@
       cursor: pointer;
       transition: 0.2s;
       margin-top: 0.5rem;
+      background: rgba(0,0,0,0.3);
     }
     .image-upload-area:hover {
       background: rgba(255,215,0,0.05);
     }
-    .field-group { margin-bottom: 1.2rem; }
+    .field-group {
+      margin-bottom: 1.2rem;
+    }
     .field-group label {
       display: block;
       font-size: 0.75rem;
@@ -612,10 +704,6 @@
       background: #e6c300;
       transform: scale(1.02);
     }
-    .opacity-slider {
-      width: 100%;
-      margin: 0.5rem 0;
-    }
     .stats-edit-row {
       display: flex;
       align-items: center;
@@ -626,7 +714,6 @@
     .stats-edit-row label {
       width: 140px;
     }
-    /* Confirm & Success modals - premium button styling */
     .confirm-modal, .success-modal {
       position: fixed;
       top: 0;
@@ -658,10 +745,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .confirm-yes:hover {
-      background: #e6c300;
-      transform: scale(1.02);
-    }
+    .confirm-yes:hover { background: #e6c300; transform: scale(1.02); }
     .confirm-no {
       background: #333;
       color: #ccc;
@@ -672,10 +756,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .confirm-no:hover {
-      background: #444;
-      color: white;
-    }
+    .confirm-no:hover { background: #444; color: white; }
     .success-card button {
       background: #FFD700;
       border: none;
@@ -703,11 +784,26 @@
     .admin-toast.show { transform: translateX(-50%) translateY(0); }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+    }
+    .fade-up.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 2.5rem; }
+      .section-title { font-size: 2rem; }
+      .filter-bar { flex-direction: column; align-items: stretch; }
+      .members-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- NAVBAR (Dashboard renamed to Join Now) -->
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
@@ -715,7 +811,7 @@
       <div class="logo"><span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span></div>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="admin.html" class="nav-link join-now-nav">Dashboard</a></li>
+      <li><a href="admin.html" class="nav-link join-now-nav">Join Now</a></li>
       <li><a href="admin.html#contact-section" class="nav-link">Contact Us</a></li>
       <li><a href="admin-diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="admin-workout.html" class="nav-link">Workout Plan</a></li>
@@ -729,11 +825,10 @@
 <main>
   <!-- HERO SECTION -->
   <section class="members-hero" id="heroSection" style="position: relative;">
-    <div class="hero-overlay" id="heroOverlay" style="position: absolute; inset: 0; background: radial-gradient(circle at 20% 40%, rgba(0,0,0,0.5) 0%, #000000cc 100%); opacity: 0.7;"></div>
     <div class="hero-content" style="position: relative; z-index: 2;">
       <h1 id="heroTitle">ULTRAFIT MEMBERS</h1>
       <p id="heroSubheading" class="hero-sub">An elite community built on discipline, consistency, and transformation.</p>
-      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Update</button>
+      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Edit Section</button>
     </div>
   </section>
 
@@ -785,21 +880,26 @@
     </div>
   </div>
 
-  <!-- MEMBERS GRID -->
+  <!-- MEMBERS SECTION WITH VIEW TOGGLE -->
   <div class="container">
     <div class="section-header-flex">
       <h2 class="section-title">Meet Our Community</h2>
+      <div class="view-toggle">
+        <button id="gridViewBtn" class="toggle-icon active"><i class="fas fa-th"></i></button>
+        <button id="listViewBtn" class="toggle-icon"><i class="fas fa-list-ul"></i></button>
+      </div>
       <button class="admin-add-icon" id="addMemberBtn"><i class="fas fa-plus"></i> Add</button>
     </div>
-    <div id="membersGridContainer" class="members-grid"></div>
+    <div id="membersContainer"></div>
     <div class="load-more-wrapper">
       <button id="loadMoreBtn" class="btn-load-more">View More Members</button>
     </div>
   </div>
 </main>
 
+<!-- FOOTER (exactly like admin.html) -->
 <footer>
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div class="footer-links">
       <h4>UltraFit Gym</h4>
       <ul>
@@ -824,7 +924,7 @@
 <div id="adminToast" class="admin-toast"></div>
 
 <script>
-  // ========== PREMIUM MODAL EDITING (WORKING DATA SAVING) ==========
+  // ========== PREMIUM ADMIN LOGIC (with grid/list toggle) ==========
   const API_BASE = '/api';
   const DEFAULT_AVATAR = "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3407.jpg?semt=ais_hybrid&w=740&q=80";
 
@@ -903,6 +1003,7 @@
   let currentDisplayLimit = 10;
   let currentFilter = 'all';
   let currentSearch = '';
+  let currentView = 'card'; // 'card' or 'list'
 
   async function loadAllData() {
     const [settings, stats, membershipsRes, membersRes] = await Promise.all([
@@ -922,7 +1023,7 @@
     renderStats();
     renderMemberships();
     renderFeatured();
-    renderMembersGrid();
+    renderMembers(); // will respect currentView
   }
 
   function renderHero() {
@@ -932,13 +1033,15 @@
     if (heroSub && siteSettings.membersHeroSubheading) heroSub.innerText = siteSettings.membersHeroSubheading;
     const floatBtn = document.getElementById('floatingTrialBtn');
     if (floatBtn && siteSettings.membersFloatingButtonText) floatBtn.innerText = siteSettings.membersFloatingButtonText;
+    // Apply hero background image (fix hero image visibility)
     if (siteSettings.membersHeroBg) {
       const heroSection = document.querySelector('.members-hero');
       heroSection.style.backgroundImage = `linear-gradient(115deg, #000000d0 0%, #0a0a0a 100%), url('${siteSettings.membersHeroBg}')`;
     }
-    if (siteSettings.membersHeroOverlayOpacity !== undefined) {
-      const overlay = document.getElementById('heroOverlay');
-      if (overlay) overlay.style.opacity = siteSettings.membersHeroOverlayOpacity;
+    // Optional: overlay opacity (no slider in edit modal, but we can still apply stored value)
+    const overlay = document.querySelector('.members-hero::before');
+    if (overlay && siteSettings.membersHeroOverlayOpacity !== undefined) {
+      // Note: pseudo-element opacity is handled via CSS variable or inline style – we can ignore.
     }
   }
 
@@ -1003,13 +1106,12 @@
     return filtered;
   }
 
-  function renderMembersGrid() {
-    const filtered = getFilteredMembers();
-    const displayMembers = filtered.slice(0, currentDisplayLimit);
-    const container = document.getElementById('membersGridContainer');
-    if (!container) return;
+  function renderCardView(members) {
+    const container = document.getElementById('membersContainer');
     container.innerHTML = '';
-    displayMembers.forEach(m => {
+    const grid = document.createElement('div');
+    grid.className = 'members-grid';
+    members.forEach(m => {
       const expLabel = m.experience === 'beginner' ? 'Beginner' : (m.experience === 'intermediate' ? 'Intermediate' : 'Expert');
       const goalLabel = m.goal === 'fatloss' ? '🔥 Fat Loss' : '💪 Muscle Gain';
       const statusClass = m.status === 'active' ? 'status-active' : 'status-inactive';
@@ -1031,24 +1133,67 @@
         </div>
         <button class="card-update-btn" data-type="member" data-id="${m._id}">✏️ Update</button>
       `;
-      container.appendChild(card);
+      grid.appendChild(card);
     });
-    const loadBtn = document.getElementById('loadMoreBtn');
-    if (loadBtn) {
-      if (filtered.length <= currentDisplayLimit) loadBtn.style.display = 'none';
-      else loadBtn.style.display = 'inline-block';
-    }
+    container.appendChild(grid);
     const newCards = document.querySelectorAll('.member-card.fade-up');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });
     }, { threshold: 0.1 });
     newCards.forEach(card => observer.observe(card));
+  }
+
+  function renderListView(members) {
+    const container = document.getElementById('membersContainer');
+    container.innerHTML = '';
+    const list = document.createElement('div');
+    list.className = 'members-list';
+    members.forEach(m => {
+      const statusClass = m.status === 'active' ? 'status-active' : 'status-inactive';
+      const statusText = m.status === 'active' ? 'Active' : 'Inactive';
+      const feeClass = (m.feeStatus === 'unpaid' || m.feeStatus === 'Unpaid') ? 'fee-tag-unpaid' : 'fee-tag-paid';
+      const feeText = (m.feeStatus === 'unpaid' || m.feeStatus === 'Unpaid') ? 'Unpaid' : 'Paid';
+      const item = document.createElement('div');
+      item.className = 'member-list-item fade-up';
+      item.setAttribute('data-id', m._id);
+      item.innerHTML = `
+        <img class="list-avatar" src="${m.photoUrl}" alt="${m.name}">
+        <div class="list-info">
+          <span class="list-name">${escapeHtml(m.name)}</span>
+          <span class="status-badge ${statusClass} list-status">${statusText}</span>
+          <span class="member-tag ${feeClass}">Fees ${feeText}</span>
+          <button class="card-update-btn" data-type="member" data-id="${m._id}" style="margin:0;">✏️ Update</button>
+        </div>
+      `;
+      list.appendChild(item);
+    });
+    container.appendChild(list);
+    const newItems = document.querySelectorAll('.member-list-item.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });
+    }, { threshold: 0.1 });
+    newItems.forEach(item => observer.observe(item));
+  }
+
+  function renderMembers() {
+    const filtered = getFilteredMembers();
+    const displayMembers = filtered.slice(0, currentDisplayLimit);
+    if (currentView === 'card') {
+      renderCardView(displayMembers);
+    } else {
+      renderListView(displayMembers);
+    }
+    const loadBtn = document.getElementById('loadMoreBtn');
+    if (loadBtn) {
+      if (filtered.length <= currentDisplayLimit) loadBtn.style.display = 'none';
+      else loadBtn.style.display = 'inline-block';
+    }
     attachUpdateButtons();
   }
 
   function loadMore() {
     currentDisplayLimit += 10;
-    renderMembersGrid();
+    renderMembers();
   }
 
   function initFilters() {
@@ -1059,7 +1204,7 @@
         btn.classList.add('active');
         currentFilter = btn.getAttribute('data-filter');
         currentDisplayLimit = 10;
-        renderMembersGrid();
+        renderMembers();
       });
     });
     const searchInput = document.getElementById('searchInput');
@@ -1067,12 +1212,29 @@
       searchInput.addEventListener('input', (e) => {
         currentSearch = e.target.value;
         currentDisplayLimit = 10;
-        renderMembersGrid();
+        renderMembers();
       });
     }
   }
 
-  // ========== PREMIUM MODAL UPDATE HANDLERS (with Delete button) ==========
+  function initViewToggle() {
+    const gridBtn = document.getElementById('gridViewBtn');
+    const listBtn = document.getElementById('listViewBtn');
+    gridBtn.addEventListener('click', () => {
+      currentView = 'card';
+      gridBtn.classList.add('active');
+      listBtn.classList.remove('active');
+      renderMembers();
+    });
+    listBtn.addEventListener('click', () => {
+      currentView = 'list';
+      listBtn.classList.add('active');
+      gridBtn.classList.remove('active');
+      renderMembers();
+    });
+  }
+
+  // ========== PREMIUM MODAL UPDATE HANDLERS ==========
   function attachUpdateButtons() {
     document.querySelectorAll('.card-update-btn').forEach(btn => {
       btn.removeEventListener('click', handleUpdateClick);
@@ -1104,38 +1266,24 @@
         </div>
       `;
       modalContainer.style.display = 'flex';
-
       const deleteBtn = document.getElementById('modalDeleteBtn');
       const cancelBtn = document.getElementById('modalCancelBtn');
       const saveBtn = document.getElementById('modalSaveBtn');
-
       deleteBtn.onclick = async () => {
-        const confirmed = await confirmAction('Delete this membership plan?');
-        if (confirmed) {
+        if (await confirmAction('Delete this membership plan?')) {
           const res = await fetchJSON(`${API_BASE}/memberships/${id}`, { method: 'DELETE' });
           if (res) {
-            console.log('Membership deleted', id);
             modalContainer.style.display = 'none';
             await showSuccessModal('Membership Deleted');
             loadAllData();
-          } else {
-            showToast('Delete failed', true);
-          }
+          } else showToast('Delete failed', true);
         }
       };
-
       cancelBtn.onclick = async () => {
-        const confirmed = await confirmAction('Discard changes?');
-        if (confirmed) {
-          modalContainer.style.display = 'none';
-          await showSuccessModal('Changes Discarded');
-          console.log('Membership edit cancelled');
-        }
+        if (await confirmAction('Discard changes?')) modalContainer.style.display = 'none';
       };
-
       saveBtn.onclick = async () => {
-        const confirmed = await confirmAction('Save changes?');
-        if (!confirmed) return;
+        if (!await confirmAction('Save changes?')) return;
         const updated = {
           planName: document.getElementById('modalPlanName').value,
           price: parseInt(document.getElementById('modalPlanPrice').value),
@@ -1144,13 +1292,10 @@
         };
         const res = await fetchJSON(`${API_BASE}/memberships/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
-          console.log('Membership updated', res);
           modalContainer.style.display = 'none';
           await showSuccessModal('Membership Updated');
           loadAllData();
-        } else {
-          showToast('Update failed', true);
-        }
+        } else showToast('Update failed', true);
       };
     } else if (type === 'featured') {
       const member = allMembers.find(m => m._id === id);
@@ -1171,7 +1316,6 @@
         </div>
       `;
       modalContainer.style.display = 'flex';
-
       const uploadArea = document.getElementById('modalFeaturedUpload');
       uploadArea.onclick = () => {
         const input = document.createElement('input');
@@ -1181,46 +1325,30 @@
           const file = e.target.files[0];
           if (file) {
             const reader = new FileReader();
-            reader.onload = (ev) => {
-              document.getElementById('modalFeaturedPreview').src = ev.target.result;
-            };
+            reader.onload = (ev) => { document.getElementById('modalFeaturedPreview').src = ev.target.result; };
             reader.readAsDataURL(file);
           }
         };
         input.click();
       };
-
       const deleteBtn = document.getElementById('modalDeleteBtn');
       const cancelBtn = document.getElementById('modalCancelBtn');
       const saveBtn = document.getElementById('modalSaveBtn');
-
       deleteBtn.onclick = async () => {
-        const confirmed = await confirmAction('Delete this featured member?');
-        if (confirmed) {
+        if (await confirmAction('Delete this featured member?')) {
           const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'DELETE' });
           if (res) {
-            console.log('Featured member deleted', id);
             modalContainer.style.display = 'none';
             await showSuccessModal('Featured Member Deleted');
             loadAllData();
-          } else {
-            showToast('Delete failed', true);
-          }
+          } else showToast('Delete failed', true);
         }
       };
-
       cancelBtn.onclick = async () => {
-        const confirmed = await confirmAction('Discard changes?');
-        if (confirmed) {
-          modalContainer.style.display = 'none';
-          await showSuccessModal('Changes Discarded');
-          console.log('Featured member edit cancelled');
-        }
+        if (await confirmAction('Discard changes?')) modalContainer.style.display = 'none';
       };
-
       saveBtn.onclick = async () => {
-        const confirmed = await confirmAction('Save changes?');
-        if (!confirmed) return;
+        if (!await confirmAction('Save changes?')) return;
         const updated = {
           name: document.getElementById('modalFeaturedName').value,
           featuredTag: document.getElementById('modalFeaturedTag1').value,
@@ -1229,13 +1357,10 @@
         };
         const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
-          console.log('Featured member updated', res);
           modalContainer.style.display = 'none';
           await showSuccessModal('Featured Member Updated');
           loadAllData();
-        } else {
-          showToast('Update failed', true);
-        }
+        } else showToast('Update failed', true);
       };
     } else if (type === 'member') {
       const member = allMembers.find(m => m._id === id);
@@ -1261,7 +1386,6 @@
         </div>
       `;
       modalContainer.style.display = 'flex';
-
       const uploadArea = document.getElementById('modalMemberUpload');
       uploadArea.onclick = () => {
         const input = document.createElement('input');
@@ -1271,46 +1395,30 @@
           const file = e.target.files[0];
           if (file) {
             const reader = new FileReader();
-            reader.onload = (ev) => {
-              document.getElementById('modalMemberPreview').src = ev.target.result;
-            };
+            reader.onload = (ev) => { document.getElementById('modalMemberPreview').src = ev.target.result; };
             reader.readAsDataURL(file);
           }
         };
         input.click();
       };
-
       const deleteBtn = document.getElementById('modalDeleteBtn');
       const cancelBtn = document.getElementById('modalCancelBtn');
       const saveBtn = document.getElementById('modalSaveBtn');
-
       deleteBtn.onclick = async () => {
-        const confirmed = await confirmAction('Delete this member?');
-        if (confirmed) {
+        if (await confirmAction('Delete this member?')) {
           const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'DELETE' });
           if (res) {
-            console.log('Member deleted', id);
             modalContainer.style.display = 'none';
             await showSuccessModal('Member Deleted');
             loadAllData();
-          } else {
-            showToast('Delete failed', true);
-          }
+          } else showToast('Delete failed', true);
         }
       };
-
       cancelBtn.onclick = async () => {
-        const confirmed = await confirmAction('Discard changes?');
-        if (confirmed) {
-          modalContainer.style.display = 'none';
-          await showSuccessModal('Changes Discarded');
-          console.log('Member edit cancelled');
-        }
+        if (await confirmAction('Discard changes?')) modalContainer.style.display = 'none';
       };
-
       saveBtn.onclick = async () => {
-        const confirmed = await confirmAction('Save changes?');
-        if (!confirmed) return;
+        if (!await confirmAction('Save changes?')) return;
         const updated = {
           name: document.getElementById('modalMemberName').value,
           age: parseInt(document.getElementById('modalMemberAge').value),
@@ -1324,18 +1432,15 @@
         };
         const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
-          console.log('Member updated', res);
           modalContainer.style.display = 'none';
           await showSuccessModal('Member Updated');
           loadAllData();
-        } else {
-          showToast('Update failed', true);
-        }
+        } else showToast('Update failed', true);
       };
     }
   }
 
-  // ========== ADD HANDLERS (with default values) ==========
+  // ========== ADD HANDLERS ==========
   async function addNewItem(type) {
     const confirmed = await confirmAction(`Add new ${type}?`);
     if (!confirmed) return;
@@ -1343,127 +1448,119 @@
     let url = '';
     let successMsg = '';
     if (type === 'membership') {
-  url = `${API_BASE}/memberships`;
-  const uniqueName = 'New Plan ' + new Date().getTime();
-  defaultData = { 
-    planName: uniqueName, 
-    price: 100, 
-    duration: 'month', 
-    description: 'New membership plan'   // ← must not be empty
-  };
-  successMsg = 'Membership Plan Added';
+      url = `${API_BASE}/memberships`;
+      defaultData = { planName: 'New Plan ' + Date.now(), price: 100, duration: 'month', description: 'New membership plan' };
+      successMsg = 'Membership Plan Added';
     } else if (type === 'member') {
       url = `${API_BASE}/members`;
       defaultData = {
-        name: 'New Member',
-        age: 18,
-        since: '2025',
-        photoUrl: DEFAULT_AVATAR,
-        experience: 'beginner',
-        goal: 'musclegain',
-        featured: false,
-        featuredTag: '',
-        status: 'active',
-        feeStatus: 'paid',
-        feedback: '',
-        position: 'Member'
+        name: 'New Member', age: 18, since: '2025', photoUrl: DEFAULT_AVATAR,
+        experience: 'beginner', goal: 'musclegain', featured: false, featuredTag: '',
+        status: 'active', feeStatus: 'paid', feedback: '', position: 'Member'
       };
       successMsg = 'Member Added';
     } else if (type === 'featured') {
       url = `${API_BASE}/members`;
       defaultData = {
-        name: 'New Featured',
-        age: 30,
-        since: '2024',
-        photoUrl: DEFAULT_AVATAR,
-        experience: 'intermediate',
-        goal: 'musclegain',
-        featured: true,
-        featuredTag: 'Featured',
-        status: 'active',
-        feeStatus: 'paid',
-        feedback: '',
-        position: 'Member'
+        name: 'New Featured', age: 30, since: '2024', photoUrl: DEFAULT_AVATAR,
+        experience: 'intermediate', goal: 'musclegain', featured: true, featuredTag: 'Featured',
+        status: 'active', feeStatus: 'paid', feedback: '', position: 'Member'
       };
       successMsg = 'Featured Member Added';
     }
     const res = await fetchJSON(url, { method: 'POST', body: JSON.stringify(defaultData) });
     if (res) {
-      console.log(`New ${type} added`, res);
       await showSuccessModal(successMsg);
       loadAllData();
-    } else {
-      showToast('Add failed - check console for details', true);
-    }
+    } else showToast('Add failed', true);
   }
 
-  // ========== HERO EDIT MODAL ==========
+  // ========== EDIT SECTION MODAL (exactly like workout.html, no opacity slider) ==========
   async function editHero() {
     const modalContainer = document.getElementById('modalContainer');
+    const currentImageUrl = siteSettings.membersHeroBg || '';
+    const currentTitle = siteSettings.membersHeroHeading || 'ULTRAFIT MEMBERS';
+    const currentSub = siteSettings.membersHeroSubheading || 'An elite community built on discipline, consistency, and transformation.';
+
     modalContainer.innerHTML = `
       <div class="premium-modal-card">
-        <h3><i class="fas fa-pencil-alt"></i> Edit Name & Image</h3>
-        <img id="heroBgPreview" class="image-preview-large" src="${siteSettings.membersHeroBg || ''}">
-        <div class="field-group"><label>Title</label><input type="text" id="heroTitleInput" value="${escapeHtml(siteSettings.membersHeroHeading || 'ULTRAFIT MEMBERS')}"></div>
-        <div class="field-group"><label>Subheading</label><input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.membersHeroSubheading || 'An elite community built on discipline, consistency, and transformation.')}"></div>
-        <div class="field-group"><label>Overlay Opacity (0–1)</label><input type="range" id="heroOpacitySlider" class="opacity-slider" min="0" max="1" step="0.01" value="${siteSettings.membersHeroOverlayOpacity !== undefined ? siteSettings.membersHeroOverlayOpacity : 0.7}"></div>
-        <div class="image-upload-area" id="heroBgUploadArea"><i class="fas fa-cloud-upload-alt"></i> Upload new background image</div>
+        <h3><i class="fas fa-image"></i> Edit Section</h3>
+        <div class="modal-image-container">
+          <img id="currentHeroImagePreview" class="modal-image" 
+               src="${currentImageUrl}" 
+               onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
+        </div>
+        <div class="field-group">
+          <label>Upload New Hero Image</label>
+          <div class="image-upload-area" id="heroBgUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i> Click to upload
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Title (Heading)</label>
+          <input type="text" id="heroTitleInput" value="${escapeHtml(currentTitle)}">
+        </div>
+        <div class="field-group">
+          <label>Subheading</label>
+          <input type="text" id="heroSubInput" value="${escapeHtml(currentSub)}">
+        </div>
         <div class="modal-buttons">
           <button class="modal-btn-cancel" id="modalCancelBtn">Cancel</button>
-          <button class="modal-btn-save" id="modalSaveBtn">Save</button>
+          <button class="modal-btn-save" id="modalSaveBtn">Save Changes</button>
         </div>
       </div>
     `;
     modalContainer.style.display = 'flex';
 
+    let newImageUrl = currentImageUrl;
+    const previewImg = document.getElementById('currentHeroImagePreview');
     const uploadArea = document.getElementById('heroBgUploadArea');
     uploadArea.onclick = () => {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+      input.onchange = async (e) => {
         const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            document.getElementById('heroBgPreview').src = ev.target.result;
-          };
-          reader.readAsDataURL(file);
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('image', file);
+        uploadArea.style.opacity = '0.6';
+        uploadArea.style.cursor = 'wait';
+        try {
+          const res = await fetch('/api/upload', { method: 'POST', body: formData });
+          const data = await res.json();
+          if (data.url) {
+            newImageUrl = data.url;
+            previewImg.src = newImageUrl;
+            showToast('Image uploaded. Click Save to apply.');
+          } else showToast('Upload failed', true);
+        } catch (err) {
+          showToast('Upload error: ' + err.message, true);
+        } finally {
+          uploadArea.style.opacity = '1';
+          uploadArea.style.cursor = 'pointer';
         }
       };
       input.click();
     };
 
-    const cancelBtn = document.getElementById('modalCancelBtn');
-    const saveBtn = document.getElementById('modalSaveBtn');
-
-    cancelBtn.onclick = async () => {
-      const confirmed = await confirmAction('Discard changes?');
-      if (confirmed) {
-        modalContainer.style.display = 'none';
-        await showSuccessModal('Changes Discarded');
-        console.log('Hero edit cancelled');
-      }
+    document.getElementById('modalCancelBtn').onclick = async () => {
+      if (await confirmAction('Discard changes?')) modalContainer.style.display = 'none';
     };
-
-    saveBtn.onclick = async () => {
-      const confirmed = await confirmAction('Save changes?');
-      if (!confirmed) return;
-      const updated = {
+    document.getElementById('modalSaveBtn').onclick = async () => {
+      if (!await confirmAction('Save changes?')) return;
+      const updatedSettings = {
         membersHeroHeading: document.getElementById('heroTitleInput').value,
         membersHeroSubheading: document.getElementById('heroSubInput').value,
-        membersHeroOverlayOpacity: parseFloat(document.getElementById('heroOpacitySlider').value),
-        membersHeroBg: document.getElementById('heroBgPreview').src
+        membersHeroBg: newImageUrl
       };
-      const res = await fetchJSON(`${API_BASE}/sitesettings`, { method: 'PUT', body: JSON.stringify(updated) });
+      const res = await fetchJSON(`${API_BASE}/sitesettings`, { method: 'PUT', body: JSON.stringify(updatedSettings) });
       if (res) {
-        console.log('Hero updated', res);
+        siteSettings = { ...siteSettings, ...updatedSettings };
+        renderHero();
         modalContainer.style.display = 'none';
-        await showSuccessModal('Hero Updated');
-        loadAllData();
-      } else {
-        showToast('Update failed', true);
-      }
+        await showSuccessModal('Hero section updated');
+      } else showToast('Update failed', true);
     };
   }
 
@@ -1483,22 +1580,11 @@
       </div>
     `;
     modalContainer.style.display = 'flex';
-
-    const cancelBtn = document.getElementById('modalCancelBtn');
-    const saveBtn = document.getElementById('modalSaveBtn');
-
-    cancelBtn.onclick = async () => {
-      const confirmed = await confirmAction('Discard changes?');
-      if (confirmed) {
-        modalContainer.style.display = 'none';
-        await showSuccessModal('Changes Discarded');
-        console.log('Stats edit cancelled');
-      }
+    document.getElementById('modalCancelBtn').onclick = async () => {
+      if (await confirmAction('Discard changes?')) modalContainer.style.display = 'none';
     };
-
-    saveBtn.onclick = async () => {
-      const confirmed = await confirmAction('Save changes?');
-      if (!confirmed) return;
+    document.getElementById('modalSaveBtn').onclick = async () => {
+      if (!await confirmAction('Save changes?')) return;
       const newTotal = document.getElementById('statTotal').value;
       const newActive = document.getElementById('statActive').value;
       const newTrans = document.getElementById('statTrans').value;
@@ -1509,14 +1595,21 @@
       };
       const res = await fetchJSON(`${API_BASE}/stats`, { method: 'PUT', body: JSON.stringify(updated) });
       if (res) {
-        console.log('Stats updated', res);
         modalContainer.style.display = 'none';
         await showSuccessModal('Stats Updated');
         loadAllData();
-      } else {
-        showToast('Update failed', true);
-      }
+      } else showToast('Update failed', true);
     };
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, (m) => {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
   }
 
   // ========== ATTACH EVENT LISTENERS ==========
@@ -1526,8 +1619,9 @@
   document.getElementById('addMemberBtn')?.addEventListener('click', () => addNewItem('member'));
   document.getElementById('addFeaturedBtn')?.addEventListener('click', () => addNewItem('featured'));
   document.getElementById('loadMoreBtn')?.addEventListener('click', loadMore);
+  document.getElementById('floatingTrialBtn')?.addEventListener('click', () => alert('✨ 3-Day Free Trial activated! Our team will contact you shortly.'));
 
-  // ========== NAVBAR SCROLL & HAMBURGER ==========
+  // Navbar scroll & hamburger
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) navbar.classList.add('scrolled');
@@ -1537,23 +1631,10 @@
   const navLinks = document.getElementById('navLinks');
   if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-  document.getElementById('floatingTrialBtn')?.addEventListener('click', () => {
-    alert('✨ 3-Day Free Trial activated! Our team will contact you shortly.');
-  });
-
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
-
   // ========== INITIALIZATION ==========
   loadAllData();
   initFilters();
+  initViewToggle();
 </script>
 </body>
 </html>

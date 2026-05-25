@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let reviews = [];
   let contactInfo = {};
 
-  const API_BASE = '/api';
+  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
 
   async function fetchJSON(url) {
     try {

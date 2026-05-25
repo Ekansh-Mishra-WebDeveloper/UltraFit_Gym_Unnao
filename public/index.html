@@ -7,95 +7,1605 @@
   <title>UltraFit Gym | The Standard of Strength</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" href="index.css" />
   <style>
-    /* Additional style to match admin.html contact card layout (does not affect other sections) */
-    .contact-info-item {
+    /* ========== FULL STYLES (originally from index.css) ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    body {
+      background-color: #121212;
+      font-family: 'Montserrat', 'Archivo', sans-serif;
+      color: #eaeaea;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+        cursor: default;
+  user-select: none; /* prevents accidental text selection on double‑click */
+}
+
+a, button, .clickable, [onclick], .card, .leader-card, .product-card, .member-card {
+  cursor: pointer;
+}
+
+input, textarea, [contenteditable="true"] {
+  cursor: text;
+  user-select: text;
+      
+    }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      padding: 1.2rem 0;
+    }
+    .navbar.scrolled {
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      padding: 0.7rem 0;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-wrapper {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
+    }
+    .nav-logo-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      transition: transform 0.2s ease;
+    }
+    .nav-logo-img:hover { transform: scale(1.05); }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .logo-ultra { color: #ffffff; }
+    .logo-fit { color: #FFD700; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+      margin: 0;
+    }
+    .nav-link {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      padding: 0.5rem 0;
+      position: relative;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav-link:not(.join-now-nav):hover { color: #FFD700; }
+    .nav-link:not(.join-now-nav):hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #FFD700;
+      transform: scaleX(1);
+    }
+    .nav-link:not(.join-now-nav)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #FFD700;
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+    .join-now-nav {
+      background: #FFD700;
+      color: #121212 !important;
+      padding: 0.6rem 1.6rem !important;
+      border-radius: 40px;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .join-now-nav:hover {
+      background: #e6c300;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(255, 215, 0, 0.3);
+    }
+    .join-now-nav::after { display: none; }
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #FFD700;
+      transition: transform 0.2s;
+      min-width: 44px;
+      min-height: 44px;
+      text-align: center;
+      line-height: 44px;
+    }
+    .hamburger:hover { transform: scale(1.05); }
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(12px);
+        padding: 1.5rem;
+        gap: 1.2rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+      }
+      .nav-links.active { display: flex; }
+      .nav-link { font-size: 1.1rem; padding: 0.8rem 0; justify-content: center; }
+      .join-now-nav { background: #FFD700; width: fit-content; margin: 0 auto; }
+      .hamburger { display: block; }
+      .floating-cta { bottom: 20px; right: 20px; }
+      .floating-trial-btn { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
+      .nav-logo-img { width: 32px; height: 32px; }
+      .logo { font-size: 1.5rem; }
+    }
+    /* ===== FLOATING CTA ===== */
+    .floating-cta {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      animation: fadeInUp 0.5s ease-out;
+    }
+    .floating-trial-btn {
+      background: #FFD700;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #121212;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 10px rgba(255,215,0,0.5);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(2px);
+      animation: subtlePulse 2s infinite;
+    }
+    .floating-trial-btn:hover {
+      transform: scale(1.05);
+      background: #e6c300;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.7);
+    }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes subtlePulse {
+      0% { box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 0 0 rgba(255,215,0,0.4); }
+      70% { box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 0 10px rgba(255,215,0,0); }
+      100% { box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 0 0 rgba(255,215,0,0); }
+    }
+    /* ===== PREMIUM AI CHAT BUBBLE (updated: icon only, text appears on hover) ===== */
+    .ai-chat-container {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .chat-bubble {
+      display: flex;
+      align-items: center;
+      gap: 0px;
+      background: linear-gradient(135deg, #1e1e1e, #0a0a0a);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 60px;
+      padding: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.2);
+      transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+      backdrop-filter: blur(8px);
+      width: fit-content;
+    }
+    .chat-bubble:hover {
+      gap: 12px;
+      padding: 0.7rem 1.5rem 0.7rem 1rem;
+    }
+    .ai-icon {
+      background: #FFD700;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #121212;
+      box-shadow: 0 0 12px rgba(255,215,0,0.6);
+      transition: transform 0.2s;
+    }
+    .chat-bubble:hover .ai-icon {
+      transform: scale(1.05);
+    }
+    .ai-text {
+      font-weight: 700;
+      font-size: 0rem;
+      letter-spacing: 1px;
+      background: linear-gradient(120deg, #fff, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      transition: font-size 0.2s ease;
+    }
+    .chat-bubble:hover .ai-text {
+      font-size: 1rem;
+    }
+    .chat-window {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 360px;
+      height: 500px;
+      background: #1a1a1a;
+      border-radius: 28px;
+      border: 1px solid rgba(255,215,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+    .chat-window.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .chat-header {
+      background: #FFD700;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #121212;
+      font-weight: 800;
+    }
+    .chat-header h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #121212;
+      transition: transform 0.2s;
+    }
+    .chat-close:hover { transform: scale(1.1); }
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(0,0,0,0.3);
+    }
+    .message {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .user-message {
+      background: #FFD700;
+      color: #121212;
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+    }
+    .bot-message {
+      background: #2a2a2a;
+      color: #eee;
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .chat-input-area {
+      display: flex;
+      padding: 12px;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      padding: 10px 16px;
+      color: white;
+      font-family: inherit;
+      outline: none;
+    }
+    .chat-input:focus {
+      border-color: #FFD700;
+    }
+    .chat-send {
+      background: #FFD700;
+      border: none;
+      border-radius: 40px;
+      padding: 0 18px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #121212;
+      transition: all 0.2s;
+    }
+    .chat-send:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      background: #2a2a2a;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #aaa;
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    @media (max-width: 600px) {
+      .ai-chat-container { bottom: 90px; right: 15px; }
+      .chat-window { width: 90vw; right: -5px; bottom: 70px; }
+      .chat-bubble { padding: 0.5rem; }
+      .chat-bubble:hover { padding: 0.5rem 1rem 0.5rem 0.8rem; }
+      .ai-icon { width: 36px; height: 36px; font-size: 1.3rem; }
+      .chat-bubble:hover .ai-text { font-size: 0.85rem; }
+    }
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      margin-top: 0;
+    }
+    .hero-video-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #000000aa, #121212cc);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    .hero-logo-wrapper {
       margin-bottom: 1.5rem;
-      background: rgba(0,0,0,0.05);
-      padding: 0.8rem 1rem;
+      animation: fadeInScale 0.6s ease-out;
+    }
+    .hero-logo-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 20px rgba(255,215,0,0.3), 0 10px 25px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,215,0,0.6);
+      transition: transform 0.3s ease;
+    }
+    .hero-logo-img:hover { transform: scale(1.02); }
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .hero-brand {
+  background: linear-gradient(120deg, #fff, #FFD700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  font-size: 5rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  margin-bottom: 0.5rem;
+}
+    .ultra-white { color: #fff; }
+    .fit-gold { color: #FFD700; }
+    .hero-title {
+      font-size: 2.2rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: #ddd;
+      margin-bottom: 1.8rem;
+      text-transform: uppercase;
+    }
+    .btn-primary {
+      background: #FFD700;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      min-height: 44px;
+    }
+    .btn-primary:hover {
+      background: #f5cb00;
+      transform: scale(1.03);
+    }
+    .live-status {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      background: #000000b3;
+      backdrop-filter: blur(8px);
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-left: 2px solid #FFD700;
+      z-index: 3;
+    }
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #2ecc2e;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 #2ecc2e; opacity: 1; }
+      70% { box-shadow: 0 0 0 8px #2ecc2e66; opacity: 0.8; }
+      100% { box-shadow: 0 0 0 0 rgba(46,204,46,0); }
+    }
+    /* ===== SERVICES ===== */
+    .services-section {
+      padding: 4rem 0;
+      background: #000000;
+    }
+    .services-icons-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .service-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      min-width: 100px;
+    }
+    .service-item i {
+      font-size: 2.5rem;
+      color: #FFD700;
+    }
+    .safety-cluster {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-top: 1px solid #333;
+      padding-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .safety-cluster i { margin-right: 8px; color: #FFD700; }
+    /* ===== STATS ===== */
+    .stats-bar {
+      background: #121212;
+      padding: 3rem 0;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .stat-card {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .stat-num {
+      font-size: 3rem;
+      color: #FFD700;
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    /* ===== LEADERSHIP TRAINERS ===== */
+    .leadership {
+      padding: 5rem 0;
+      background: #0a0a0a;
+    }
+    .leadership-cards {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .leader-card {
+      background: #1e1e1e;
       border-radius: 24px;
+      overflow: hidden;
+      text-align: center;
+      transition: 0.3s;
+      width: 100%;
+      max-width: 280px;
+      cursor: pointer;
+    }
+    .leader-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .leader-card:hover img { transform: scale(1.02); }
+    .leader-card h3 { margin: 1rem 0 0.2rem; font-size: 1.4rem; }
+    .btn-outline-gold {
+      background: transparent;
+      border: 1px solid #FFD700;
+      color: #FFD700;
+      padding: 0.5rem 1.2rem;
+      margin: 1rem 0 0.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      min-height: 44px;
+    }
+    .btn-outline-gold:hover { background: #FFD700; color: #000; }
+    .trainer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      color: #fff;
+      font-size: 1.2rem;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .social-icon.whatsapp:hover { background: #25D366; }
+    .social-icon.instagram:hover { background: #E4405F; }
+    /* ===== TRANSFORMATIONS ===== */
+    .transformations-preview {
+      padding: 5rem 0;
+      background: #121212;
+    }
+    .transform-cards {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .trans-card {
+      background: #1a1a1a;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 380px;
+      padding: 1rem;
+      transition: transform 0.3s ease;
+    }
+    .trans-card:hover { transform: translateY(-4px); }
+    .luxury-comparison-slider {
+      position: relative;
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: grab;
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+      touch-action: pan-y pinch-zoom;
+    }
+    .luxury-comparison-slider:active { cursor: grabbing; }
+    .comparison-images {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+    .before-image {
+      width: 100%;
+      display: block;
+      pointer-events: none;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+    .after-image-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .after-image {
+      width: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      height: 100%;
+    }
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      transform: translateX(-50%);
+      cursor: ew-resize;
+      z-index: 10;
+      touch-action: none;
+    }
+    .vertical-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #FFD700;
+      box-shadow: 0 0 8px rgba(255,215,0,0.6);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .handle-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 42px;
+      height: 42px;
+      background: #1a1a1a;
+      border: 2px solid #FFD700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      font-size: 1.2rem;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,215,0,0.3);
+      cursor: ew-resize;
+    }
+    .comparison-label {
+      position: absolute;
+      bottom: 16px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #FFD700;
+      border: 1px solid rgba(255,215,0,0.4);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .before-label { left: 16px; }
+    .after-label { right: 16px; }
+    .btn-see-more {
+      background: none;
+      border: 1px solid #FFD700;
+      padding: 0.6rem;
+      width: 100%;
+      border-radius: 40px;
+      color: #FFD700;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s;
+      min-height: 44px;
+    }
+    .btn-see-more:hover { background: #FFD700; color: #000; }
+    /* ===== MEMBERS CAROUSEL ===== */
+    .members-carousel-section {
+      padding: 5rem 0;
+      background: #121212;
+    }
+    .members-carousel-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .members-carousel-main {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: #0a0a0a;
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+      touch-action: pan-y pinch-zoom;
+    }
+    .members-carousel-items {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.2,0.9,0.4,1.1);
+      cursor: grab;
+    }
+    .member-card {
+      flex: 0 0 100%;
+      padding: 2rem;
+      text-align: center;
+      background: linear-gradient(145deg, #1a1a1a, #111111);
+      border-radius: 32px;
+    }
+    .member-avatar {
+      width: 100px !important;
+      height: 100px !important;
+      border-radius: 50% !important;
+      object-fit: cover;
+      border: 3px solid #FFD700;
+      margin-bottom: 1.2rem;
+    }
+    .member-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .member-role {
+      font-size: 1rem;
+      color: #FFD700;
+      font-weight: 600;
+    }
+    .member-bio {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #ddd;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .members-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .members-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #3a3a3a;
+      border-radius: 50%;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .members-dot.active {
+      background-color: #FFD700;
+      transform: scale(1.35);
+    }
+    .members-cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .view-members-btn { display: inline-block; min-height: 44px; padding: 0.8rem 1.5rem; }
+    /* ===== DIET PLANS ===== */
+    .diet-plans-section {
+      background: #000000;
+      padding: 5rem 0;
+    }
+    .diet-plans-grid {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .diet-card {
+      background: #1a1a1a;
+      border-radius: 28px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 320px;
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .diet-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+    }
+    .diet-card-image {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+    }
+    .diet-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .diet-card:hover img { transform: scale(1.03); }
+    .diet-card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .diet-card-content h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFD700;
+      margin-bottom: 0.75rem;
+    }
+    .diet-card-content p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .diet-targets {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .diet-targets span {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      color: #FFD700;
+    }
+    .full-plan-btn { margin-top: auto; width: 100%; }
+    /* ===== WORKOUT PLANS ===== */
+    .workout-plan-section {
+      background: #000000;
+      padding: 5rem 0;
+    }
+    .workout-plans-grid {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .workout-card {
+      background: #1a1a1a;
+      border-radius: 28px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 320px;
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .workout-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);
+    }
+    .workout-card-image {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+    }
+    .workout-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+    .workout-card:hover img { transform: scale(1.03); }
+    .workout-card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .workout-card-content h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFD700;
+      margin-bottom: 0.75rem;
+    }
+    .workout-card-content p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .workout-targets {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .workout-targets span {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      color: #FFD700;
+    }
+    .full-workout-btn { margin-top: auto; width: 100%; }
+    /* ===== MEMBERSHIP ===== */
+    .membership-section {
+      padding: 5rem 0;
+      background: #121212;
+    }
+    .membership-cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .membership-card {
+      background: linear-gradient(145deg, #1a1a1a, #111111);
+      border-radius: 32px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      transition: transform 0.3s;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .membership-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,215,0,0.5);
+    }
+    .membership-card h3 {
+      font-size: 1.8rem;
+      color: #FFD700;
+    }
+    .membership-card .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 1rem 0;
+    }
+    .membership-cta-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .join-now-btn {
+      background: #FFD700;
+      border: none;
+      padding: 0.9rem 2.8rem;
+      font-weight: 800;
+      border-radius: 50px;
+      cursor: pointer;
+      color: #000;
+      transition: all 0.3s;
+      min-height: 44px;
+    }
+    .join-now-btn:hover {
+      background: #e6c300;
+      transform: scale(1.03);
+    }
+    /* ===== SHOP ===== */
+    .proshop-preview {
+      padding: 5rem 0;
+      background: #000000;
+    }
+    .product-grid {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .product-card {
+      background: #1a1a1a;
+      border-radius: 28px;
+      padding: 1.5rem;
+      text-align: center;
+      width: 100%;
+      max-width: 280px;
+      transition: transform 0.3s;
+    }
+    .product-card:hover { transform: translateY(-8px); }
+    .product-card img {
+      width: 100%;
+      border-radius: 20px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .product-card h3 {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+    .product-card .price {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #FFD700;
+    }
+    .btn-gold-whatsapp {
+      background: #FFD700;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #000;
+      min-height: 44px;
+    }
+    .btn-gold-whatsapp:hover {
+      background: #e6c300;
+      transform: translateY(-2px);
+    }
+    .shop-cta-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .visit-shop-btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+    /* ===== CAROUSELS ===== */
+    .premium-carousel-section {
+      padding: 5rem 0;
+      background: #0a0a0a;
+    }
+    .gallery-carousel-wrapper, .reels-carousel-wrapper, .review-carousel-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 32px;
+      overflow: hidden;
+    }
+    .carousel-main {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #000;
+      touch-action: pan-y pinch-zoom;
+    }
+    .carousel-items {
+      display: flex;
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+      cursor: grab;
+    }
+    .carousel-item { flex: 0 0 100%; }
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+    .reels-carousel-wrapper .carousel-item { aspect-ratio: 9/16; }
+    .reels-carousel-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,215,0,0.5);
+      color: #FFD700;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      z-index: 15;
+    }
+    .carousel-arrow:hover {
+      background: #FFD700;
+      color: #000;
+    }
+    .carousel-arrow.prev { left: 18px; }
+    .carousel-arrow.next { right: 18px; }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: #3a3a3a;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .dot.active {
+      background-color: #FFD700;
+      transform: scale(1.35);
+    }
+    /* ===== REVIEWS ===== */
+    .reviews-luxury-section {
+      padding: 5rem 0;
+      background: #121212;
+    }
+    .section-title.gold-full { color: #FFD700; }
+    .review-carousel-main {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      background: #0a0a0a;
+      touch-action: pan-y pinch-zoom;
+    }
+    .review-carousel-items {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.2,0.9,0.4,1.1);
+      cursor: grab;
+    }
+    .review-card {
+      flex: 0 0 100%;
+      padding: 2.5rem;
+      text-align: center;
+      background: linear-gradient(145deg, #1a1a1a, #111111);
+      border-radius: 32px;
+    }
+    .review-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #FFD700;
+      margin-bottom: 1.2rem;
+    }
+    .review-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .review-stars {
+      display: flex;
+      justify-content: center;
+      gap: 0.3rem;
+      margin-bottom: 1.2rem;
+    }
+    .review-stars i { color: #FFD700; }
+    .review-stars i.inactive { color: #4a4a4a; }
+    .review-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ddd;
+      font-style: italic;
+    }
+    .review-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .review-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #3a3a3a;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .review-dot.active {
+      background-color: #FFD700;
+      transform: scale(1.35);
+    }
+    /* ===== CONTACT + MAP ===== */
+    .contact-visit-section {
+      padding: 5rem 0;
+      background: #000000;
+    }
+    .contact-visit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .contact-card {
+      background: #FFD700;
+      border-radius: 32px;
+      padding: 2rem;
+      color: #121212;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+    }
+    .contact-card-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .contact-info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.05);
+      padding: 1rem;
+      border-radius: 24px;
+      margin-bottom: 1rem;
     }
     .contact-info-item i {
       font-size: 1.8rem;
-      width: 40px;
-      text-align: center;
-    }
-    .contact-info-item div {
-      flex: 1;
+      color: #000;
     }
     .contact-label {
       font-size: 0.7rem;
       text-transform: uppercase;
       font-weight: 600;
       color: #666;
-      margin-bottom: 0.2rem;
     }
     .contact-value {
       font-weight: 500;
-      margin-bottom: 0.3rem;
+      font-size: 1rem;
     }
     .contact-button {
-      display: inline-block;
       background: #121212;
       color: #FFD700;
-      padding: 0.3rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 40px;
-      font-size: 0.8rem;
       text-decoration: none;
-      margin-top: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
       transition: 0.2s;
+      display: inline-block;
+      margin-top: 0.3rem;
     }
     .contact-button:hover {
       background: #2a2a2a;
+      transform: translateY(-2px);
     }
     .contact-social {
       display: flex;
-      gap: 1rem;
       justify-content: center;
-      margin: 1.5rem 0;
+      gap: 1rem;
+      margin: 1rem 0;
     }
     .social-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #121212;
-      color: #FFD700;
-      padding: 0.5rem 1rem;
-      border-radius: 40px;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    .social-link:hover {
-      background: #2a2a2a;
-    }
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #121212;
+  color: #FFD700;
+  padding: 0.5rem 1rem;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.social-link:hover {
+  background: #2a2a2a;
+}
     .contact-address {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.8rem;
       margin-top: 1rem;
       padding-top: 1rem;
-      border-top: 1px solid rgba(0,0,0,0.1);
+      border-top: 1px solid rgba(0,0,0,0.2);
+    }
+    .visit-map {
+      background: #0a0a0a;
+      border-radius: 32px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .visit-map:hover {
+      transform: translateY(-4px);
+    }
+    .visit-map-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FFD700;
+      text-align: center;
+      padding: 1.5rem 0 1rem;
+      margin: 0;
+    }
+    .map-wrapper {
+      width: 100%;
+      height: 300px;
+    }
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    /* ===== FOOTER ===== */
+    footer {
+      background: #000;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(255,215,0,0.3);
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .footer-links a:hover { color: #FFD700; }
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #FFD700;
+      transition: width 0.2s;
+    }
+    .footer-links a:hover::after { width: 100%; }
+    .credit {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+    /* ===== PREMIUM MODAL (free trial) ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #121212;
+      padding: 2rem;
+      border-radius: 32px;
+      width: 90%;
+      max-width: 450px;
+      position: relative;
+      border: 1px solid #FFD700;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+    }
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #FFD700;
+      transition: transform 0.2s;
+    }
+    .close-modal:hover { transform: scale(1.1); }
+    .modal-title {
+      font-size: 1.8rem;
+      text-align: center;
+      color: #FFD700;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .trial-form input {
+      width: 100%;
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      color: white;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .trial-form input:focus {
+      border-color: #FFD700;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,215,0,0.3);
+    }
+    .trial-form button {
+      width: 100%;
+      background: #FFD700;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.2s;
+      color: #121212;
+    }
+    .trial-form button:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .trial-message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 8px;
+      border-radius: 40px;
+    }
+    .trial-message.success { background: #2ecc2e20; color: #2ecc2e; }
+    .trial-message.error { background: #e74c3c20; color: #e74c3c; }
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #121212;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ===== UTILITIES ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s ease;
+    }
+    .fade-up.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      background: linear-gradient(120deg, #fff, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    @media (max-width: 900px) {
+      .container { padding: 0 1.5rem; }
+      .hero-brand { font-size: 3rem; }
+      .hero-title { font-size: 1.5rem; }
+      .hero-logo-img { width: 90px; height: 90px; }
+      .contact-visit-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-card { padding: 1.5rem; }
+      .contact-info-item { padding: 0.6rem 0.8rem; }
+      .contact-info-item i { font-size: 1.6rem; width: 32px; }
+      .contact-button { padding: 0.3rem 1rem; font-size: 0.8rem; }
+      .social-link { padding: 0.5rem 1rem; font-size: 0.9rem; }
+      .map-wrapper { height: 250px; }
+      .carousel-arrow { width: 36px; height: 36px; }
+      .membership-card { width: 100%; max-width: 320px; }
+      .product-card { width: 100%; max-width: 280px; }
+      .section-title { font-size: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-brand { font-size: 2.5rem; }
+      .hero-title { font-size: 1.2rem; }
+      .hero-logo-img { width: 70px; height: 70px; }
+      .btn-primary { padding: 0.8rem 1.8rem; font-size: 0.9rem; }
+      .live-status { font-size: 0.75rem; padding: 0.4rem 1rem; left: 1rem; bottom: 1rem; }
+      .stat-num { font-size: 2rem; }
+      .stat-card { font-size: 1.2rem; }
+      .member-card { padding: 1.5rem; }
+      .member-name { font-size: 1.3rem; }
+      .review-card { padding: 1.5rem; }
+      .review-avatar { width: 60px; height: 60px; }
+      .review-name { font-size: 1.2rem; }
+      .review-text { font-size: 0.85rem; }
+      .contact-card-title, .visit-map-title { font-size: 1.5rem; }
+      .floating-trial-btn { padding: 0.6rem 1.2rem; font-size: 0.8rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- PREMIUM NAVIGATION BAR (links fixed) -->
+<!-- ===== NAVBAR ===== -->
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
-      <img src="UltraFit logo.png" alt="UltraFit Logo" class="nav-logo-img" width="38" height="38" />
-      <div class="logo">
-        <span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span>
-      </div>
+      <img src="UltraFit logo.png" alt="UltraFit Logo" class="nav-logo-img" id="navLogo">
+      <div class="logo"><span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span></div>
     </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="nav-link join-now-nav">Join Now</a></li>
-      <li><a href="index.html#contact-section" class="nav-link">Contact Us</a></li>
+      <li><a href="#contact-section" class="nav-link">Contact Us</a></li>
       <li><a href="diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="workout.html" class="nav-link">Workout Plan</a></li>
       <li><a href="members.html" class="nav-link">Gym Members</a></li>
@@ -116,9 +1626,9 @@
     </div>
     <div class="hero-content container">
       <div class="hero-logo-wrapper">
-        <img src="UltraFit logo.png" alt="UltraFit Logo" class="hero-logo-img" width="120" height="120" />
+        <img src="UltraFit logo.png" alt="UltraFit Logo" class="hero-logo-img" id="heroLogo">
       </div>
-      <div class="hero-brand"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span></div>
+      <div class="hero-brand">ULTRAFIT</div>
       <h1 class="hero-title" id="heroTitle">The Standard of Strength</h1>
       <button class="btn-primary btn-vip" id="heroVipBtn">Claim Your 3-Day VIP Pass</button>
       <div class="live-status">
@@ -128,7 +1638,7 @@
     </div>
   </section>
 
-  <!-- SERVICES SECTION -->
+  <!-- SERVICES -->
   <section class="services-section">
     <div class="container">
       <div class="services-icons-row">
@@ -157,19 +1667,15 @@
   <section class="leadership">
     <div class="container">
       <h2 class="section-title" id="trainersHeading">Gym Trainers</h2>
-      <div class="leadership-cards">
-        <!-- populated by index.js -->
-      </div>
+      <div class="leadership-cards" id="trainersContainer"></div>
     </div>
   </section>
 
-  <!-- TRANSFORMATIONS PREVIEW -->
+  <!-- TRANSFORMATIONS -->
   <section class="transformations-preview">
     <div class="container">
       <h2 class="section-title" id="transformationsHeading">Transformations</h2>
-      <div class="transform-cards" id="transformationsContainer">
-        <!-- populated by index.js -->
-      </div>
+      <div class="transform-cards" id="transformationsContainer"></div>
     </div>
   </section>
 
@@ -193,9 +1699,7 @@
   <section class="diet-plans-section">
     <div class="container">
       <h2 class="section-title" id="dietHeading">Diet Plans</h2>
-      <div class="diet-plans-grid" id="dietGrid">
-        <!-- populated by index.js -->
-      </div>
+      <div class="diet-plans-grid" id="dietGrid"></div>
     </div>
   </section>
 
@@ -203,19 +1707,15 @@
   <section class="workout-plan-section" id="workout-plan">
     <div class="container">
       <h2 class="section-title" id="workoutHeading">Workout Plan</h2>
-      <div class="workout-plans-grid" id="workoutGrid">
-        <!-- populated by index.js -->
-      </div>
+      <div class="workout-plans-grid" id="workoutGrid"></div>
     </div>
   </section>
 
-  <!-- MEMBERSHIP SECTION -->
+  <!-- MEMBERSHIP -->
   <section class="membership-section" id="membership-section">
     <div class="container">
       <h2 class="section-title gold-full" id="membershipHeading">Gym Membership</h2>
-      <div class="membership-cards" id="membershipCards">
-        <!-- populated by index.js -->
-      </div>
+      <div class="membership-cards" id="membershipCards"></div>
       <div class="membership-cta-wrapper"><a href="members.html" class="btn-primary join-now-btn">Join Now</a></div>
     </div>
   </section>
@@ -224,9 +1724,7 @@
   <section class="proshop-preview" id="proshop-preview">
     <div class="container">
       <h2 class="section-title" id="shopHeading"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span> Shop</h2>
-      <div class="product-grid" id="productGrid">
-        <!-- populated by index.js -->
-      </div>
+      <div class="product-grid" id="productGrid"></div>
       <div class="shop-cta-wrapper"><a href="shop.html" class="btn-outline-gold visit-shop-btn">Visit Shop</a></div>
     </div>
   </section>
@@ -264,7 +1762,7 @@
     </div>
   </section>
 
-  <!-- CONTACT + MAP (exactly as admin.html) -->
+  <!-- CONTACT + MAP -->
   <section class="contact-visit-section" id="contact-section">
     <div class="container">
       <div class="contact-visit-grid">
@@ -272,23 +1770,23 @@
           <h3 class="contact-card-title">Contact Us</h3>
           <div class="contact-info-item">
             <i class="fas fa-phone-alt"></i>
-            <div>
-              <p class="contact-label">Phone</p>
-              <p class="contact-value" id="contactPhone">+1 (212) 555-7890</p>
-              <a href="tel:+12125557890" class="contact-button">Call Now</a>
-            </div>
+            <span class="contact-label">Phone</span>
+            <span class="contact-value" id="contactPhone">+1 (212) 555-7890</span>
+            <a href="tel:+12125557890" class="contact-button">Call Now</a>
           </div>
           <div class="contact-info-item">
             <i class="fab fa-whatsapp"></i>
-            <div>
-              <p class="contact-label">WhatsApp</p>
-              <p class="contact-value" id="contactWhatsapp">+1 (212) 555-7891</p>
-              <a href="https://wa.me/12125557891?text=Hello%20UltraFit%2C%20I'm%20interested" target="_blank" class="contact-button">Chat Now</a>
-            </div>
+            <span class="contact-label">WhatsApp</span>
+            <span class="contact-value" id="contactWhatsapp">+1 (212) 555-7891</span>
+            <a href="https://wa.me/12125557891?text=Hello%20UltraFit%2C%20I'm%20interested" target="_blank" class="contact-button">Chat Now</a>
           </div>
           <div class="contact-social">
-            <a href="https://facebook.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i> Facebook <span>Open Now</span></a>
-            <a href="https://instagram.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram <span>Open Now</span></a>
+            <a href="https://facebook.com/ultrafitgym" target="_blank" class="social-link">
+  <i class="fab fa-facebook-f"></i> Facebook
+</a>
+<a href="https://instagram.com/ultrafitgym" target="_blank" class="social-link">
+  <i class="fab fa-instagram"></i> Instagram
+</a>
           </div>
           <div class="contact-address">
             <i class="fas fa-map-marker-alt"></i>
@@ -320,15 +1818,48 @@
   </div>
 </footer>
 
-<div id="modalOverlay" class="modal-overlay"><div class="modal-content"><span class="close-modal">&times;</span><div id="modalDynamicBody"></div></div></div>
+<!-- MODAL FOR FREE TRIAL (premium) -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-title">✨ Claim Your Free Trial</div>
+    <form id="trialForm" class="trial-form">
+      <input type="text" id="trialName" placeholder="Full Name" required>
+      <input type="tel" id="trialPhone" placeholder="Phone Number" required>
+      <input type="email" id="trialEmail" placeholder="Email Address" required>
+      <button type="submit" id="submitTrialBtn">Get My Free Pass</button>
+      <div id="trialMessage" class="trial-message" style="display: none;"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== PREMIUM AI CHAT BUBBLE & WINDOW (updated icon and hover text) ===== -->
+<div class="ai-chat-container">
+  <div class="chat-bubble" id="chatBubble">
+    <div class="ai-icon"><i class="fas fa-comment-dots"></i></div>
+    <span class="ai-text">UltraFit AI Coach</span>
+  </div>
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <h3><i class="fas fa-brain"></i> UltraFit AI Coach</h3>
+      <button class="chat-close" id="chatCloseBtn">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">💪 Hey! I'm your UltraFit AI Coach. Ask me anything about workouts, nutrition, or gym plans.</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Ask your fitness question...">
+      <button class="chat-send" id="chatSendBtn">Send</button>
+    </div>
+  </div>
+</div>
+
 <div class="floating-cta"><button class="floating-trial-btn" id="floatingTrialBtn">Book 3-Day Free Trial</button></div>
 
-<script src="index.js"></script>
-
-<!-- Additional script to fix button links and featured members (works alongside index.js) -->
 <script>
+  // ===== SELF-CONTAINED JAVASCRIPT (unchanged) =====
   (function() {
-    const API_BASE = '/api';
+    const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
 
     async function fetchJSON(url) {
       try {
@@ -336,204 +1867,805 @@
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return await res.json();
       } catch (err) {
-        console.error(err);
+        console.error(`Fetch error ${url}:`, err);
         return null;
       }
     }
 
-    // 1. Update all section headings from siteSettings
-    async function updateHeadings() {
-      const settings = await fetchJSON(`${API_BASE}/sitesettings`);
-      if (!settings) return;
-      const headingMap = {
-        trainersHeading: 'trainersHeading',
-        transformationsHeading: 'transformationsHeading',
-        membersHeading: 'membersHeading',
-        dietHeading: 'dietHeading',
-        workoutHeading: 'workoutHeading',
-        membershipHeading: 'membershipHeading',
-        shopHeading: 'shopHeading',
-        galleryHeading: 'galleryHeading',
-        reelsHeading: 'reelsHeading',
-        reviewsHeading: 'reviewsHeading'
+    let siteSettings = {};
+    let statsData = {};
+    let trainers = [];
+    let members = [];
+    let products = [];
+    let transformations = [];
+    let dietPlans = [];
+    let workoutPlans = [];
+    let memberships = [];
+    let galleryImages = [];
+    let reels = [];
+    let reviews = [];
+    let contactInfo = {};
+
+    async function loadAllData() {
+      const [
+        settings, stats, trainersRes, membersRes, productsRes,
+        transRes, dietRes, workoutRes, membershipRes, galleryRes,
+        reelsRes, reviewsRes, contactRes
+      ] = await Promise.all([
+        fetchJSON(`${API_BASE}/sitesettings`),
+        fetchJSON(`${API_BASE}/stats`),
+        fetchJSON(`${API_BASE}/trainers`),
+        fetchJSON(`${API_BASE}/members`),
+        fetchJSON(`${API_BASE}/products`),
+        fetchJSON(`${API_BASE}/transformations`),
+        fetchJSON(`${API_BASE}/dietplans`),
+        fetchJSON(`${API_BASE}/workoutplans`),
+        fetchJSON(`${API_BASE}/memberships`),
+        fetchJSON(`${API_BASE}/gallery`),
+        fetchJSON(`${API_BASE}/reels`),
+        fetchJSON(`${API_BASE}/reviews`),
+        fetchJSON(`${API_BASE}/contactinfo`)
+      ]);
+      if (settings) siteSettings = settings;
+      if (stats) statsData = stats;
+      if (trainersRes) trainers = trainersRes;
+      if (membersRes) members = membersRes;
+      if (productsRes) products = productsRes;
+      if (transRes) transformations = transRes;
+      if (dietRes) dietPlans = dietRes;
+      if (workoutRes) workoutPlans = workoutRes;
+      if (membershipRes) memberships = membershipRes;
+      if (galleryRes) galleryImages = galleryRes.images || [];
+      if (reelsRes) reels = reelsRes;
+      if (reviewsRes) reviews = reviewsRes;
+      if (contactRes) contactInfo = contactRes;
+    }
+
+    function renderSiteSettings() {
+      const logoImgs = document.querySelectorAll('.nav-logo-img, .hero-logo-img');
+      logoImgs.forEach(img => { if (siteSettings.logoUrl) img.src = siteSettings.logoUrl; });
+      const heroTitle = document.querySelector('.hero-title');
+      if (heroTitle && siteSettings.heroSubheading) heroTitle.innerText = siteSettings.heroSubheading;
+      const heroBtn = document.getElementById('heroVipBtn');
+      if (heroBtn && siteSettings.heroButtonText) heroBtn.innerText = siteSettings.heroButtonText;
+      const statusSpan = document.getElementById('statusText');
+      if (statusSpan && siteSettings.liveStatusText) statusSpan.innerText = siteSettings.liveStatusText;
+      const floatBtn = document.getElementById('floatingTrialBtn');
+      if (floatBtn && siteSettings.floatingButtonText) floatBtn.innerText = siteSettings.floatingButtonText;
+    }
+
+    function renderSectionHeadings() {
+      const map = {
+        trainersHeading: siteSettings.trainersHeading,
+        transformationsHeading: siteSettings.transformationsHeading,
+        membersHeading: siteSettings.membersHeading,
+        dietHeading: siteSettings.dietHeading,
+        workoutHeading: siteSettings.workoutHeading,
+        membershipHeading: siteSettings.membershipHeading,
+        shopHeading: siteSettings.shopHeading,
+        galleryHeading: siteSettings.galleryHeading,
+        reelsHeading: siteSettings.reelsHeading,
+        reviewsHeading: siteSettings.reviewsHeading
       };
-      for (const [id, field] of Object.entries(headingMap)) {
+      for (const [id, text] of Object.entries(map)) {
         const el = document.getElementById(id);
-        if (el && settings[field]) {
-          if (id === 'shopHeading') {
-            el.innerHTML = `<span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span> ${settings[field].replace(/^ULTRAFIT\s*/i, '')}`;
-          } else {
-            el.innerHTML = settings[field];
-          }
-        }
+        if (el && text) el.innerText = text;
       }
     }
 
-    // 2. Update contact info from API
-    async function updateContact() {
-      const contact = await fetchJSON(`${API_BASE}/contactinfo`);
-      if (!contact) return;
-      const phoneEl = document.getElementById('contactPhone');
-      if (phoneEl) phoneEl.innerText = contact.phone || '+1 (212) 555-7890';
-      const whatsappEl = document.getElementById('contactWhatsapp');
-      if (whatsappEl) whatsappEl.innerText = contact.whatsappNumber || '+1 (212) 555-7891';
-      const addressEl = document.getElementById('contactAddress');
-      if (addressEl) addressEl.innerText = contact.address || '123 Strength Avenue, Manhattan, NY 10001, USA';
-      const fbLink = document.querySelector('.contact-social a[href*="facebook"]');
-      if (fbLink) fbLink.href = contact.facebookUrl || '#';
-      const igLink = document.querySelector('.contact-social a[href*="instagram"]');
-      if (igLink) igLink.href = contact.instagramUrl || '#';
+    function renderStats() {
+      if (!statsData) return;
+      const statNumbers = document.querySelectorAll('.stat-num');
+      if (statNumbers.length >= 3) {
+        statNumbers[0].setAttribute('data-count', statsData.membersCount || 0);
+        statNumbers[1].setAttribute('data-count', statsData.trainersCount || 0);
+        statNumbers[2].setAttribute('data-count', statsData.transformationsCount || 0);
+      }
+      const counters = document.querySelectorAll('.stat-num');
+      if (counters.length) {
+        const counterObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              const target = parseInt(el.getAttribute('data-count'));
+              let count = 0;
+              const inc = target / 40;
+              const update = () => {
+                count += inc;
+                if (count < target) {
+                  el.innerText = Math.floor(count);
+                  requestAnimationFrame(update);
+                } else el.innerText = target;
+              };
+              update();
+              counterObserver.unobserve(el);
+            }
+          });
+        }, { threshold: 0.5 });
+        counters.forEach(c => counterObserver.observe(c));
+      }
     }
 
-    // 3. Filter members carousel to show only featured members
-    async function filterFeaturedMembers() {
+    function renderTrainers() {
+      const container = document.getElementById('trainersContainer');
+      if (!container) return;
+      if (!trainers.length) { container.innerHTML = '<p style="color:white;">No trainers found.</p>'; return; }
+      container.innerHTML = trainers.map(t => `
+        <div class="leader-card" data-trainer-id="${t._id}">
+          <img src="${t.photoUrl}" alt="${t.name}" loading="lazy">
+          <h3>${escapeHtml(t.name)}</h3>
+          <p>${escapeHtml(t.position)}</p>
+          <button class="btn-outline-gold view-profile-btn">View Profile</button>
+          <div class="trainer-socials">
+            <a href="https://wa.me/${t.whatsappNumber}?text=Hello%20UltraFit%2C%20I'm%20interested%20in%20training%20with%20${encodeURIComponent(t.name)}" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+            <a href="${t.instagramUrl}" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      `).join('');
+      document.querySelectorAll('.leader-card .view-profile-btn').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          const trainer = trainers[idx];
+          showModal(`
+            <div style="text-align:center;">
+              <img src="${trainer.photoUrl}" style="width:120px;height:120px;border-radius:50%;border:2px solid #FFD700;margin-bottom:1rem;">
+              <h2 style="color:#FFD700;">${trainer.name}</h2>
+              <p style="color:#bbb;">${trainer.position}</p>
+              <p style="line-height:1.5;margin-top:1rem;">${trainer.bio || 'No bio available.'}</p>
+            </div>
+          `);
+        });
+      });
+    }
+
+    function renderMembersCarousel() {
       const container = document.getElementById('membersCarouselItems');
       if (!container) return;
-      let attempts = 0;
-      const waitForContent = setInterval(async () => {
-        if (container.children.length > 0 || attempts > 20) {
-          clearInterval(waitForContent);
-          const members = await fetchJSON(`${API_BASE}/members`);
-          if (!members) return;
-          const featured = members.filter(m => m.featured === true);
-          if (featured.length === 0) {
-            container.innerHTML = '<div class="carousel-item">No featured members yet.</div>';
-            return;
-          }
-          let itemsHtml = '';
-          featured.forEach(m => {
-            itemsHtml += `
-              <div class="carousel-item">
-                <div class="member-card" data-id="${m._id}">
-                  <img class="member-avatar" src="${m.photoUrl || 'https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette_719432-3512.jpg'}" alt="${escapeHtml(m.name)}">
-                  <div class="member-name">${escapeHtml(m.name)}</div>
-                  <div class="member-role">${escapeHtml(m.position || 'Member')}</div>
-                  <div class="member-age">${m.age} years old</div>
-                  <div class="member-bio">“${escapeHtml(m.feedback || 'No feedback')}”</div>
-                  <button class="btn-outline-gold view-members-btn" onclick="window.location.href='members.html'">View Members</button>
-                </div>
-              </div>
-            `;
-          });
-          container.innerHTML = itemsHtml;
-          const total = featured.length;
-          const prevBtn = document.getElementById('membersPrevBtn');
-          const nextBtn = document.getElementById('membersNextBtn');
-          const dotsContainer = document.getElementById('membersDots');
-          let current = 0;
-          function updateCarousel() {
-            container.style.transform = `translateX(-${current * 100}%)`;
-            if (dotsContainer) {
-              Array.from(dotsContainer.children).forEach((dot, i) => dot.classList.toggle('active', i === current));
-            }
-          }
-          function renderDots() {
-            if (!dotsContainer) return;
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < total; i++) {
-              const dot = document.createElement('div');
-              dot.classList.add('dot');
-              if (i === current) dot.classList.add('active');
-              dot.addEventListener('click', () => { current = i; updateCarousel(); });
-              dotsContainer.appendChild(dot);
-            }
-          }
-          if (prevBtn && nextBtn) {
-            const newPrev = prevBtn.cloneNode(true);
-            const newNext = nextBtn.cloneNode(true);
-            prevBtn.parentNode.replaceChild(newPrev, prevBtn);
-            nextBtn.parentNode.replaceChild(newNext, nextBtn);
-            newPrev.onclick = () => { current = (current - 1 + total) % total; updateCarousel(); };
-            newNext.onclick = () => { current = (current + 1) % total; updateCarousel(); };
-          }
-          renderDots();
-          updateCarousel();
+      const featured = members.filter(m => m.featured === true);
+      if (!featured.length) {
+        container.innerHTML = '<div class="member-card">No featured members yet.</div>';
+        return;
+      }
+      container.innerHTML = featured.map(m => `
+        <div class="member-card">
+          <img class="member-avatar" src="${m.photoUrl || DEFAULT_PROFILE}" alt="${m.name}">
+          <div class="member-name">${escapeHtml(m.name)}</div>
+          <div class="member-role">${escapeHtml(m.position || 'Member')}</div>
+          <div class="member-age">${m.age} years old</div>
+          <div class="member-bio">“${escapeHtml(m.feedback || 'No feedback yet.')}”</div>
+        </div>
+      `).join('');
+      const total = featured.length;
+      const prevBtn = document.getElementById('membersPrevBtn');
+      const nextBtn = document.getElementById('membersNextBtn');
+      const dotsContainer = document.getElementById('membersDots');
+      let current = 0;
+      function updateCarousel() {
+        container.style.transform = `translateX(-${current * 100}%)`;
+        if (dotsContainer) {
+          Array.from(dotsContainer.children).forEach((dot, i) => dot.classList.toggle('active', i === current));
         }
-        attempts++;
-      }, 300);
+      }
+      function renderDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('members-dot');
+          if (i === current) dot.classList.add('active');
+          dot.addEventListener('click', () => { current = i; updateCarousel(); });
+          dotsContainer.appendChild(dot);
+        }
+      }
+      if (prevBtn && nextBtn) {
+        const newPrev = prevBtn.cloneNode(true);
+        const newNext = nextBtn.cloneNode(true);
+        prevBtn.parentNode.replaceChild(newPrev, prevBtn);
+        nextBtn.parentNode.replaceChild(newNext, nextBtn);
+        newPrev.onclick = () => { current = (current - 1 + total) % total; updateCarousel(); };
+        newNext.onclick = () => { current = (current + 1) % total; updateCarousel(); };
+      }
+      renderDots();
+      updateCarousel();
     }
 
-    // 4. Override button links for dynamically generated content
-    function fixButtonLinks() {
-      // Transformations "See more"
-      const seeMoreBtns = () => document.querySelectorAll('.transform-cards .btn-see-more');
-      const handleSeeMore = (e) => {
-        e.preventDefault();
-        window.location.href = 'members.html';
-      };
-      const attachSeeMore = () => {
-        seeMoreBtns().forEach(btn => {
-          btn.removeEventListener('click', handleSeeMore);
-          btn.addEventListener('click', handleSeeMore);
+    function renderProducts() {
+      const container = document.querySelector('.product-grid');
+      if (!container) return;
+      const preview = products.slice(0, 3);
+      if (!preview.length) { container.innerHTML = '<p>No products available.</p>'; return; }
+      container.innerHTML = preview.map(p => `
+        <div class="product-card">
+          <img src="${p.imageUrl}" alt="${p.name}">
+          <h3>${escapeHtml(p.name)}</h3>
+          <p class="price">₹${p.price}</p>
+          <button class="btn-gold-whatsapp" data-product="${p.name}">Buy Now</button>
+        </div>
+      `).join('');
+      document.querySelectorAll('.btn-gold-whatsapp').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'shop.html';
         });
-      };
-      // Diet plans "Full Diet Plan"
-      const dietBtns = () => document.querySelectorAll('.diet-plans-grid .full-plan-btn');
-      const handleDiet = (e) => {
-        e.preventDefault();
-        window.location.href = 'diet.html';
-      };
-      const attachDiet = () => {
-        dietBtns().forEach(btn => {
-          btn.removeEventListener('click', handleDiet);
-          btn.addEventListener('click', handleDiet);
-        });
-      };
-      // Workout plans "Full Workout Plan"
-      const workoutBtns = () => document.querySelectorAll('.workout-plans-grid .full-workout-btn');
-      const handleWorkout = (e) => {
-        e.preventDefault();
-        window.location.href = 'workout.html';
-      };
-      const attachWorkout = () => {
-        workoutBtns().forEach(btn => {
-          btn.removeEventListener('click', handleWorkout);
-          btn.addEventListener('click', handleWorkout);
-        });
-      };
-      // Shop "Buy Now" buttons
-      const buyBtns = () => document.querySelectorAll('.product-grid .btn-gold-whatsapp');
-      const handleBuy = (e) => {
-        e.preventDefault();
-        window.location.href = 'shop.html';
-      };
-      const attachBuy = () => {
-        buyBtns().forEach(btn => {
-          btn.removeEventListener('click', handleBuy);
-          btn.addEventListener('click', handleBuy);
-        });
-      };
-      // Run initially and observe for dynamic changes
-      const observer = new MutationObserver(() => {
-        attachSeeMore();
-        attachDiet();
-        attachWorkout();
-        attachBuy();
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-      attachSeeMore();
-      attachDiet();
-      attachWorkout();
-      attachBuy();
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
       });
     }
 
-    // Run after index.js has loaded
-    setTimeout(() => {
-      updateHeadings();
-      updateContact();
-      filterFeaturedMembers();
-      fixButtonLinks();
-    }, 1000);
+    function renderTransformations() {
+      const container = document.getElementById('transformationsContainer');
+      if (!container) return;
+      if (!transformations.length) { container.innerHTML = '<p>No transformations yet.</p>'; return; }
+      container.innerHTML = transformations.map(t => `
+        <div class="trans-card">
+          <div class="luxury-comparison-slider" data-before="${t.afterImage}" data-after="${t.beforeImage}">
+            <div class="comparison-images"><img class="before-image" alt="Before"><div class="after-image-container"><img class="after-image" alt="After"></div></div>
+            <div class="slider-handle" style="left:50%"><div class="vertical-line"></div><div class="handle-circle"><i class="fas fa-arrows-alt-h"></i></div></div>
+            <div class="comparison-label before-label">BEFORE</div><div class="comparison-label after-label">AFTER</div>
+          </div>
+          <button class="btn-see-more">See more</button>
+        </div>
+      `).join('');
+      document.querySelectorAll('.luxury-comparison-slider').forEach(initLuxurySlider);
+      document.querySelectorAll('.btn-see-more').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'members.html';
+        });
+      });
+    }
+
+    function renderDietPlans() {
+      const container = document.getElementById('dietGrid');
+      if (!container) return;
+      if (!dietPlans.length) { container.innerHTML = '<p>No diet plans found.</p>'; return; }
+      container.innerHTML = dietPlans.map(d => `
+        <div class="diet-card">
+          <div class="diet-card-image"><img src="${d.imageUrl}" alt="${d.title}"></div>
+          <div class="diet-card-content">
+            <h3>${escapeHtml(d.title)}</h3>
+            <p>${escapeHtml(d.shortDescription)}</p>
+            <div class="diet-targets">${d.targets.map(t => `<span><i class="fas fa-leaf"></i> ${escapeHtml(t)}</span>`).join('')}</div>
+            <button class="btn-outline-gold full-plan-btn" data-plan="${d.title}">Full Diet Plan</button>
+          </div>
+        </div>
+      `).join('');
+      document.querySelectorAll('.full-plan-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'diet.html';
+        });
+      });
+    }
+
+    function renderWorkoutPlans() {
+      const container = document.getElementById('workoutGrid');
+      if (!container) return;
+      if (!workoutPlans.length) { container.innerHTML = '<p>No workout plans found.</p>'; return; }
+      container.innerHTML = workoutPlans.map(w => `
+        <div class="workout-card">
+          <div class="workout-card-image"><img src="${w.imageUrl}" alt="${w.title}"></div>
+          <div class="workout-card-content">
+            <h3>${escapeHtml(w.title)}</h3>
+            <p>${escapeHtml(w.shortDescription)}</p>
+            <div class="workout-targets">${w.targets.map(t => `<span><i class="fas fa-dumbbell"></i> ${escapeHtml(t)}</span>`).join('')}</div>
+            <button class="btn-outline-gold full-workout-btn" data-plan="${w.title}">Full Workout Plan</button>
+          </div>
+        </div>
+      `).join('');
+      document.querySelectorAll('.full-workout-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'workout.html';
+        });
+      });
+    }
+
+    function renderMemberships() {
+      const container = document.querySelector('.membership-cards');
+      if (!container) return;
+      if (!memberships.length) { container.innerHTML = '<p>No membership plans available.</p>'; return; }
+      container.innerHTML = memberships.map(m => `
+        <div class="membership-card">
+          <h3>${escapeHtml(m.planName)}</h3>
+          <div class="price">₹${m.price}<span>/${m.duration}</span></div>
+          <p>${escapeHtml(m.description)}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('galleryItemsContainer');
+      if (!container) return;
+      if (!galleryImages.length) { container.innerHTML = '<div class="carousel-item">No images</div>'; return; }
+      container.innerHTML = '';
+      galleryImages.forEach(src => {
+        const div = document.createElement('div');
+        div.className = 'carousel-item';
+        const img = document.createElement('img');
+        img.src = src;
+        img.loading = 'lazy';
+        div.appendChild(img);
+        container.appendChild(div);
+      });
+      if (window.galleryCarousel) window.galleryCarousel.destroy?.();
+      window.galleryCarousel = new InfiniteCarousel('galleryCarousel', 'galleryItemsContainer', 'galleryDots', 'galleryPrevBtn', 'galleryNextBtn', 'image', galleryImages, { autoSlide: true });
+    }
+
+    function renderReels() {
+      const container = document.getElementById('reelsItemsContainer');
+      if (!container) return;
+      const reelUrls = reels.map(r => r.videoUrl);
+      if (!reelUrls.length) { container.innerHTML = '<div class="carousel-item">No reels</div>'; return; }
+      container.innerHTML = '';
+      reelUrls.forEach(src => {
+        const div = document.createElement('div');
+        div.className = 'carousel-item';
+        const video = document.createElement('video');
+        video.src = src;
+        video.muted = true;
+        video.playsInline = true;
+        div.appendChild(video);
+        container.appendChild(div);
+      });
+      if (window.reelsCarousel) window.reelsCarousel.destroy?.();
+      window.reelsCarousel = new InfiniteCarousel('reelsCarousel', 'reelsItemsContainer', 'reelsDots', 'reelsPrevBtn', 'reelsNextBtn', 'video', reelUrls, { autoSlide: false });
+    }
+
+    function renderReviews() {
+      const container = document.getElementById('reviewCarouselItems');
+      if (!container) return;
+      if (!reviews.length) { container.innerHTML = '<div class="review-card">No reviews yet</div>'; return; }
+      container.innerHTML = reviews.map(r => {
+        const stars = Array(5).fill().map((_, i) => `<i class="fas fa-star ${i < (r.rating || 5) ? '' : 'inactive'}"></i>`).join('');
+        return `
+          <div class="review-card">
+            <img class="review-avatar" src="${r.photoUrl}">
+            <div class="review-name">${escapeHtml(r.name)}</div>
+            <div class="review-stars">${stars}</div>
+            <div class="review-text">“${escapeHtml(r.review)}”</div>
+          </div>
+        `;
+      }).join('');
+      let currentReview = 0, reviewTransition = false;
+      const total = reviews.length;
+      const reviewItems = container;
+      const prevBtn = document.getElementById('reviewPrevBtn');
+      const nextBtn = document.getElementById('reviewNextBtn');
+      const dotsContainer = document.getElementById('reviewDots');
+      function updateReviewCarousel(instant = false) {
+        if (instant) reviewItems.style.transition = 'none';
+        else reviewItems.style.transition = 'transform 0.5s cubic-bezier(0.2,0.9,0.4,1.1)';
+        reviewItems.style.transform = `translateX(-${currentReview * 100}%)`;
+        if (instant) reviewItems.offsetHeight;
+        updateReviewDots();
+      }
+      function updateReviewDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('review-dot');
+          if (i === currentReview) dot.classList.add('active');
+          dot.addEventListener('click', () => { if (!reviewTransition) goToReview(i); });
+          dotsContainer.appendChild(dot);
+        }
+      }
+      function goToReview(index) {
+        if (reviewTransition) return;
+        reviewTransition = true;
+        currentReview = index;
+        updateReviewCarousel(false);
+        setTimeout(() => reviewTransition = false, 500);
+      }
+      function nextReview() { goToReview((currentReview + 1) % total); }
+      function prevReview() { goToReview((currentReview - 1 + total) % total); }
+      if (prevBtn) { const newPrev = prevBtn.cloneNode(true); prevBtn.parentNode.replaceChild(newPrev, prevBtn); newPrev.addEventListener('click', prevReview); }
+      if (nextBtn) { const newNext = nextBtn.cloneNode(true); nextBtn.parentNode.replaceChild(newNext, nextBtn); newNext.addEventListener('click', nextReview); }
+      updateReviewCarousel(true);
+    }
+
+    function renderContactInfo() {
+      if (!contactInfo) return;
+      const phoneEl = document.getElementById('contactPhone');
+      if (phoneEl && contactInfo.phone) phoneEl.innerText = contactInfo.phone;
+      const phoneLink = document.querySelector('.contact-info-item a[href^="tel:"]');
+      if (phoneLink && contactInfo.phone) phoneLink.href = `tel:${contactInfo.phone}`;
+      const whatsappEl = document.getElementById('contactWhatsapp');
+      if (whatsappEl && contactInfo.whatsappNumber) whatsappEl.innerText = contactInfo.whatsappNumber;
+      const waLink = document.querySelector('.contact-info-item a[href*="wa.me"]');
+      if (waLink && contactInfo.whatsappNumber) waLink.href = `https://wa.me/${contactInfo.whatsappNumber}?text=Hello%20UltraFit%2C%20I'm%20interested`;
+      const fbLink = document.querySelector('.contact-social a[href*="facebook"]');
+      if (fbLink && contactInfo.facebookUrl) fbLink.href = contactInfo.facebookUrl;
+      const igLink = document.querySelector('.contact-social a[href*="instagram"]');
+      if (igLink && contactInfo.instagramUrl) igLink.href = contactInfo.instagramUrl;
+      const addressEl = document.getElementById('contactAddress');
+      if (addressEl && contactInfo.address) addressEl.innerText = contactInfo.address;
+    }
+
+    function initLuxurySlider(slider) {
+      const beforeUrl = slider.getAttribute('data-before');
+      const afterUrl = slider.getAttribute('data-after');
+      const beforeImg = slider.querySelector('.before-image');
+      const afterImg = slider.querySelector('.after-image');
+      const afterContainer = slider.querySelector('.after-image-container');
+      const handle = slider.querySelector('.slider-handle');
+      if (!beforeImg || !afterImg) return;
+      beforeImg.src = beforeUrl;
+      afterImg.src = afterUrl;
+      let startX = 0, startPercent = 50, isDragging = false;
+      function setPos(percent) {
+        percent = Math.min(Math.max(percent, 0), 100);
+        afterContainer.style.width = percent + '%';
+        handle.style.left = percent + '%';
+      }
+      function onStart(e) {
+        isDragging = true;
+        e.preventDefault();
+        const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        const rect = slider.getBoundingClientRect();
+        const relX = Math.min(Math.max(0, clientX - rect.left), rect.width);
+        startPercent = (relX / rect.width) * 100;
+        startX = clientX;
+      }
+      function onMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        let clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        const rect = slider.getBoundingClientRect();
+        let deltaX = clientX - startX;
+        let newPercent = startPercent + (deltaX / rect.width) * 100;
+        setPos(newPercent);
+      }
+      function onEnd() { isDragging = false; }
+      handle.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+      handle.addEventListener('touchstart', onStart, { passive: false });
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
+      setPos(50);
+    }
+
+    class InfiniteCarousel {
+      constructor(containerId, itemsId, dotsId, prevId, nextId, type, items, options = {}) {
+        this.container = document.getElementById(containerId);
+        this.itemsContainer = document.getElementById(itemsId);
+        this.dotsContainer = document.getElementById(dotsId);
+        this.prevBtn = document.getElementById(prevId);
+        this.nextBtn = document.getElementById(nextId);
+        this.type = type;
+        this.total = items.length;
+        this.infinite = [items[items.length-1], ...items, items[0]];
+        this.currentReal = 0;
+        this.currentInf = 1;
+        this.transitioning = false;
+        this.auto = options.autoSlide || false;
+        this.delay = options.autoSlideDelay || 3000;
+        this.pauseOnHover = options.pauseOnHover || true;
+        this.interval = null;
+        this.hovered = false;
+        this.init();
+        if (this.auto) this.startAuto();
+        if (this.pauseOnHover) this.setupHover();
+      }
+      init() {
+        this.itemsContainer.innerHTML = '';
+        this.infinite.forEach((src, i) => {
+          const div = document.createElement('div');
+          div.className = 'carousel-item';
+          if (this.type === 'image') {
+            const img = document.createElement('img');
+            img.src = src;
+            img.loading = 'lazy';
+            div.appendChild(img);
+          } else if (this.type === 'video') {
+            const video = document.createElement('video');
+            video.src = src;
+            video.muted = true;
+            video.playsInline = true;
+            div.appendChild(video);
+          }
+          this.itemsContainer.appendChild(div);
+        });
+        this.updateDots();
+        this.update(false);
+        this.attachEvents();
+      }
+      updateDots() {
+        if (!this.dotsContainer) return;
+        this.dotsContainer.innerHTML = '';
+        for (let i = 0; i < this.total; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('dot');
+          if (i === this.currentReal) dot.classList.add('active');
+          dot.addEventListener('click', () => { if (!this.transitioning) this.goTo(i); });
+          this.dotsContainer.appendChild(dot);
+        }
+      }
+      setActiveDot() {
+        const dots = this.dotsContainer?.querySelectorAll('.dot');
+        dots?.forEach((d, i) => {
+          if (i === this.currentReal) d.classList.add('active');
+          else d.classList.remove('active');
+        });
+      }
+      update(withTransition = true) {
+        if (!withTransition) this.itemsContainer.style.transition = 'none';
+        else this.itemsContainer.style.transition = 'transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)';
+        this.itemsContainer.style.transform = `translateX(-${this.currentInf * 100}%)`;
+        if (!withTransition) this.itemsContainer.offsetHeight;
+        if (this.type === 'video') this.manageVideo();
+      }
+      manageVideo() {
+        const videos = this.itemsContainer.querySelectorAll('video');
+        videos.forEach((v, i) => {
+          if (i === this.currentInf) {
+            v.currentTime = 0;
+            v.play().catch(e => console.log);
+            v.onended = () => { if (!this.transitioning) this.next(); };
+          } else {
+            v.pause();
+            v.currentTime = 0;
+            v.onended = null;
+          }
+        });
+      }
+      goTo(index) {
+        if (this.transitioning) return;
+        const delta = index - this.currentReal;
+        this.currentReal = index;
+        this.currentInf += delta;
+        this.update(true);
+        this.setActiveDot();
+        if (this.auto) this.resetAuto();
+        this.transitioning = true;
+        this.itemsContainer.addEventListener('transitionend', () => this.handleEnd(), { once: true });
+      }
+      handleEnd() {
+        this.transitioning = false;
+        if (this.currentInf === 0) {
+          this.currentReal = this.total - 1;
+          this.currentInf = this.total;
+          this.update(false);
+          this.setActiveDot();
+        } else if (this.currentInf === this.total + 1) {
+          this.currentReal = 0;
+          this.currentInf = 1;
+          this.update(false);
+          this.setActiveDot();
+        }
+        if (this.type === 'video') this.manageVideo();
+      }
+      next() { if (!this.transitioning) this.goTo((this.currentReal + 1) % this.total); }
+      prev() { if (!this.transitioning) this.goTo((this.currentReal - 1 + this.total) % this.total); }
+      attachEvents() {
+        this.prevBtn?.addEventListener('click', () => this.prev());
+        this.nextBtn?.addEventListener('click', () => this.next());
+        let startX = 0, dragging = false, dist = 0;
+        const main = this.container.querySelector('.carousel-main');
+        if (!main) return;
+        const onStart = (e) => {
+          if (this.transitioning) return;
+          dragging = true;
+          startX = e.touches ? e.touches[0].clientX : e.clientX;
+          dist = 0;
+          this.itemsContainer.style.transition = 'none';
+        };
+        const onMove = (e) => {
+          if (!dragging) return;
+          const curX = e.touches ? e.touches[0].clientX : e.clientX;
+          const delta = curX - startX;
+          dist = delta;
+          const currentPercent = -this.currentInf * 100;
+          const newPercent = currentPercent + (delta / this.itemsContainer.parentElement.offsetWidth) * 100;
+          this.itemsContainer.style.transform = `translateX(${newPercent}%)`;
+        };
+        const onEnd = () => {
+          if (!dragging) return;
+          dragging = false;
+          this.itemsContainer.style.transition = '';
+          if (Math.abs(dist) > 50) {
+            if (dist > 0) this.prev();
+            else this.next();
+          } else {
+            this.update(true);
+          }
+        };
+        main.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+        main.addEventListener('touchstart', onStart, { passive: false });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onEnd);
+      }
+      startAuto() {
+        if (this.interval) clearInterval(this.interval);
+        this.interval = setInterval(() => { if (!this.transitioning && !this.hovered) this.next(); }, this.delay);
+      }
+      resetAuto() { if (this.auto) { clearInterval(this.interval); this.startAuto(); } }
+      setupHover() {
+        this.container.addEventListener('mouseenter', () => this.hovered = true);
+        this.container.addEventListener('mouseleave', () => { this.hovered = false; this.resetAuto(); });
+      }
+      destroy() { if (this.interval) clearInterval(this.interval); }
+    }
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalBody = document.getElementById('modalDynamicBody');
+    function showModal(html) {
+      modalBody.innerHTML = html;
+      modalOverlay.style.display = 'flex';
+    }
+    document.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', () => modalOverlay.style.display = 'none'));
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.style.display = 'none'; });
+
+    function openLeadModal() {
+      document.getElementById('trialForm').reset();
+      const msgDiv = document.getElementById('trialMessage');
+      msgDiv.style.display = 'none';
+      msgDiv.innerHTML = '';
+      modalOverlay.style.display = 'flex';
+    }
+
+    async function submitTrialForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('trialName').value.trim();
+      const phone = document.getElementById('trialPhone').value.trim();
+      const email = document.getElementById('trialEmail').value.trim();
+
+      if (!name || !phone || !email) {
+        showTrialMessage('Please fill in all fields.', 'error');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submitTrialBtn');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(`${API_BASE}/book-trial`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, email })
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showTrialMessage(data.message || '✅ Trial booked! Check your email.', 'success');
+          setTimeout(() => {
+            modalOverlay.style.display = 'none';
+            document.getElementById('trialForm').reset();
+          }, 3000);
+        } else {
+          showTrialMessage(data.message || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch (err) {
+        console.error('Trial booking error:', err);
+        showTrialMessage('Network error. Please check your connection.', 'error');
+      } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    function showTrialMessage(msg, type) {
+      const msgDiv = document.getElementById('trialMessage');
+      msgDiv.innerHTML = msg;
+      msgDiv.className = `trial-message ${type}`;
+      msgDiv.style.display = 'block';
+      setTimeout(() => {
+        msgDiv.style.display = 'none';
+      }, 5000);
+    }
+
+    document.getElementById('trialForm')?.addEventListener('submit', submitTrialForm);
+
+    // ----- AI CHAT functionality (unchanged) -----
+    const chatBubble = document.getElementById('chatBubble');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatClose = document.getElementById('chatCloseBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSendBtn');
+
+    function toggleChatWindow(open) {
+      if (open) chatWindow.classList.add('open');
+      else chatWindow.classList.remove('open');
+    }
+
+    chatBubble.addEventListener('click', () => toggleChatWindow(true));
+    chatClose.addEventListener('click', () => toggleChatWindow(false));
+
+    async function sendChatMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'message user-message';
+      userMsgDiv.textContent = message;
+      chatMessages.appendChild(userMsgDiv);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      const typingDiv = document.createElement('div');
+      typingDiv.classList.add('typing-indicator');
+      typingDiv.innerHTML = '<span></span><span></span><span></span>';
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+        const response = await fetch(`${API_BASE}/chat-groq`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+
+        chatMessages.removeChild(typingDiv);
+
+        if (response.ok && data.reply) {
+          const botMsgDiv = document.createElement('div');
+          botMsgDiv.className = 'message bot-message';
+          botMsgDiv.textContent = data.reply;
+          chatMessages.appendChild(botMsgDiv);
+        } else {
+          throw new Error(data.error || 'No response');
+        }
+      } catch (err) {
+        console.error('Chat error:', err);
+        chatMessages.removeChild(typingDiv);
+        const errorMsgDiv = document.createElement('div');
+        errorMsgDiv.className = 'message bot-message';
+        errorMsgDiv.textContent = '🏋️ Sorry, I’m having trouble connecting. Please try again later.';
+        chatMessages.appendChild(errorMsgDiv);
+      }
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatSend.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendChatMessage();
+    });
+
+    const DEFAULT_PROFILE = "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette_719432-3512.jpg?semt=ais_hybrid&w=740&q=80";
+    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, (m) => { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+    async function init() {
+      await loadAllData();
+      renderSiteSettings();
+      renderSectionHeadings();
+      renderStats();
+      renderTrainers();
+      renderMembersCarousel();
+      renderProducts();
+      renderTransformations();
+      renderDietPlans();
+      renderWorkoutPlans();
+      renderMemberships();
+      renderGallery();
+      renderReels();
+      renderReviews();
+      renderContactInfo();
+
+      const fadeElements = document.querySelectorAll('.service-item, .leader-card, .trans-card, .product-card, .diet-card, .workout-card');
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });
+      }, { threshold: 0.2 });
+      fadeElements.forEach(el => { el.classList.add('fade-up'); fadeObserver.observe(el); });
+    }
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    });
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+    document.getElementById('heroVipBtn')?.addEventListener('click', openLeadModal);
+    document.getElementById('floatingTrialBtn')?.addEventListener('click', openLeadModal);
+
+    init();
   })();
 </script>
 </body>

@@ -18,6 +18,17 @@ body {
   scroll-behavior: smooth;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+    cursor: default;
+  user-select: none; /* prevents accidental text selection on double‑click */
+}
+
+a, button, .clickable, [onclick], .card, .leader-card, .product-card, .member-card {
+  cursor: pointer;
+}
+
+input, textarea, [contenteditable="true"] {
+  cursor: text;
+  user-select: text;
 }
 
 .container {

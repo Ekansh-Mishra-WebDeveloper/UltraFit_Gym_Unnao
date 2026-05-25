@@ -108,6 +108,7 @@
       border-radius: 40px;
       font-weight: 700;
       transition: all 0.3s ease;
+      white-space: nowrap;
     }
     .join-now-nav:hover {
       background: #e6c300;
@@ -138,6 +139,10 @@
       .nav-links.active { display: flex; }
       .hamburger { display: block; }
       .container { padding: 0 1.5rem; }
+      .join-now-nav {
+        padding: 0.5rem 1.2rem !important;
+        font-size: 0.9rem;
+      }
     }
     .workout-hero {
       position: relative;
@@ -231,26 +236,7 @@
       background: #FFD700;
       color: #121212;
     }
-    .pdf-group {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 1rem;
-    }
-    .btn-pdf {
-      background: transparent;
-      border: 1px solid #FFD700;
-      padding: 0.5rem 1.4rem;
-      border-radius: 60px;
-      color: #FFD700;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn-pdf:hover {
-      background: #FFD700;
-      color: #121212;
-      box-shadow: 0 0 12px gold;
-    }
+    /* PDF group removed – button deleted */
     .workout-cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -442,37 +428,16 @@
       color: white;
       font-family: inherit;
     }
-    .exercise-variant-card, .image-variant-card {
-      background: #1a1a1a;
-      border-radius: 24px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(255,215,0,0.2);
+    .modal-image-container {
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
-    .variant-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    .btn-remove-variant {
-      background: rgba(200,0,0,0.2);
-      border: 1px solid #e74c3c;
-      color: #e74c3c;
-      padding: 0.2rem 0.6rem;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 0.7rem;
-    }
-    .btn-add-variant {
-      background: rgba(255,215,0,0.1);
-      border: 1px solid rgba(255,215,0,0.4);
-      color: #FFD700;
-      padding: 0.4rem 1rem;
-      border-radius: 40px;
-      cursor: pointer;
-      margin-top: 1rem;
-      width: 100%;
+    .modal-image {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 16px;
+      border: 1px solid #FFD700;
+      object-fit: cover;
     }
     .image-upload-area {
       border: 2px dashed #FFD700;
@@ -481,6 +446,11 @@
       text-align: center;
       cursor: pointer;
       margin-top: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      transition: 0.2s;
+    }
+    .image-upload-area:hover {
+      background: rgba(255,215,0,0.05);
     }
     .image-preview {
       width: 100%;
@@ -528,6 +498,38 @@
     .modal-btn-save:hover {
       background: #e6c300;
       transform: scale(1.02);
+    }
+    .exercise-variant-card, .image-variant-card {
+      background: #1a1a1a;
+      border-radius: 24px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .variant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .btn-remove-variant {
+      background: rgba(200,0,0,0.2);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      padding: 0.2rem 0.6rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+    .btn-add-variant {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.4);
+      color: #FFD700;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      margin-top: 1rem;
+      width: 100%;
     }
     .confirm-modal, .success-modal {
       position: fixed;
@@ -600,21 +602,44 @@
       border-left: 4px solid #FFD700;
     }
     .admin-toast.show { transform: translateX(-50%) translateY(0); }
+    /* ========== FOOTER (exactly like admin.html) ========== */
     footer {
       background: #000;
       padding: 3rem 0;
-      border-top: 1px solid rgba(255,215,0,0.3);
+      border-top: 1px solid rgba(255, 215, 0, 0.3);
       text-align: center;
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
     .footer-links ul {
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 3rem;
       list-style: none;
+      margin: 1rem 0;
       flex-wrap: wrap;
     }
-    .footer-links a { color: #ccc; text-decoration: none; }
-    .footer-links a:hover { color: var(--gold); }
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .footer-links a:hover {
+      color: #FFD700;
+    }
+    .credit {
+      margin-top: 1rem;
+    }
+    .credit a {
+      color: #FFD700;
+      text-decoration: none;
+    }
+    .credit a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -626,7 +651,7 @@
       <div class="logo"><span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span></div>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="admin.html" class="nav-link">Home</a></li>
+      <!-- Home button removed -->
       <li><a href="admin.html" class="nav-link join-now-nav">Join Now</a></li>
       <li><a href="admin-diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="admin-workout.html" class="nav-link">Workout Plan</a></li>
@@ -642,7 +667,7 @@
     <div class="hero-content-center">
       <h1 id="heroTitle">Weekly Workout Plan</h1>
       <p id="heroSubheading" class="hero-sub">Periodized programming · Elite coaching · Unlock your athletic ceiling</p>
-      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Update Hero</button>
+      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Edit Section</button>
     </div>
   </div>
 
@@ -652,7 +677,7 @@
 </main>
 
 <footer>
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div class="footer-links">
       <h4>UltraFit Gym</h4>
       <ul>
@@ -671,9 +696,22 @@
 <div id="adminToast" class="admin-toast"></div>
 
 <script>
-  // ========== WORKOUT ADMIN (FULL FEATURE) ==========
+  // ========== WORKOUT ADMIN WITH AUTHENTICATION & PROPER IMAGE UPLOAD ==========
   const API_BASE = '/api';
   const DEFAULT_IMAGE = 'https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&w=400';
+  
+  // Authentication
+  let adminToken = localStorage.getItem('adminToken');
+  let isAuthenticated = !!adminToken;
+
+  function getAuthHeaders() {
+    return adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+  }
+
+  if (!isAuthenticated) {
+    alert('Please log in to the admin panel first.');
+    window.location.href = 'admin.html';
+  }
 
   function showToast(msg, isError = false) {
     const toast = document.getElementById('adminToast');
@@ -721,8 +759,19 @@
     try {
       const res = await fetch(url, {
         ...options,
-        headers: { 'Content-Type': 'application/json', ...options.headers }
+        headers: { 
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+          ...options.headers
+        }
       });
+      if (res.status === 401) {
+        localStorage.removeItem('adminToken');
+        adminToken = null;
+        alert('Session expired. Please login again.');
+        window.location.href = 'admin.html';
+        return null;
+      }
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); } catch(e) { data = text; }
@@ -829,7 +878,7 @@
     `;
     modal.style.display = 'flex';
 
-    document.getElementById('uploadPdfArea').onclick = () => {
+    document.getElementById('uploadPdfArea').onclick = async () => {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'application/pdf';
@@ -839,7 +888,11 @@
         const formData = new FormData();
         formData.append('pdf', file);
         try {
-          const res = await fetch(`${API_BASE}/upload/pdf`, { method: 'POST', body: formData });
+          const res = await fetch(`${API_BASE}/upload/pdf`, { 
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: formData 
+          });
           const data = await res.json();
           if (data.url) {
             const updated = await fetchJSON(`${API_BASE}/workoutcategories/${category._id}`, {
@@ -892,15 +945,13 @@
       const catDays = workoutDays.filter(d => d.categoryKey === cat.key).sort((a,b) => a.order - b.order);
       if (!catDays.length) return;
       const sectionDiv = document.createElement('div');
+      // PDF group removed – no button
       sectionDiv.innerHTML = `
         <div class="category-header">
           <div class="category-luxury"><span>${escapeHtml(cat.displayName)}</span></div>
           <button class="edit-category-btn" data-cat-id="${cat._id}"><i class="fas fa-edit"></i> Edit Category</button>
         </div>
         <div class="category-sub">${escapeHtml(cat.subheading || '')}</div>
-        <div class="pdf-group">
-          <button class="btn-pdf" data-pdf-category="${cat.key}">PDF</button>
-        </div>
         <div class="workout-cards-grid" id="grid-${cat.key}"></div>
       `;
       root.appendChild(sectionDiv);
@@ -924,30 +975,15 @@
         }
       });
     });
-    // attach edit category buttons
     document.querySelectorAll('.edit-category-btn').forEach(btn => {
       const catId = btn.getAttribute('data-cat-id');
       const category = workoutCategories.find(c => c._id === catId);
       btn.addEventListener('click', () => editCategory(category));
     });
-    // attach edit day buttons
     document.querySelectorAll('.admin-edit-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const dayId = btn.getAttribute('data-day-id');
         openDayEditor(dayId);
-      });
-    });
-    // attach PDF buttons
-    document.querySelectorAll('[data-pdf-category]').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        const catKey = btn.getAttribute('data-pdf-category');
-        const category = workoutCategories.find(c => c.key === catKey);
-        if (category && category.pdfUrl) {
-          window.open(category.pdfUrl, '_blank');
-        } else {
-          // if no PDF, open the category edit modal to upload
-          if (category) editCategory(category);
-        }
       });
     });
   }
@@ -1003,23 +1039,52 @@
     `;
     modal.style.display = 'flex';
 
+    // ========== FIXED IMAGE UPLOAD WITH AUTH (no base64) ==========
     function attachImageUploads() {
       document.querySelectorAll('.image-upload-area').forEach(area => {
-        area.onclick = () => {
+        area.onclick = async () => {
           const imgIdx = area.getAttribute('data-img-idx');
           const input = document.createElement('input');
           input.type = 'file';
           input.accept = 'image/*';
-          input.onchange = (ev) => {
+          input.onchange = async (ev) => {
             const file = ev.target.files[0];
-            if (file) {
-              const reader = new FileReader();
-              reader.onload = (event) => {
+            if (!file) return;
+            const originalText = area.innerText;
+            area.style.opacity = '0.6';
+            area.style.cursor = 'wait';
+            area.innerText = 'Uploading...';
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+              const res = await fetch('/api/upload', {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: formData
+              });
+              if (res.status === 401) {
+                localStorage.removeItem('adminToken');
+                adminToken = null;
+                alert('Session expired. Please login again.');
+                window.location.href = 'admin.html';
+                return;
+              }
+              const data = await res.json();
+              if (data.url) {
+                document.getElementById(`imgUrl${imgIdx}`).value = data.url;
                 const preview = document.querySelector(`#imgUrl${imgIdx}`)?.closest('.image-variant-card')?.querySelector('.image-preview');
-                if (preview) preview.src = event.target.result;
-                document.getElementById(`imgUrl${imgIdx}`).value = event.target.result;
-              };
-              reader.readAsDataURL(file);
+                if (preview) preview.src = data.url;
+                showToast('Image uploaded successfully');
+              } else {
+                showToast('Upload failed – no URL returned', true);
+              }
+            } catch (err) {
+              console.error(err);
+              showToast('Upload error: ' + err.message, true);
+            } finally {
+              area.style.opacity = '1';
+              area.style.cursor = 'pointer';
+              area.innerText = originalText;
             }
           };
           input.click();
@@ -1122,48 +1187,116 @@
     };
   }
 
+  // ========== EDIT SECTION MODAL (with auth) ==========
   async function editHero() {
     const modal = document.getElementById('modalContainer');
+    const currentImageUrl = siteSettings.workoutHeroImage || '';
+    const currentTitle = siteSettings.workoutHeroHeading || 'Weekly Workout Plan';
+    const currentSub = siteSettings.workoutHeroSubheading || 'Periodized programming · Elite coaching · Unlock your athletic ceiling';
+
     modal.innerHTML = `
       <div class="premium-modal-card">
-        <h3>Edit Hero Section</h3>
-        <div class="field-group"><label>Title</label><input type="text" id="heroTitleInput" value="${escapeHtml(siteSettings.workoutHeroHeading || 'Weekly Workout Plan')}"></div>
-        <div class="field-group"><label>Subheading</label><input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.workoutHeroSubheading || 'Periodized programming · Elite coaching · Unlock your athletic ceiling')}"></div>
-        <div class="field-group"><label>Background Image</label><img id="heroBgPreview" class="image-preview" src="${siteSettings.workoutHeroImage || ''}"><div class="image-upload-area" id="heroBgUpload">Upload New Background</div></div>
+        <h3><i class="fas fa-image"></i> Edit Section</h3>
+        <div style="margin-bottom: 1rem;">
+          <label>Current Hero Image</label>
+          <div class="modal-image-container">
+            <img id="currentHeroImagePreview" class="modal-image" 
+                 src="${currentImageUrl}" 
+                 onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Upload New Hero Image</label>
+          <div class="image-upload-area" id="heroBgUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i> Click to upload
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Title (Heading)</label>
+          <input type="text" id="heroTitleInput" value="${escapeHtml(currentTitle)}">
+        </div>
+        <div class="field-group">
+          <label>Subheading</label>
+          <input type="text" id="heroSubInput" value="${escapeHtml(currentSub)}">
+        </div>
         <div class="modal-buttons">
-          <button class="modal-btn-cancel" id="heroCancelBtn">Cancel</button>
-          <button class="modal-btn-save" id="heroSaveBtn">Save</button>
+          <button class="modal-btn-cancel" id="modalCancelBtn">Cancel</button>
+          <button class="modal-btn-save" id="modalSaveBtn">Save Changes</button>
         </div>
       </div>
     `;
     modal.style.display = 'flex';
-    document.getElementById('heroBgUpload').onclick = () => {
+
+    let newImageUrl = currentImageUrl;
+    const previewImg = document.getElementById('currentHeroImagePreview');
+    const uploadArea = document.getElementById('heroBgUploadArea');
+    uploadArea.onclick = async () => {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+      input.onchange = async (e) => {
         const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => { document.getElementById('heroBgPreview').src = ev.target.result; };
-          reader.readAsDataURL(file);
+        if (!file) return;
+        const formData = new FormData();
+        formData.append('image', file);
+        const originalText = uploadArea.innerText;
+        uploadArea.style.opacity = '0.6';
+        uploadArea.style.cursor = 'wait';
+        uploadArea.innerText = 'Uploading...';
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: formData
+          });
+          if (res.status === 401) {
+            localStorage.removeItem('adminToken');
+            adminToken = null;
+            alert('Session expired. Please login again.');
+            window.location.href = 'admin.html';
+            return;
+          }
+          const data = await res.json();
+          if (data.url) {
+            newImageUrl = data.url;
+            previewImg.src = newImageUrl;
+            showToast('Image uploaded. Click Save to apply.');
+          } else {
+            showToast('Upload failed', true);
+          }
+        } catch (err) {
+          showToast('Upload error: ' + err.message, true);
+        } finally {
+          uploadArea.style.opacity = '1';
+          uploadArea.style.cursor = 'pointer';
+          uploadArea.innerText = originalText;
         }
       };
       input.click();
     };
-    document.getElementById('heroCancelBtn').onclick = () => modal.style.display = 'none';
-    document.getElementById('heroSaveBtn').onclick = async () => {
-      const updated = {
+
+    document.getElementById('modalCancelBtn').onclick = async () => {
+      if (await confirmAction('Discard changes?')) modal.style.display = 'none';
+    };
+    document.getElementById('modalSaveBtn').onclick = async () => {
+      if (!await confirmAction('Save changes?')) return;
+      const updatedSettings = {
         workoutHeroHeading: document.getElementById('heroTitleInput').value,
         workoutHeroSubheading: document.getElementById('heroSubInput').value,
-        workoutHeroImage: document.getElementById('heroBgPreview').src
+        workoutHeroImage: newImageUrl
       };
-      const res = await fetchJSON(`${API_BASE}/sitesettings`, { method: 'PUT', body: JSON.stringify(updated) });
+      const res = await fetchJSON(`${API_BASE}/sitesettings`, {
+        method: 'PUT',
+        body: JSON.stringify(updatedSettings)
+      });
       if (res) {
+        siteSettings = { ...siteSettings, ...updatedSettings };
+        renderHero();
         modal.style.display = 'none';
-        await showSuccessModal('Hero updated');
-        loadAllData();
-      } else showToast('Update failed', true);
+        await showSuccessModal('Hero section updated');
+      } else {
+        showToast('Update failed', true);
+      }
     };
   }
 

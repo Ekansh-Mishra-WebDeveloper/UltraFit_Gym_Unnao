@@ -109,6 +109,7 @@
       border-radius: 40px;
       font-weight: 700;
       transition: all 0.3s ease;
+      display: inline-block;
     }
     .join-now-nav:hover {
       background: #e6c300;
@@ -194,7 +195,7 @@
       color: #121212;
       border-color: #FFD700;
     }
-    /* ---------- FILTER BAR (search + filter buttons side by side) ---------- */
+    /* ---------- FILTER BAR (only search, no filter buttons) ---------- */
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -219,25 +220,6 @@
       font-family: inherit;
     }
     .search-input:focus { border-color: var(--gold); outline: none; }
-    .filter-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .filter-btn {
-      background: transparent;
-      border: 1px solid var(--gold);
-      padding: 0.5rem 1.2rem;
-      border-radius: 40px;
-      color: var(--gold);
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.85rem;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: var(--gold);
-      color: #121212;
-    }
     /* ---------- PRODUCT GRID ---------- */
     .section-title {
       font-size: 2.5rem;
@@ -358,12 +340,25 @@
       font-weight: 500;
       color: #FFD700;
     }
-    /* Footer */
+    /* Footer (copied from workout.html) */
     footer {
-      background: #000;
-      padding: 3rem 0;
-      border-top: 1px solid rgba(255,215,0,0.3);
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255, 215, 0, 0.2);
+      padding: 3rem 0 2rem;
+      margin-top: 2rem;
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .footer-links {
       text-align: center;
+    }
+    .footer-links h4 {
+      font-size: 1.2rem;
+      color: #FFD700;
+      margin-bottom: 1rem;
     }
     .footer-links ul {
       display: flex;
@@ -373,12 +368,19 @@
       flex-wrap: wrap;
       margin-bottom: 1rem;
     }
-    .footer-links a { color: #ccc; text-decoration: none; }
-    .footer-links a:hover { color: var(--gold); }
-    .credit {
-      margin-top: 1rem;
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .footer-links a:hover {
+      color: #FFD700;
+    }
+    .footer-links .credit {
       font-size: 0.75rem;
-      opacity: 0.7;
+      color: #777;
+      margin-top: 1rem;
     }
     /* Modal Popup */
     .modal {
@@ -531,18 +533,9 @@
       <div class="category-item" data-cat="accessories">Accessories</div>
     </div>
 
-    <!-- Search + Filter (side by side) -->
+    <!-- Search only – no filter buttons -->
     <div class="filter-bar">
       <input type="text" id="searchInput" class="search-input" placeholder="🔎 Search products...">
-      <div class="filter-buttons" id="filterButtons">
-        <button data-filter="all" class="filter-btn active">All</button>
-        <button data-filter="protein" class="filter-btn">Protein</button>
-        <button data-filter="creatine" class="filter-btn">Creatine</button>
-        <button data-filter="preworkout" class="filter-btn">Pre-Workout</button>
-        <button data-filter="accessories" class="filter-btn">Accessories</button>
-        <button data-filter="bestseller" class="filter-btn">Best Sellers</button>
-        <button data-filter="trainerChoice" class="filter-btn">Trainer's Choice</button>
-      </div>
     </div>
 
     <!-- Products Grid -->
@@ -644,8 +637,7 @@
     else if (activeFilter === "creatine") filtered = filtered.filter(p => p.type === "creatine");
     else if (activeFilter === "preworkout") filtered = filtered.filter(p => p.type === "preworkout");
     else if (activeFilter === "accessories") filtered = filtered.filter(p => p.category === "accessories");
-    else if (activeFilter === "bestseller") filtered = filtered.filter(p => p.isBestseller === true);
-    else if (activeFilter === "trainerChoice") filtered = filtered.filter(p => p.isTrainerChoice === true);
+    // note: bestseller and trainerChoice filters are removed from UI, but kept in logic in case category strip uses them later
     if (searchQuery.trim() !== "") {
       filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
     }
@@ -787,15 +779,11 @@
     if (e.target === modal) modal.style.display = "none";
   });
 
-  // ---------- FILTER & CATEGORY HANDLERS ----------
+  // ---------- CATEGORY HANDLERS (only from strip) ----------
   function setActiveFilter(filterValue) {
     activeFilter = filterValue;
     currentLimit = 10;
     renderProducts();
-    document.querySelectorAll(".filter-btn").forEach(btn => {
-      if (btn.getAttribute("data-filter") === filterValue) btn.classList.add("active");
-      else btn.classList.remove("active");
-    });
     document.querySelectorAll(".category-item").forEach(cat => {
       const catVal = cat.getAttribute("data-cat");
       if ((catVal === filterValue) || (filterValue === "all" && catVal === "all")) cat.classList.add("active");
@@ -803,9 +791,6 @@
     });
   }
 
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", () => setActiveFilter(btn.getAttribute("data-filter")));
-  });
   document.querySelectorAll(".category-item").forEach(cat => {
     cat.addEventListener("click", () => {
       const val = cat.getAttribute("data-cat");

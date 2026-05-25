@@ -107,6 +107,7 @@
       border-radius: 40px;
       font-weight: 700;
       transition: all 0.3s ease;
+      display: inline-block;
     }
     .join-now-nav:hover {
       background: #e6c300;
@@ -150,12 +151,6 @@
       justify-content: center;
       text-align: center;
       border-bottom: 2px solid rgba(255,215,0,0.3);
-    }
-    .members-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 40%, rgba(0,0,0,0.5) 0%, #000000cc 100%);
     }
     .hero-content {
       position: relative;
@@ -208,6 +203,45 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin: 2rem 0 1rem;
+    }
+    .section-header .section-title {
+      margin: 0;
+      display: inline-block;
+    }
+    .view-toggle {
+      display: flex;
+      gap: 0.8rem;
+      background: rgba(20,20,25,0.6);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.8rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .toggle-icon {
+      background: transparent;
+      border: none;
+      color: #aaa;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      border-radius: 50%;
+      transition: 0.2s;
+      width: 40px;
+      text-align: center;
+    }
+    .toggle-icon.active {
+      color: #FFD700;
+      background: rgba(255,215,0,0.15);
+    }
+    .toggle-icon:hover {
+      color: #FFD700;
     }
     .membership-cards {
       display: flex;
@@ -359,6 +393,59 @@
     }
     .status-active { background: #2ecc2e20; color: #2ecc2e; border: 1px solid #2ecc2e; }
     .status-inactive { background: #e74c3c20; color: #e74c3c; border: 1px solid #e74c3c; }
+    .members-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 2rem 0;
+    }
+    .member-list-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(28,28,32,0.7);
+      backdrop-filter: blur(4px);
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255,215,0,0.15);
+      transition: all 0.2s;
+    }
+    .member-list-item:hover {
+      border-color: var(--gold);
+      background: rgba(28,28,32,0.9);
+    }
+    .list-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--gold);
+    }
+    .list-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .list-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .list-status {
+      font-size: 0.7rem;
+    }
+    @media (max-width: 600px) {
+      .list-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .member-list-item {
+        border-radius: 28px;
+      }
+    }
     .load-more-wrapper {
       text-align: center;
       margin: 2rem 0 3rem;
@@ -378,10 +465,23 @@
       color: #121212;
     }
     footer {
-      background: #000;
-      padding: 3rem 0;
-      border-top: 1px solid rgba(255,215,0,0.3);
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255, 215, 0, 0.2);
+      padding: 3rem 0 2rem;
+      margin-top: 2rem;
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .footer-links {
       text-align: center;
+    }
+    .footer-links h4 {
+      font-size: 1.2rem;
+      color: #FFD700;
+      margin-bottom: 1rem;
     }
     .footer-links ul {
       display: flex;
@@ -389,9 +489,117 @@
       gap: 2rem;
       list-style: none;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
-    .footer-links a { color: #ccc; text-decoration: none; }
-    .footer-links a:hover { color: var(--gold); }
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .footer-links a:hover {
+      color: #FFD700;
+    }
+    .footer-links .credit {
+      font-size: 0.75rem;
+      color: #777;
+      margin-top: 1rem;
+    }
+    /* ----- Premium Modal (same as index.html) ----- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #121212;
+      padding: 2rem;
+      border-radius: 32px;
+      width: 90%;
+      max-width: 450px;
+      position: relative;
+      border: 1px solid #FFD700;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+    }
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #FFD700;
+      transition: transform 0.2s;
+    }
+    .close-modal:hover { transform: scale(1.1); }
+    .modal-title {
+      font-size: 1.8rem;
+      text-align: center;
+      color: #FFD700;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .trial-form input {
+      width: 100%;
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      color: white;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .trial-form input:focus {
+      border-color: #FFD700;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,215,0,0.3);
+    }
+    .trial-form button {
+      width: 100%;
+      background: #FFD700;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.2s;
+      color: #121212;
+    }
+    .trial-form button:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .trial-message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 8px;
+      border-radius: 40px;
+    }
+    .trial-message.success { background: #2ecc2e20; color: #2ecc2e; }
+    .trial-message.error { background: #e74c3c20; color: #e74c3c; }
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #121212;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ----- end modal ----- */
     .floating-cta {
       position: fixed;
       bottom: 30px;
@@ -417,6 +625,11 @@
       .section-title { font-size: 2rem; }
       .filter-bar { flex-direction: column; align-items: stretch; }
       .members-grid { grid-template-columns: 1fr; }
+      .section-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
     }
     .fade-up {
       opacity: 0;
@@ -443,7 +656,7 @@
       <li><a href="diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="workout.html" class="nav-link">Workout Plan</a></li>
       <li><a href="members.html" class="nav-link">Gym Members</a></li>
-      <li><a href="index.html#proshop-preview" class="nav-link">Shop</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
     </ul>
     <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
   </div>
@@ -484,19 +697,24 @@
       <input type="text" id="searchInput" class="search-input" placeholder="🔎 Search members by name...">
       <div class="filter-buttons" id="filterButtons">
         <button data-filter="all" class="filter-btn active">All Members</button>
-        <button data-filter="beginner" class="filter-btn">Beginner</button>
-        <button data-filter="intermediate" class="filter-btn">Intermediate</button>
-        <button data-filter="expert" class="filter-btn">Expert</button>
-        <button data-filter="fatloss" class="filter-btn">Fat Loss</button>
-        <button data-filter="musclegain" class="filter-btn">Muscle Gain</button>
+        <button data-filter="active" class="filter-btn">Active</button>
+        <button data-filter="inactive" class="filter-btn">Inactive</button>
+        <button data-filter="alphabetical" class="filter-btn">Alphabetical</button>
+        <button data-filter="date" class="filter-btn">Date</button>
         <button data-filter="featured" class="filter-btn">Featured</button>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <h2 class="section-title">Meet Our Community</h2>
-    <div id="membersGridContainer" class="members-grid"></div>
+    <div class="section-header">
+      <h2 class="section-title">Meet Our Community</h2>
+      <div class="view-toggle">
+        <button id="gridViewBtn" class="toggle-icon active"><i class="fas fa-th"></i></button>
+        <button id="listViewBtn" class="toggle-icon"><i class="fas fa-list-ul"></i></button>
+      </div>
+    </div>
+    <div id="membersContainer"></div>
     <div class="load-more-wrapper">
       <button id="loadMoreBtn" class="btn-load-more">View More Members</button>
     </div>
@@ -517,6 +735,21 @@
   </div>
 </footer>
 
+<!-- Premium Modal for Free Trial -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <div class="modal-title">✨ Claim Your Free Trial</div>
+    <form id="trialForm" class="trial-form">
+      <input type="text" id="trialName" placeholder="Full Name" required>
+      <input type="tel" id="trialPhone" placeholder="Phone Number" required>
+      <input type="email" id="trialEmail" placeholder="Email Address" required>
+      <button type="submit" id="submitTrialBtn">Get My Free Pass</button>
+      <div id="trialMessage" class="trial-message" style="display: none;"></div>
+    </form>
+  </div>
+</div>
+
 <div class="floating-cta">
   <button class="floating-trial-btn" id="floatingTrialBtn">📅 Book 3-Day Free Trial</button>
 </div>
@@ -528,6 +761,12 @@
   let memberships = [];
   let allMembers = [];
   let featuredMembers = [];
+
+  let currentView = 'card';
+  let currentFilter = 'all';
+  let currentSort = 'default';
+  let currentSearch = '';
+  let currentDisplayLimit = 10;
 
   const API_BASE = '/api';
 
@@ -611,38 +850,36 @@
     `).join('');
   }
 
-  let currentDisplayLimit = 10;
-  let currentFilter = 'all';
-  let currentSearch = '';
-
-  function getFilteredMembers() {
+  function getProcessedMembers() {
     let filtered = [...allMembers];
-    if (currentFilter === 'featured') {
+    if (currentFilter === 'active') {
+      filtered = filtered.filter(m => m.status === 'active');
+    } else if (currentFilter === 'inactive') {
+      filtered = filtered.filter(m => m.status === 'inactive');
+    } else if (currentFilter === 'featured') {
       filtered = filtered.filter(m => m.featured === true);
-    } else if (currentFilter === 'beginner') {
-      filtered = filtered.filter(m => m.experience === 'beginner');
-    } else if (currentFilter === 'intermediate') {
-      filtered = filtered.filter(m => m.experience === 'intermediate');
-    } else if (currentFilter === 'expert') {
-      filtered = filtered.filter(m => m.experience === 'expert');
-    } else if (currentFilter === 'fatloss') {
-      filtered = filtered.filter(m => m.goal === 'fatloss');
-    } else if (currentFilter === 'musclegain') {
-      filtered = filtered.filter(m => m.goal === 'musclegain');
     }
     if (currentSearch.trim() !== '') {
       filtered = filtered.filter(m => m.name.toLowerCase().includes(currentSearch.toLowerCase()));
     }
+    if (currentSort === 'alphabetical') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (currentSort === 'date') {
+      filtered.sort((a, b) => {
+        const dateA = new Date(a.since);
+        const dateB = new Date(b.since);
+        return dateB - dateA;
+      });
+    }
     return filtered;
   }
 
-  function renderMembersGrid() {
-    const filtered = getFilteredMembers();
-    const displayMembers = filtered.slice(0, currentDisplayLimit);
-    const container = document.getElementById('membersGridContainer');
-    if (!container) return;
+  function renderCardView(members) {
+    const container = document.getElementById('membersContainer');
     container.innerHTML = '';
-    displayMembers.forEach(m => {
+    const grid = document.createElement('div');
+    grid.className = 'members-grid';
+    members.forEach(m => {
       const expLabel = m.experience === 'beginner' ? 'Beginner' : (m.experience === 'intermediate' ? 'Intermediate' : 'Expert');
       const goalLabel = m.goal === 'fatloss' ? '🔥 Fat Loss' : '💪 Muscle Gain';
       const statusClass = m.status === 'active' ? 'status-active' : 'status-inactive';
@@ -659,13 +896,9 @@
         </div>
         <div><span class="status-badge ${statusClass}">${statusText}</span></div>
       `;
-      container.appendChild(card);
+      grid.appendChild(card);
     });
-    const loadBtn = document.getElementById('loadMoreBtn');
-    if (loadBtn) {
-      if (filtered.length <= currentDisplayLimit) loadBtn.style.display = 'none';
-      else loadBtn.style.display = 'inline-block';
-    }
+    container.appendChild(grid);
     const newCards = document.querySelectorAll('.member-card.fade-up');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });
@@ -673,20 +906,92 @@
     newCards.forEach(card => observer.observe(card));
   }
 
-  function loadMore() {
-    currentDisplayLimit += 10;
-    renderMembersGrid();
+  function renderListView(members) {
+    const container = document.getElementById('membersContainer');
+    container.innerHTML = '';
+    const list = document.createElement('div');
+    list.className = 'members-list';
+    members.forEach(m => {
+      const statusClass = m.status === 'active' ? 'status-active' : 'status-inactive';
+      const statusText = m.status === 'active' ? 'Active' : 'Inactive';
+      const item = document.createElement('div');
+      item.className = 'member-list-item fade-up';
+      item.innerHTML = `
+        <img class="list-avatar" src="${m.photoUrl}" alt="${m.name}">
+        <div class="list-info">
+          <span class="list-name">${m.name}</span>
+          <span class="status-badge ${statusClass} list-status">${statusText}</span>
+        </div>
+      `;
+      list.appendChild(item);
+    });
+    container.appendChild(list);
+    const newItems = document.querySelectorAll('.member-list-item.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });
+    }, { threshold: 0.1 });
+    newItems.forEach(item => observer.observe(item));
   }
 
-  function initFilters() {
+  function renderMembers() {
+    const processed = getProcessedMembers();
+    const displayMembers = processed.slice(0, currentDisplayLimit);
+    if (currentView === 'card') {
+      renderCardView(displayMembers);
+    } else {
+      renderListView(displayMembers);
+    }
+    const loadBtn = document.getElementById('loadMoreBtn');
+    if (loadBtn) {
+      if (processed.length <= currentDisplayLimit) loadBtn.style.display = 'none';
+      else loadBtn.style.display = 'inline-block';
+    }
+  }
+
+  function loadMore() {
+    currentDisplayLimit += 10;
+    renderMembers();
+  }
+
+  function initFiltersAndSort() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+        const value = btn.getAttribute('data-filter');
+        if (value === 'alphabetical') {
+          if (currentSort === 'alphabetical') {
+            currentSort = 'default';
+            btn.classList.remove('active');
+          } else {
+            currentSort = 'alphabetical';
+            document.querySelector('.filter-btn[data-filter="date"]')?.classList.remove('active');
+            btn.classList.add('active');
+          }
+          currentDisplayLimit = 10;
+          renderMembers();
+          return;
+        }
+        if (value === 'date') {
+          if (currentSort === 'date') {
+            currentSort = 'default';
+            btn.classList.remove('active');
+          } else {
+            currentSort = 'date';
+            document.querySelector('.filter-btn[data-filter="alphabetical"]')?.classList.remove('active');
+            btn.classList.add('active');
+          }
+          currentDisplayLimit = 10;
+          renderMembers();
+          return;
+        }
+        filterBtns.forEach(b => {
+          const val = b.getAttribute('data-filter');
+          if (val !== 'alphabetical' && val !== 'date') b.classList.remove('active');
+        });
         btn.classList.add('active');
-        currentFilter = btn.getAttribute('data-filter');
+        currentFilter = value;
         currentDisplayLimit = 10;
-        renderMembersGrid();
+        renderMembers();
       });
     });
     const searchInput = document.getElementById('searchInput');
@@ -694,22 +999,109 @@
       searchInput.addEventListener('input', (e) => {
         currentSearch = e.target.value;
         currentDisplayLimit = 10;
-        renderMembersGrid();
+        renderMembers();
       });
     }
   }
 
+  function initViewToggle() {
+    const gridBtn = document.getElementById('gridViewBtn');
+    const listBtn = document.getElementById('listViewBtn');
+    gridBtn.addEventListener('click', () => {
+      currentView = 'card';
+      gridBtn.classList.add('active');
+      listBtn.classList.remove('active');
+      renderMembers();
+    });
+    listBtn.addEventListener('click', () => {
+      currentView = 'list';
+      listBtn.classList.add('active');
+      gridBtn.classList.remove('active');
+      renderMembers();
+    });
+  }
+
+  // ----- MODAL AND TRIAL SUBMISSION -----
+  const modalOverlay = document.getElementById('modalOverlay');
+  function openTrialModal() {
+    document.getElementById('trialForm').reset();
+    const msgDiv = document.getElementById('trialMessage');
+    msgDiv.style.display = 'none';
+    msgDiv.innerHTML = '';
+    modalOverlay.style.display = 'flex';
+  }
+
+  async function submitTrialForm(e) {
+    e.preventDefault();
+    const name = document.getElementById('trialName').value.trim();
+    const phone = document.getElementById('trialPhone').value.trim();
+    const email = document.getElementById('trialEmail').value.trim();
+
+    if (!name || !phone || !email) {
+      showTrialMessage('Please fill in all fields.', 'error');
+      return;
+    }
+
+    const submitBtn = document.getElementById('submitTrialBtn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch(`${API_BASE}/book-trial`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email })
+      });
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        showTrialMessage(data.message || '✅ Trial booked! Check your email.', 'success');
+        setTimeout(() => {
+          modalOverlay.style.display = 'none';
+          document.getElementById('trialForm').reset();
+        }, 3000);
+      } else {
+        showTrialMessage(data.message || 'Something went wrong. Please try again.', 'error');
+      }
+    } catch (err) {
+      console.error('Trial booking error:', err);
+      showTrialMessage('Network error. Please check your connection.', 'error');
+    } finally {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  }
+
+  function showTrialMessage(msg, type) {
+    const msgDiv = document.getElementById('trialMessage');
+    msgDiv.innerHTML = msg;
+    msgDiv.className = `trial-message ${type}`;
+    msgDiv.style.display = 'block';
+    setTimeout(() => {
+      msgDiv.style.display = 'none';
+    }, 5000);
+  }
+
+  // attach modal close events
+  document.querySelectorAll('.close-modal').forEach(btn => btn.addEventListener('click', () => modalOverlay.style.display = 'none'));
+  modalOverlay?.addEventListener('click', (e) => { if (e.target === modalOverlay) modalOverlay.style.display = 'none'; });
+  document.getElementById('trialForm')?.addEventListener('submit', submitTrialForm);
+
+  // ----- INITIALIZE PAGE -----
   (async function init() {
     await loadData();
     renderHero();
     renderStats();
     renderMemberships();
     renderFeatured();
-    renderMembersGrid();
-    initFilters();
+    initFiltersAndSort();
+    initViewToggle();
+    renderMembers();
     document.getElementById('loadMoreBtn')?.addEventListener('click', loadMore);
   })();
 
+  // ----- NAVBAR SCROLL & HAMBURGER -----
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) navbar.classList.add('scrolled');
@@ -719,10 +1111,10 @@
   const navLinks = document.getElementById('navLinks');
   if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-  document.getElementById('floatingTrialBtn')?.addEventListener('click', () => {
-    alert('✨ 3-Day Free Trial activated! Our team will contact you shortly.');
-  });
+  // ----- FLOATING BUTTON OPENS MODAL (instead of alert) -----
+  document.getElementById('floatingTrialBtn')?.addEventListener('click', openTrialModal);
 
+  // ----- FADE-IN ANIMATIONS (unchanged) -----
   const fadeElements = document.querySelectorAll('.stat-card, .membership-card, .filter-bar, .section-title');
   const fadeObs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('appear'); });

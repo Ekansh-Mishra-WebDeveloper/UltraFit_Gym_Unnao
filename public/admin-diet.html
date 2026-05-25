@@ -8,7 +8,77 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* ========== EXACT SAME STYLES AS diet.html ========== */
+    /* ========== EXACT SAME STYLES AS diet.html (but with fixed navbar & footer) ========== */
+    /* Modal image preview container – same as admin.html */
+    /* ========== FOOTER – exactly like admin.html ========== */
+footer {
+  background: #000;
+  padding: 3rem 0;
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+  text-align: center;
+}
+.footer-grid {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.footer-links ul {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  list-style: none;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.footer-links a:hover {
+  color: #FFD700;
+}
+.credit {
+  margin-top: 1rem;
+}
+.credit a {
+  color: #FFD700;
+  text-decoration: none;
+}
+.credit a:hover {
+  text-decoration: underline;
+}
+.modal-image-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.modal-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 16px;
+  border: 1px solid #FFD700;
+  object-fit: cover;
+}
+.current-image-preview {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+/* Ensure image-upload-area is consistent */
+.image-upload-area {
+  border: 2px dashed #FFD700;
+  border-radius: 20px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  background: rgba(0,0,0,0.3);
+  transition: 0.2s;
+}
+.image-upload-area:hover {
+  background: rgba(255,215,0,0.1);
+}
     * {
       margin: 0;
       padding: 0;
@@ -33,6 +103,7 @@
       margin: 0 auto;
       padding: 0 2rem;
     }
+    /* ===== FIXED NAVBAR (same as admin.html) ===== */
     .navbar {
       position: fixed;
       top: 0;
@@ -101,6 +172,7 @@
       transition: transform 0.2s ease;
     }
     .nav-link:not(.join-now-nav):hover::after { transform: scaleX(1); }
+    /* Fixed join button – no overlap */
     .join-now-nav {
       background: #FFD700;
       color: #121212 !important;
@@ -108,6 +180,8 @@
       border-radius: 40px;
       font-weight: 700;
       transition: all 0.3s ease;
+      white-space: nowrap;
+      display: inline-block;
     }
     .join-now-nav:hover {
       background: #e6c300;
@@ -138,7 +212,12 @@
       .nav-links.active { display: flex; }
       .hamburger { display: block; }
       .container { padding: 0 1.5rem; }
+      .join-now-nav {
+        padding: 0.5rem 1.2rem !important;
+        font-size: 0.9rem;
+      }
     }
+    /* Hero section */
     .diet-hero {
       position: relative;
       min-height: 65vh;
@@ -175,6 +254,7 @@
       max-width: 600px;
       margin: 1rem auto 0;
     }
+    /* Category headers */
     .category-luxury {
       text-align: center;
       font-size: 2.8rem;
@@ -200,6 +280,7 @@
       border-radius: 4px;
       box-shadow: 0 0 8px #FFD700;
     }
+    /* Plan groups */
     .plan-group {
       margin-bottom: 3rem;
       background: rgba(0,0,0,0.3);
@@ -349,11 +430,17 @@
       background: #FFD700;
       transform: scale(1.3);
     }
+    /* ===== FOOTER (exactly like admin.html) ===== */
     footer {
       background: #000;
       padding: 3rem 0;
       border-top: 1px solid rgba(255,215,0,0.3);
       text-align: center;
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
     .footer-links ul {
       display: flex;
@@ -369,6 +456,13 @@
     .footer-links a:hover {
       color: var(--gold);
     }
+    .credit {
+      margin-top: 1rem;
+    }
+    .credit a {
+      color: #FFD700;
+    }
+    /* Admin buttons */
     .section-header-flex {
       display: flex;
       justify-content: space-between;
@@ -393,24 +487,6 @@
       background: #FFD700;
       color: #121212;
       transform: scale(1.02);
-    }
-    .pdf-icon {
-      background: rgba(255,215,0,0.1);
-      border: 1px solid rgba(255,215,0,0.4);
-      border-radius: 40px;
-      padding: 0.5rem 1.2rem;
-      color: #FFD700;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: 1rem;
-    }
-    .pdf-icon:hover {
-      background: #FFD700;
-      color: #121212;
     }
     .card-update-btn {
       display: block;
@@ -449,6 +525,7 @@
       transform: scale(1.04);
       box-shadow: 0 0 12px rgba(255,215,0,0.4);
     }
+    /* Modals (same as admin.html style) */
     .premium-modal {
       position: fixed;
       top: 0;
@@ -605,6 +682,22 @@
       background: #e6c300;
       transform: scale(1.02);
     }
+    /* Styled OK button for success modal */
+    .success-card button {
+      background: #FFD700;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #121212;
+      margin-top: 1rem;
+    }
+    .success-card button:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
     .selection-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -629,12 +722,6 @@
       border-color: #FFD700;
       background: rgba(255,215,0,0.2);
       box-shadow: 0 0 10px rgba(255,215,0,0.3);
-    }
-    .selection-card i {
-      font-size: 2rem;
-      color: #FFD700;
-      margin-bottom: 0.5rem;
-      display: block;
     }
     .confirm-modal, .success-modal {
       position: fixed;
@@ -685,14 +772,6 @@
       background: #444;
       color: white;
     }
-    .success-card button {
-      background: #FFD700;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 40px;
-      margin-top: 1rem;
-      cursor: pointer;
-    }
     .admin-toast {
       position: fixed;
       bottom: 30px;
@@ -723,12 +802,12 @@
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
-      <img src="UltraFit logo.png" alt="UltraFit Logo" class="nav-logo-img" width="38" height="38" />
+      <img src="UltraFit logo.png" alt="UltraFit Logo" class="nav-logo-img" id="navLogo">
       <div class="logo"><span class="logo-ultra">ULTRA</span><span class="logo-fit">FIT</span></div>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="admin.html" class="nav-link">Home</a></li>
       <li><a href="admin.html" class="nav-link join-now-nav">Join Now</a></li>
+      <li><a href="admin.html#contact-section" class="nav-link">Contact Us</a></li>
       <li><a href="admin-diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="admin-workout.html" class="nav-link">Workout Plan</a></li>
       <li><a href="admin-members.html" class="nav-link">Gym Members</a></li>
@@ -743,7 +822,7 @@
     <div class="hero-content-center">
       <h1 id="heroTitle">Diet & Nutrition Plans</h1>
       <p id="heroSubheading" class="hero-sub">Scientifically crafted · Michelin-inspired meals · Unlock your potential</p>
-      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Update</button>
+      <button class="standard-update-btn" id="editHeroBtn" style="margin-top: 1.5rem;"><i class="fas fa-pencil-alt"></i> Edit Section</button>
     </div>
   </div>
 
@@ -753,7 +832,7 @@
     <div class="section-header-flex">
       <div></div>
       <div>
-        <button class="pdf-icon" id="pdfVegBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+        <!-- PDF button removed -->
         <button class="admin-add-icon" id="addVegMealBtn"><i class="fas fa-plus"></i> Add Meal</button>
       </div>
     </div>
@@ -764,7 +843,7 @@
     <div class="section-header-flex">
       <div></div>
       <div>
-        <button class="pdf-icon" id="pdfEggBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+        <!-- PDF button removed -->
         <button class="admin-add-icon" id="addEggMealBtn"><i class="fas fa-plus"></i> Add Meal</button>
       </div>
     </div>
@@ -775,7 +854,7 @@
     <div class="section-header-flex">
       <div></div>
       <div>
-        <button class="pdf-icon" id="pdfNonvegBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+        <!-- PDF button removed -->
         <button class="admin-add-icon" id="addNonvegMealBtn"><i class="fas fa-plus"></i> Add Meal</button>
       </div>
     </div>
@@ -783,8 +862,9 @@
   </div>
 </main>
 
+<!-- FOOTER (exactly like admin.html) -->
 <footer>
-  <div class="container footer-grid">
+  <div class="footer-grid">
     <div class="footer-links">
       <h4>UltraFit Gym</h4>
       <ul>
@@ -808,10 +888,23 @@
 <div id="adminToast" class="admin-toast"></div>
 
 <script>
-  // ========== PREMIUM DIET ADMIN ==========
+  // ========== PREMIUM DIET ADMIN WITH AUTHENTICATION & PROPER IMAGE UPLOAD ==========
   const API_BASE = '/api';
   const DEFAULT_IMAGE = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400';
   const PLACEHOLDER_TEXT = 'No information provided';
+
+  // Authentication
+  let adminToken = localStorage.getItem('adminToken');
+  let isAuthenticated = !!adminToken;
+
+  function getAuthHeaders() {
+    return adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+  }
+
+  if (!isAuthenticated) {
+    alert('Please log in to the admin panel first.');
+    window.location.href = 'admin.html';
+  }
 
   function showToast(msg, isError = false) {
     const toast = document.getElementById('adminToast');
@@ -861,8 +954,19 @@
     try {
       const res = await fetch(url, {
         ...options,
-        headers: { 'Content-Type': 'application/json', ...options.headers }
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+          ...options.headers
+        }
       });
+      if (res.status === 401) {
+        localStorage.removeItem('adminToken');
+        adminToken = null;
+        alert('Session expired. Please login again.');
+        window.location.href = 'admin.html';
+        return null;
+      }
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); } catch(e) { data = text; }
@@ -981,6 +1085,8 @@
 
   function renderDietSections() {
     const sections = { veg: 'veg-section', egg: 'egg-section', nonveg: 'nonveg-section' };
+    const mealOrder = ['breakfast', 'lunch', 'dinner'];
+
     for (const [catKey, containerId] of Object.entries(sections)) {
       const container = document.getElementById(containerId);
       if (!container) continue;
@@ -991,17 +1097,23 @@
         if (titleSpan) titleSpan.innerText = category.displayName;
       }
       const mealTimes = [...new Set(dietMeals.filter(m => m.categoryKey === catKey).map(m => m.mealTime))];
+      const sortedMealTimes = mealTimes.sort((a, b) => {
+        const indexA = mealOrder.indexOf(a);
+        const indexB = mealOrder.indexOf(b);
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+      });
+
       for (const type of ['gain', 'loss']) {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'plan-group';
-        const typeLabel = type === 'gain' ? '🔹 WEIGHT GAIN' : '🔸 WEIGHT LOSS';
+        const typeLabel = type === 'gain' ? '💪 MUSCLE GAIN' : '🔥 FAT LOSS';
         groupDiv.innerHTML = `<div class="plan-title">${typeLabel}</div>`;
         const mealsFlex = document.createElement('div');
         mealsFlex.style.display = 'flex';
         mealsFlex.style.flexWrap = 'wrap';
         mealsFlex.style.gap = '1.5rem';
         let hasAny = false;
-        for (const mealTime of mealTimes) {
+        for (const mealTime of sortedMealTimes) {
           const variants = dietMeals.filter(m => m.categoryKey === catKey && m.type === type && m.mealTime === mealTime);
           if (variants.length) {
             hasAny = true;
@@ -1009,7 +1121,8 @@
             col.style.flex = '1';
             col.style.minWidth = '280px';
             const groupKey = `${catKey}|${type}|${mealTime}`;
-            buildMealCarousel(variants, mealTime.charAt(0).toUpperCase() + mealTime.slice(1), col, groupKey);
+            const displayMealTime = mealTime.charAt(0).toUpperCase() + mealTime.slice(1);
+            buildMealCarousel(variants, displayMealTime, col, groupKey);
             mealsFlex.appendChild(col);
           }
         }
@@ -1047,7 +1160,7 @@
     });
     modalContainer.innerHTML = `
       <div class="premium-modal-card">
-        <h3><i class="fas fa-utensils"></i> Edit Meal: ${mealTime} (${categoryKey}) - ${type === 'gain' ? 'Weight Gain' : 'Weight Loss'}</h3>
+        <h3><i class="fas fa-utensils"></i> Edit Meal: ${mealTime} (${categoryKey}) - ${type === 'gain' ? 'Muscle Gain' : 'Fat Loss'}</h3>
         <div id="variantsContainer">${variantsHtml}</div>
         <button class="btn-add-variant" id="addVariantBtn">+ Add New Variant</button>
         <div class="modal-buttons">
@@ -1059,22 +1172,56 @@
     `;
     modalContainer.style.display = 'flex';
 
+    async function uploadImage(file, imgElementId) {
+      const formData = new FormData();
+      formData.append('image', file);
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: formData
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('adminToken');
+          adminToken = null;
+          alert('Session expired. Please login again.');
+          window.location.href = 'admin.html';
+          return null;
+        }
+        const data = await res.json();
+        if (data.url) {
+          document.getElementById(imgElementId).src = data.url;
+          showToast('Image uploaded successfully');
+          return data.url;
+        } else {
+          showToast('Upload failed – no URL returned', true);
+          return null;
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Upload error: ' + err.message, true);
+        return null;
+      }
+    }
+
     function attachImageUploads() {
       document.querySelectorAll('.image-upload-area').forEach(area => {
-        area.onclick = () => {
+        area.onclick = async () => {
           const imgIdx = area.getAttribute('data-img-idx');
           const input = document.createElement('input');
           input.type = 'file';
           input.accept = 'image/*';
-          input.onchange = (ev) => {
+          input.onchange = async (ev) => {
             const file = ev.target.files[0];
-            if (file) {
-              const reader = new FileReader();
-              reader.onload = (event) => {
-                document.getElementById(`variantImg${imgIdx}`).src = event.target.result;
-              };
-              reader.readAsDataURL(file);
-            }
+            if (!file) return;
+            const originalText = area.innerText;
+            area.style.opacity = '0.6';
+            area.style.cursor = 'wait';
+            area.innerText = 'Uploading...';
+            await uploadImage(file, `variantImg${imgIdx}`);
+            area.style.opacity = '1';
+            area.style.cursor = 'pointer';
+            area.innerText = originalText;
           };
           input.click();
         };
@@ -1192,8 +1339,8 @@
         <div class="field-group">
           <label>Plan Type</label>
           <div class="selection-grid" id="typeGrid">
-            <div class="selection-card" data-value="gain"><i class="fas fa-arrow-up"></i> Weight Gain</div>
-            <div class="selection-card" data-value="loss"><i class="fas fa-arrow-down"></i> Weight Loss</div>
+            <div class="selection-card" data-value="gain"><i class="fas fa-arrow-up"></i> Muscle Gain</div>
+            <div class="selection-card" data-value="loss"><i class="fas fa-arrow-down"></i> Fat Loss</div>
           </div>
         </div>
         <div class="modal-buttons">
@@ -1251,119 +1398,116 @@
     };
   }
 
-  async function managePDF(categoryKey) {
-    const category = dietCategories.find(c => c.key === categoryKey);
-    if (!category) return;
-    const currentPdfUrl = category.pdfUrl || '';
+  // ========== EDIT SECTION MODAL (with auth token) ==========
+  async function editSection() {
     const modal = document.getElementById('modalContainer');
+    const currentImageUrl = siteSettings.dietHeroBg || '';
+    const currentTitle = siteSettings.dietHeroHeading || 'Diet & Nutrition Plans';
+    const currentSub = siteSettings.dietHeroSubheading || 'Scientifically crafted · Michelin-inspired meals · Unlock your potential';
+
     modal.innerHTML = `
       <div class="premium-modal-card">
-        <h3>Manage PDF for ${category.displayName}</h3>
+        <h3><i class="fas fa-image"></i> Edit Section</h3>
         <div class="field-group">
-          <label>Current PDF</label>
-          <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-            ${currentPdfUrl ? `<a href="${currentPdfUrl}" target="_blank" style="color:#FFD700;"><i class="fas fa-file-pdf"></i> View PDF</a>
-            <button id="deletePdfBtn" style="background:#e74c3c20; border:1px solid #e74c3c; color:#e74c3c; padding:0.3rem 1rem; border-radius:40px; cursor:pointer;">Delete PDF</button>` : '<span>No PDF uploaded</span>'}
+          <label>Current Hero Image</label>
+          <div class="modal-image-container">
+            <img id="currentHeroImagePreview" class="modal-image" 
+                 src="${currentImageUrl}" 
+                 onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
           </div>
         </div>
-        <div class="image-upload-area" id="uploadPdfArea"><i class="fas fa-cloud-upload-alt"></i> Upload New PDF</div>
+        <div class="field-group">
+          <label>Upload New Hero Image</label>
+          <div class="image-upload-area" id="heroBgUploadArea">
+            <i class="fas fa-cloud-upload-alt"></i> Click to upload
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Title (Heading)</label>
+          <input type="text" id="heroTitleInput" value="${escapeHtml(currentTitle)}">
+        </div>
+        <div class="field-group">
+          <label>Subheading</label>
+          <input type="text" id="heroSubInput" value="${escapeHtml(currentSub)}">
+        </div>
         <div class="modal-buttons">
-          <button class="modal-btn-cancel" id="pdfCancelBtn">Close</button>
+          <button class="modal-btn-cancel" id="modalCancelBtn">Cancel</button>
+          <button class="modal-btn-save" id="modalSaveBtn">Save Changes</button>
         </div>
       </div>
     `;
     modal.style.display = 'flex';
 
-    document.getElementById('uploadPdfArea').onclick = () => {
+    let newImageUrl = currentImageUrl;
+    const previewImg = document.getElementById('currentHeroImagePreview');
+    const uploadArea = document.getElementById('heroBgUploadArea');
+    uploadArea.onclick = async () => {
       const input = document.createElement('input');
       input.type = 'file';
-      input.accept = 'application/pdf';
+      input.accept = 'image/*';
       input.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         const formData = new FormData();
-        formData.append('pdf', file);
+        formData.append('image', file);
+        const originalText = uploadArea.innerText;
+        uploadArea.style.opacity = '0.6';
+        uploadArea.style.cursor = 'wait';
+        uploadArea.innerText = 'Uploading...';
         try {
-          const res = await fetch(`${API_BASE}/upload/pdf`, { method: 'POST', body: formData });
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: formData
+          });
+          if (res.status === 401) {
+            localStorage.removeItem('adminToken');
+            adminToken = null;
+            alert('Session expired. Please login again.');
+            window.location.href = 'admin.html';
+            return;
+          }
           const data = await res.json();
           if (data.url) {
-            const updated = await fetchJSON(`${API_BASE}/dietcategories/${category._id}`, {
-              method: 'PUT',
-              body: JSON.stringify({ pdfUrl: data.url })
-            });
-            if (updated) {
-              showToast('PDF uploaded');
-              modal.style.display = 'none';
-              loadAllData();
-            } else showToast('Update failed', true);
-          } else throw new Error('No URL');
-        } catch (err) {
-          showToast('Upload failed', true);
-        }
-      };
-      input.click();
-    };
-
-    if (currentPdfUrl) {
-      document.getElementById('deletePdfBtn')?.addEventListener('click', async () => {
-        if (await confirmAction('Remove this PDF?')) {
-          const updated = await fetchJSON(`${API_BASE}/dietcategories/${category._id}`, {
-            method: 'PUT',
-            body: JSON.stringify({ pdfUrl: '' })
-          });
-          if (updated) {
-            modal.style.display = 'none';
-            await showSuccessModal('PDF deleted');
-            loadAllData();
+            newImageUrl = data.url;
+            previewImg.src = newImageUrl;
+            showToast('Image uploaded. Click Save to apply.');
+          } else {
+            showToast('Upload failed', true);
           }
-        }
-      });
-    }
-    document.getElementById('pdfCancelBtn').onclick = () => modal.style.display = 'none';
-  }
-
-  async function editHero() {
-    const modal = document.getElementById('modalContainer');
-    modal.innerHTML = `
-      <div class="premium-modal-card">
-        <h3>Edit Hero Section</h3>
-        <div class="field-group"><label>Title</label><input type="text" id="heroTitleInput" value="${escapeHtml(siteSettings.dietHeroHeading || 'Diet & Nutrition Plans')}"></div>
-        <div class="field-group"><label>Subheading</label><input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.dietHeroSubheading || 'Scientifically crafted · Michelin-inspired meals · Unlock your potential')}"></div>
-        <div class="field-group"><label>Background Image</label><img id="heroBgPreview" class="image-preview-large" src="${siteSettings.dietHeroBg || ''}"><div class="image-upload-area" id="heroBgUpload">Upload New Background</div></div>
-        <div class="modal-buttons">
-          <button class="modal-btn-cancel" id="heroCancelBtn">Cancel</button>
-          <button class="modal-btn-save" id="heroSaveBtn">Save</button>
-        </div>
-      </div>
-    `;
-    modal.style.display = 'flex';
-    document.getElementById('heroBgUpload').onclick = () => {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (ev) => { document.getElementById('heroBgPreview').src = ev.target.result; };
-          reader.readAsDataURL(file);
+        } catch (err) {
+          showToast('Upload error: ' + err.message, true);
+        } finally {
+          uploadArea.style.opacity = '1';
+          uploadArea.style.cursor = 'pointer';
+          uploadArea.innerText = originalText;
         }
       };
       input.click();
     };
-    document.getElementById('heroCancelBtn').onclick = () => modal.style.display = 'none';
-    document.getElementById('heroSaveBtn').onclick = async () => {
-      const updated = {
+
+    document.getElementById('modalCancelBtn').onclick = async () => {
+      if (await confirmAction('Discard changes?')) modal.style.display = 'none';
+    };
+    document.getElementById('modalSaveBtn').onclick = async () => {
+      if (!await confirmAction('Save changes?')) return;
+      const updatedSettings = {
         dietHeroHeading: document.getElementById('heroTitleInput').value,
         dietHeroSubheading: document.getElementById('heroSubInput').value,
-        dietHeroBg: document.getElementById('heroBgPreview').src
+        dietHeroBg: newImageUrl
       };
-      const res = await fetchJSON(`${API_BASE}/sitesettings`, { method: 'PUT', body: JSON.stringify(updated) });
+      const res = await fetchJSON(`${API_BASE}/sitesettings`, {
+        method: 'PUT',
+        body: JSON.stringify(updatedSettings)
+      });
       if (res) {
+        siteSettings = { ...siteSettings, ...updatedSettings };
+        renderHero();
         modal.style.display = 'none';
-        await showSuccessModal('Hero updated');
-        loadAllData();
-      } else showToast('Update failed', true);
+        await showSuccessModal('Hero section updated');
+      } else {
+        showToast('Update failed', true);
+      }
     };
   }
 
@@ -1377,14 +1521,11 @@
     });
   }
 
-  // Event listeners
-  document.getElementById('editHeroBtn')?.addEventListener('click', editHero);
+  // Event listeners (PDF buttons removed)
+  document.getElementById('editHeroBtn')?.addEventListener('click', editSection);
   document.getElementById('addVegMealBtn')?.addEventListener('click', () => addNewCarousel('veg'));
   document.getElementById('addEggMealBtn')?.addEventListener('click', () => addNewCarousel('egg'));
   document.getElementById('addNonvegMealBtn')?.addEventListener('click', () => addNewCarousel('nonveg'));
-  document.getElementById('pdfVegBtn')?.addEventListener('click', () => managePDF('veg'));
-  document.getElementById('pdfEggBtn')?.addEventListener('click', () => managePDF('egg'));
-  document.getElementById('pdfNonvegBtn')?.addEventListener('click', () => managePDF('nonveg'));
 
   // Navbar scroll & hamburger
   const navbar = document.getElementById('navbar');

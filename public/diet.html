@@ -10,7 +10,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="stylesheet" href="index.css" />
   <style>
-    /* Same styles as your original diet.html – keep unchanged */
+    /* ========== SAME STYLES AS ORIGINAL (unchanged) ========== */
+    #calculateCalorieBtn {
+  padding: 0.8rem 1.5rem !important;
+  font-size: 1rem !important;
+  white-space: nowrap;
+}
     :root {
       --gold: #FFD700;
       --gold-glow: 0 0 12px rgba(255,215,0,0.5);
@@ -19,6 +24,7 @@
       --glass-edge: 1px solid rgba(255,215,0,0.2);
     }
     body { background: #0a0a0a; }
+
     .diet-hero {
       position: relative;
       min-height: 65vh;
@@ -32,12 +38,6 @@
       text-align: center;
       margin-top: 0;
       border-bottom: 2px solid rgba(255,215,0,0.3);
-    }
-    .diet-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 40%, rgba(0,0,0,0.5) 0%, #000000cc 100%);
     }
     .hero-content-center {
       position: relative;
@@ -98,17 +98,41 @@
       border-radius: 48px;
       padding: 1.5rem;
       backdrop-filter: blur(2px);
+      position: relative;
     }
     .plan-title {
       font-size: 1.8rem;
       font-weight: 700;
       margin-bottom: 1.2rem;
       display: flex;
+      justify-content: space-between;
       align-items: center;
       gap: 0.8rem;
       color: #FFD700;
       border-left: 4px solid #FFD700;
       padding-left: 1rem;
+      flex-wrap: wrap;
+    }
+    .plan-title span:first-child {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .pdf-btn-inside {
+      background: transparent;
+      border: 1px solid #FFD700;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: #FFD700;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .pdf-btn-inside:hover {
+      background: #FFD700;
+      color: #121212;
     }
     .meal-carousel-container {
       margin-bottom: 2rem;
@@ -252,27 +276,6 @@
       transform: scale(1.3);
       box-shadow: 0 0 6px gold;
     }
-    .pdf-download-group {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin: 1rem 0 2rem;
-    }
-    .btn-pdf {
-      background: transparent;
-      border: 1px solid #FFD700;
-      padding: 0.5rem 1.2rem;
-      border-radius: 60px;
-      color: #FFD700;
-      font-weight: 600;
-      transition: all 0.25s;
-      cursor: pointer;
-    }
-    .btn-pdf:hover {
-      background: #FFD700;
-      color: #121212;
-      box-shadow: 0 0 12px gold;
-    }
     .calculator-luxury {
       background: rgba(20,20,28,0.85);
       backdrop-filter: blur(12px);
@@ -317,13 +320,188 @@
       .category-luxury { font-size: 2rem; }
       .plan-title { font-size: 1.4rem; }
       .meal-card { padding: 1rem; }
+      .plan-title { flex-direction: column; align-items: flex-start; }
+      .pdf-btn-inside { margin-top: 0.5rem; }
     }
     footer { margin-top: 3rem; }
+    footer {
+      background: #000;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(255,215,0,0.3);
+      text-align: center;
+    }
+    .footer-links ul {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    .footer-links a { color: #ccc; text-decoration: none; }
+    .footer-links a:hover { color: var(--gold); }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: transparent;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      padding: 1.2rem 0;
+    }
+    .navbar.scrolled {
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      padding: 0.7rem 0;
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .nav-logo-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,215,0,0.4);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .logo-ultra { color: #fff; }
+    .logo-fit { color: #FFD700; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-link {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .nav-link:hover { color: #FFD700; }
+    .join-now-nav {
+      background: #FFD700;
+      color: #121212 !important;
+      padding: 0.6rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 700;
+    }
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #FFD700;
+    }
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.95);
+        padding: 1.5rem;
+      }
+      .nav-links.active { display: flex; }
+      .hamburger { display: block; }
+      .nav-container { padding: 0 1.5rem; }
+    }
+
+    /* ========== PDF LAYOUT STYLES ========== */
+    .pdf-print-container {
+      background: white;
+      font-family: 'Montserrat', 'Archivo', sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      color: #121212;
+    }
+    .pdf-print-container h1 {
+      color: #FFD700;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .pdf-print-container .subhead {
+      text-align: center;
+      color: #333;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #FFD700;
+      display: inline-block;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 0.5rem;
+    }
+    .pdf-print-container .meal-section {
+      margin-bottom: 2rem;
+      page-break-inside: avoid;
+    }
+    .pdf-print-container .meal-header-pdf {
+      background: #f5f5f5;
+      padding: 0.8rem;
+      border-left: 6px solid #FFD700;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    .pdf-print-container table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+    .pdf-print-container th, .pdf-print-container td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      vertical-align: top;
+    }
+    .pdf-print-container th {
+      background: #FFD700;
+      color: #121212;
+      font-weight: 700;
+    }
+    .pdf-print-container .recommended-badge {
+      background: #FFD700;
+      color: #121212;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+    .pdf-print-container .meal-img {
+      max-width: 120px;
+      border-radius: 12px;
+    }
+    .pdf-footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #777;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
   </style>
 </head>
 <body>
 
-<!-- Navbar (same as homepage) -->
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
@@ -335,8 +513,8 @@
       <li><a href="index.html#contact-section" class="nav-link">Contact Us</a></li>
       <li><a href="diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="workout.html" class="nav-link">Workout Plan</a></li>
-      <li><a href="index.html#members-section" class="nav-link">Gym Members</a></li>
-      <li><a href="index.html#proshop-preview" class="nav-link">Shop</a></li>
+      <li><a href="members.html" class="nav-link">Gym Members</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
     </ul>
     <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
   </div>
@@ -353,17 +531,14 @@
   <div class="container">
     <!-- Vegetarian Section -->
     <div class="category-luxury"><span>🌱 Vegetarian Diet</span></div>
-    <div class="pdf-download-group"><button class="btn-pdf" data-category="veg">📄 Download Complete Veg Plan (PDF)</button></div>
     <div id="veg-section" class="diet-category-container"></div>
 
     <!-- Eggetarian Section -->
     <div class="category-luxury"><span>🥚 Eggetarian Diet</span></div>
-    <div class="pdf-download-group"><button class="btn-pdf" data-category="egg">📄 Download Complete Eggetarian Plan (PDF)</button></div>
     <div id="egg-section" class="diet-category-container"></div>
 
     <!-- Non-Veg Section -->
     <div class="category-luxury"><span>🍗 Non-Vegetarian Diet</span></div>
-    <div class="pdf-download-group"><button class="btn-pdf" data-category="nonveg">📄 Download Complete Non-Veg Plan (PDF)</button></div>
     <div id="nonveg-section" class="diet-category-container"></div>
 
     <!-- Calorie Calculator -->
@@ -385,8 +560,8 @@
 </footer>
 
 <script>
-  // ========== DYNAMIC DIET PAGE – SHOWS ALL MEAL TIMES ==========
-  const API_BASE = '/api';
+  // ========== DYNAMIC DIET PAGE – WITH LIVE PDF GENERATION ==========
+  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
   let siteSettings = {};
   let dietCategories = [];
   let dietMeals = [];
@@ -422,7 +597,107 @@
     if (heroSub && siteSettings.dietHeroSubheading) heroSub.innerText = siteSettings.dietHeroSubheading;
   }
 
-  // Build a carousel (identical to your original function)
+  // ========== PDF GENERATION (LIVE DATA, AUTO-DOWNLOAD) ==========
+  function generateDietPDF(categoryKey, planType) {
+    const category = dietCategories.find(c => c.key === categoryKey);
+    if (!category) {
+      alert('Category not found.');
+      return;
+    }
+    const displayCategory = category.displayName;
+    const planLabel = planType === 'gain' ? 'Muscle Gain' : 'Fat Loss';
+    const mealsForPlan = dietMeals.filter(m => m.categoryKey === categoryKey && m.type === planType);
+    if (!mealsForPlan.length) {
+      alert(`No ${planLabel} meals found for ${displayCategory}.`);
+      return;
+    }
+
+    // Group by mealTime and sort: Breakfast, Lunch, Dinner
+    const mealOrder = ['breakfast', 'lunch', 'dinner'];
+    const grouped = {};
+    mealsForPlan.forEach(meal => {
+      const time = meal.mealTime;
+      if (!grouped[time]) grouped[time] = [];
+      grouped[time].push(meal);
+    });
+    const sortedMealTimes = Object.keys(grouped).sort((a,b) => {
+      const ia = mealOrder.indexOf(a);
+      const ib = mealOrder.indexOf(b);
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    });
+
+    // Build HTML content for PDF
+    let htmlContent = `
+      <div class="pdf-print-container">
+        <h1>${escapeHtml(displayCategory)} – ${planLabel} Plan</h1>
+        <div style="text-align:center;"><span class="subhead">UltraFit Gym • Scientifically crafted nutrition</span></div>
+        <p style="text-align:center; margin-top:1rem;">Generated on ${new Date().toLocaleDateString()}</p>
+    `;
+
+    let totalDailyCalories = 0;
+    let totalDailyProtein = 0;
+
+    for (const mealTime of sortedMealTimes) {
+      const meals = grouped[mealTime];
+      const displayMeal = mealTime.charAt(0).toUpperCase() + mealTime.slice(1);
+      htmlContent += `<div class="meal-section"><div class="meal-header-pdf">${displayMeal}</div>`;
+      htmlContent += `<table><thead><tr><th>Image</th><th>Meal Name</th><th>Ingredients</th><th>Quantity</th><th>Calories</th><th>Protein (g)</th></tr></thead><tbody>`;
+      meals.forEach(meal => {
+        const recommendedBadge = meal.isRecommended ? '<span class="recommended-badge">⭐ RECOMMENDED</span>' : '';
+        totalDailyCalories += meal.calories;
+        totalDailyProtein += meal.protein;
+        htmlContent += `
+          <tr>
+            <td><img class="meal-img" src="${meal.imageUrl}" alt="${escapeHtml(meal.name)}" style="max-width:100px; border-radius:8px;" onerror="this.src='https://via.placeholder.com/100'"></td>
+            <td><strong>${escapeHtml(meal.name)}</strong> ${recommendedBadge}</td>
+            <td>${escapeHtml(meal.ingredients)}</td>
+            <td>${escapeHtml(meal.quantity)}</td>
+            <td>${meal.calories}</td>
+            <td>${meal.protein}</td>
+          </tr>
+        `;
+      });
+      htmlContent += `</tbody></table></div>`;
+    }
+
+    htmlContent += `
+        <div style="margin-top:2rem; background:#f9f9f9; padding:1rem; border-radius:12px;">
+          <h3 style="color:#FFD700;">Daily Nutrition Summary</h3>
+          <p><strong>Total Calories:</strong> ${totalDailyCalories} kcal</p>
+          <p><strong>Total Protein:</strong> ${totalDailyProtein} g</p>
+        </div>
+        <div class="pdf-footer">
+          © UltraFit Gym – Empowering your transformation
+        </div>
+      </div>
+    `;
+
+    // Create temporary element, render, and download
+    const tempDiv = document.createElement('div');
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    tempDiv.style.top = '-9999px';
+    tempDiv.style.background = 'white';
+    tempDiv.innerHTML = htmlContent;
+    document.body.appendChild(tempDiv);
+
+    const opt = {
+      margin: [0.5, 0.5, 0.5, 0.5],
+      filename: `UltraFit_Diet_${displayCategory}_${planLabel}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, letterRendering: true, useCORS: true },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(tempDiv).set(opt).save().then(() => {
+      document.body.removeChild(tempDiv);
+    }).catch(err => {
+      console.error(err);
+      alert('PDF generation failed. Please check console.');
+      document.body.removeChild(tempDiv);
+    });
+  }
+
+  // ========== RENDER DIET SECTIONS ==========
   function buildMealCarousel(mealsArray, mealName, containerDiv) {
     if (!mealsArray.length) return;
     const wrapper = document.createElement('div');
@@ -490,25 +765,30 @@
 
   function renderDietSections() {
     const sections = { veg: 'veg-section', egg: 'egg-section', nonveg: 'nonveg-section' };
+    const mealOrder = ['breakfast', 'lunch', 'dinner'];
+
     for (const [catKey, containerId] of Object.entries(sections)) {
       const container = document.getElementById(containerId);
       if (!container) continue;
       container.innerHTML = '';
       const category = dietCategories.find(c => c.key === catKey);
       if (category) {
-        const titleSpan = container.parentElement?.previousElementSibling?.previousElementSibling?.querySelector('span');
+        const titleSpan = container.parentElement?.previousElementSibling?.querySelector('span');
         if (titleSpan) titleSpan.innerText = category.displayName;
-        // Update PDF button URL
-        const pdfBtn = container.parentElement?.querySelector(`.btn-pdf[data-category="${catKey}"]`);
-        if (pdfBtn && category.pdfUrl) pdfBtn.setAttribute('data-pdf-url', category.pdfUrl);
       }
-      // Get ALL unique meal times from dietMeals for this category
-      const mealTimes = [...new Set(dietMeals.filter(m => m.categoryKey === catKey).map(m => m.mealTime))];
+      let mealTimes = [...new Set(dietMeals.filter(m => m.categoryKey === catKey).map(m => m.mealTime))];
+      mealTimes.sort((a, b) => {
+        const indexA = mealOrder.indexOf(a);
+        const indexB = mealOrder.indexOf(b);
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+      });
+
       for (const type of ['gain', 'loss']) {
         const groupDiv = document.createElement('div');
         groupDiv.className = 'plan-group';
-        const typeLabel = type === 'gain' ? '🔹 WEIGHT GAIN' : '🔸 WEIGHT LOSS';
-        groupDiv.innerHTML = `<div class="plan-title">${typeLabel}</div>`;
+        const typeLabel = type === 'gain' ? '💪 MUSCLE GAIN' : '🔥 FAT LOSS';
+        const buttonLabel = type === 'gain' ? '📄 Download PDF (Muscle Gain)' : '📄 Download PDF (Fat Loss)';
+        groupDiv.innerHTML = `<div class="plan-title"><span>${typeLabel}</span><button class="pdf-btn-inside pdf-generator" data-category="${catKey}" data-type="${type}">${buttonLabel}</button></div>`;
         const mealsFlex = document.createElement('div');
         mealsFlex.style.display = 'flex';
         mealsFlex.style.flexWrap = 'wrap';
@@ -529,26 +809,26 @@
         if (hasAny) {
           groupDiv.appendChild(mealsFlex);
           container.appendChild(groupDiv);
+        } else {
+          // If no meals for this plan type, hide the group (or show a message)
+          groupDiv.style.display = 'none';
         }
       }
     }
+    // Attach PDF button event listeners
+    document.querySelectorAll('.pdf-generator').forEach(btn => {
+      btn.removeEventListener('click', pdfClickHandler);
+      btn.addEventListener('click', pdfClickHandler);
+    });
   }
 
-  // PDF download (uses uploaded URL if available)
-  async function downloadCategoryPDF(categoryKey) {
-    const category = dietCategories.find(c => c.key === categoryKey);
-    if (category && category.pdfUrl) {
-      window.open(category.pdfUrl, '_blank');
-    } else {
-      alert('No PDF uploaded for this diet plan yet.');
-    }
-  }
-  document.querySelectorAll('.btn-pdf[data-category]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const cat = btn.getAttribute('data-category');
-      downloadCategoryPDF(cat);
-    });
-  });
+  function pdfClickHandler(e) {
+  const btn = e.currentTarget;
+  const category = btn.getAttribute('data-category');
+  const type = btn.getAttribute('data-type');
+  // Open PDF generator in a new tab – it will auto-download and close
+  window.open(`pdf-diet.html?category=${category}&type=${type}`, '_blank');
+}
 
   // Calorie calculator (unchanged)
   document.getElementById('calculateCalorieBtn').addEventListener('click', () => {
@@ -576,7 +856,6 @@
 
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
-  // Navbar interactions
   const hamburger = document.getElementById('hamburger');
   const navLinksEl = document.getElementById('navLinks');
   if(hamburger) hamburger.addEventListener('click', () => navLinksEl.classList.toggle('active'));

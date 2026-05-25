@@ -11,6 +11,200 @@
   <link rel="stylesheet" href="admin.css">
   <style>
     /* Additional overrides – same as before */
+    /* ===== ANDROID / MOBILE OPTIMIZATION (compact layout) ===== */
+@media (max-width: 768px) {
+  /* Base text and containers */
+  body {
+    font-size: 13px;
+  }
+  .container {
+    padding: 0 0.8rem;
+  }
+
+  /* Headings */
+  .section-title {
+    font-size: 1.4rem !important;
+    margin: 1rem 0 0.8rem !important;
+  }
+  .section-title-wrapper {
+    gap: 0.5rem;
+  }
+  .edit-section-heading {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  /* Buttons (add, update, etc.) */
+  .admin-add-icon,
+  .standard-update-btn,
+  .card-update-btn {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    min-height: auto;
+  }
+  .card-update-btn {
+    margin: 0.5rem auto 0;
+  }
+
+  /* Cards – smaller images, tighter padding */
+  .leader-card,
+  .trans-card,
+  .diet-card,
+  .workout-card,
+  .membership-card,
+  .product-card {
+    max-width: 100%;
+    padding: 0.8rem;
+  }
+  .leader-card img {
+    height: 160px;
+  }
+  .member-card .member-avatar {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .member-name {
+    font-size: 1.1rem;
+  }
+  .member-bio {
+    font-size: 0.8rem;
+  }
+
+  /* Forms and inputs */
+  .field-group input,
+  .field-group textarea,
+  .field-group select {
+    padding: 0.5rem 0.8rem;
+    font-size: 14px; /* prevents zoom on focus */
+  }
+  .field-group label {
+    font-size: 0.7rem;
+  }
+
+  /* Modals (edit, confirm) */
+  .premium-modal-card {
+    width: 95%;
+    padding: 1rem;
+    max-height: 90vh;
+  }
+  .modal-image-container img {
+    max-width: 150px;
+    max-height: 120px;
+  }
+  .modal-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-buttons button {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Carousels (members, gallery, reels, reviews) */
+  .carousel-main {
+    border-radius: 16px;
+  }
+  .carousel-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  .carousel-dots .dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Stats section */
+  .stat-num {
+    font-size: 1.8rem;
+  }
+  .stat-card {
+    font-size: 1rem;
+  }
+
+  /* Contact section */
+  .contact-visit-grid {
+    gap: 1rem;
+  }
+  .contact-card {
+    padding: 1rem;
+  }
+  .contact-card-title {
+    font-size: 1.3rem;
+  }
+  .contact-info-item {
+    padding: 0.5rem;
+  }
+  .contact-value {
+    font-size: 0.85rem;
+  }
+  .contact-button,
+  .social-link {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* Tables or grids – force 1 column */
+  .leadership-cards,
+  .transform-cards,
+  .diet-plans-grid,
+  .workout-plans-grid,
+  .membership-cards,
+  .shop-static-grid,
+  .products-grid,
+  .reviews-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  /* Floating CTA and chat bubble (adjust position so they don't overlap) */
+  .floating-cta {
+    bottom: 15px;
+    right: 15px;
+  }
+  .floating-trial-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+  .ai-chat-container {
+    bottom: 75px;
+    right: 15px;
+  }
+  .chat-bubble {
+    padding: 0.4rem;
+  }
+  .ai-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+  .chat-window {
+    width: 85vw;
+    right: -5px;
+    bottom: 65px;
+    height: 450px;
+  }
+
+  /* Navbar adjustments */
+  .navbar {
+    padding: 0.6rem 0;
+  }
+  .nav-logo-img {
+    width: 28px;
+    height: 28px;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+  }
+  .join-now-nav {
+    padding: 0.4rem 1rem !important;
+  }
+}
     .card-update-btn {
       display: block;
       margin: 1rem auto 0;
@@ -28,6 +222,7 @@
       background: #FFD700;
       color: #121212;
     }
+  
     .modal-delete-btn {
       background: rgba(200,0,0,0.2);
       border: 1px solid #e74c3c;
@@ -244,17 +439,23 @@
       white-space: nowrap;
     }
     .admin-toast.show { transform: translateX(-50%) translateY(0); }
+    /* Section header: now heading centered, add button below */
     .section-header-flex {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      flex-wrap: wrap;
       margin-bottom: 1.5rem;
     }
     .section-title-wrapper {
       display: flex;
       align-items: center;
       gap: 1rem;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      text-align: center;
+      margin: 0;
     }
     .edit-section-heading {
       background: rgba(255,215,0,0.1);
@@ -274,6 +475,33 @@
       color: #121212;
       transform: scale(1.05);
     }
+    .admin-add-icon {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 40px;
+      padding: 0.4rem 1.2rem;
+      color: #FFD700;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+    .admin-add-icon:hover {
+      background: #FFD700;
+      color: #121212;
+    }
+    .image-upload-area {
+      border: 2px dashed #FFD700;
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      background: rgba(0,0,0,0.3);
+    }
     .modal-image-container {
       text-align: center;
       margin-bottom: 1.5rem;
@@ -291,6 +519,216 @@
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #FFD700;
+    }
+    /* Hero brand gradient (white → gold) */
+    .hero-brand {
+      background: linear-gradient(120deg, #fff, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    /* AI Chat Bubble (same as index.html) */
+    .ai-chat-container {
+      position: fixed;
+      bottom: 110px;
+      right: 30px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .chat-bubble {
+      display: flex;
+      align-items: center;
+      gap: 0px;
+      background: linear-gradient(135deg, #1e1e1e, #0a0a0a);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 60px;
+      padding: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.2);
+      transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+      backdrop-filter: blur(8px);
+      width: fit-content;
+    }
+    .chat-bubble:hover {
+      gap: 12px;
+      padding: 0.7rem 1.5rem 0.7rem 1rem;
+    }
+    .ai-icon {
+      background: #FFD700;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #121212;
+      box-shadow: 0 0 12px rgba(255,215,0,0.6);
+      transition: transform 0.2s;
+    }
+    .chat-bubble:hover .ai-icon {
+      transform: scale(1.05);
+    }
+    .ai-text {
+      font-weight: 700;
+      font-size: 0rem;
+      letter-spacing: 1px;
+      background: linear-gradient(120deg, #fff, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      transition: font-size 0.2s ease;
+    }
+    .chat-bubble:hover .ai-text {
+      font-size: 1rem;
+    }
+    .chat-window {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 360px;
+      height: 500px;
+      background: #1a1a1a;
+      border-radius: 28px;
+      border: 1px solid rgba(255,215,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+    .chat-window.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .chat-header {
+      background: #FFD700;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #121212;
+      font-weight: 800;
+    }
+    .chat-header h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #121212;
+      transition: transform 0.2s;
+    }
+    .chat-close:hover { transform: scale(1.1); }
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(0,0,0,0.3);
+    }
+    .message {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .user-message {
+      background: #FFD700;
+      color: #121212;
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+    }
+    .bot-message {
+      background: #2a2a2a;
+      color: #eee;
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .chat-input-area {
+      display: flex;
+      padding: 12px;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      padding: 10px 16px;
+      color: white;
+      font-family: inherit;
+      outline: none;
+    }
+    .chat-input:focus {
+      border-color: #FFD700;
+    }
+    .chat-send {
+      background: #FFD700;
+      border: none;
+      border-radius: 40px;
+      padding: 0 18px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #121212;
+      transition: all 0.2s;
+    }
+    .chat-send:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      background: #2a2a2a;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #aaa;
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    @media (max-width: 600px) {
+      .ai-chat-container { bottom: 90px; right: 15px; }
+      .chat-window { width: 90vw; right: -5px; bottom: 70px; }
+      .chat-bubble { padding: 0.5rem; }
+      .chat-bubble:hover { padding: 0.5rem 1rem 0.5rem 0.8rem; }
+      .ai-icon { width: 36px; height: 36px; font-size: 1.3rem; }
+      .chat-bubble:hover .ai-text { font-size: 0.85rem; }
     }
     /* Login modal */
     .login-modal {
@@ -336,10 +774,233 @@
       color: #e74c3c;
       margin-top: 0.5rem;
     }
+    /* Contact section same as index.html */
+    .contact-visit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .contact-card {
+      background: #FFD700;
+      border-radius: 32px;
+      padding: 2rem;
+      color: #121212;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+    }
+    .contact-card-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .contact-info-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.05);
+      padding: 1rem;
+      border-radius: 24px;
+      margin-bottom: 1rem;
+    }
+    .contact-info-item i {
+      font-size: 1.8rem;
+      color: #000;
+    }
+    .contact-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #666;
+    }
+    .contact-value {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .contact-button {
+      background: #121212;
+      color: #FFD700;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: 0.2s;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+    .contact-button:hover {
+      background: #2a2a2a;
+      transform: translateY(-2px);
+    }
+    .contact-social {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #121212;
+      color: #FFD700;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .social-link:hover {
+      background: #2a2a2a;
+    }
+    .contact-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.2);
+    }
+    .visit-map {
+      background: #0a0a0a;
+      border-radius: 32px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .visit-map:hover {
+      transform: translateY(-4px);
+    }
+    .visit-map-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #FFD700;
+      text-align: center;
+      padding: 1.5rem 0 1rem;
+      margin: 0;
+    }
+    .map-wrapper {
+      width: 100%;
+      height: 300px;
+    }
+    .map-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .contact-visit-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-card { padding: 1.5rem; }
+      .contact-info-item { padding: 0.6rem 0.8rem; }
+      .contact-info-item i { font-size: 1.6rem; width: 32px; }
+      .contact-button { padding: 0.3rem 1rem; font-size: 0.8rem; }
+      .social-link { padding: 0.5rem 1rem; font-size: 0.9rem; }
+      .map-wrapper { height: 250px; }
+    }
+    /* Premium Modal (free trial) – same as index.html */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #121212;
+      padding: 2rem;
+      border-radius: 32px;
+      width: 90%;
+      max-width: 450px;
+      position: relative;
+      border: 1px solid #FFD700;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+    }
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #FFD700;
+      transition: transform 0.2s;
+    }
+    .close-modal:hover { transform: scale(1.1); }
+    .modal-title {
+      font-size: 1.8rem;
+      text-align: center;
+      color: #FFD700;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .trial-form input {
+      width: 100%;
+      padding: 14px 18px;
+      margin: 10px 0;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      color: white;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .trial-form input:focus {
+      border-color: #FFD700;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,215,0,0.3);
+    }
+    .trial-form button {
+      width: 100%;
+      background: #FFD700;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.2s;
+      color: #121212;
+    }
+    .trial-form button:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .trial-message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 8px;
+      border-radius: 40px;
+    }
+    .trial-message.success { background: #2ecc2e20; color: #2ecc2e; }
+    .trial-message.error { background: #e74c3c20; color: #e74c3c; }
+    .loading-spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #121212;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
-  <!-- ========== ORIGINAL HTML STRUCTURE (with section heading edit buttons) ========== -->
+  <!-- ========== NAVBAR (with circular logo + text logo) ========== -->
   <header class="navbar" id="navbar">
     <div class="container nav-container">
       <div class="logo-wrapper">
@@ -372,7 +1033,7 @@
           <img src="UltraFit logo.png" alt="UltraFit Logo" class="hero-logo-img" id="heroLogo">
           <div class="hero-logo-edit" id="editHeroLogoBtn"><i class="fas fa-pencil-alt"></i></div>
         </div>
-        <div class="hero-brand"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span></div>
+        <div class="hero-brand" id="heroBrandText">ULTRAFIT</div>
         <h1 class="hero-title" id="heroSubheading">The Standard of Strength</h1>
         <button class="btn-primary btn-vip" id="heroCtaBtn">Claim Your 3-Day VIP Pass</button>
         <div class="hero-update-wrapper">
@@ -405,7 +1066,7 @@
             <h2 class="section-title" id="trainersHeading">Gym Trainers</h2>
             <div class="edit-section-heading" data-section="trainersHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addTrainerBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addTrainerBtn">Add</button>
         </div>
         <div class="leadership-cards" id="trainersContainer"></div>
       </div>
@@ -419,7 +1080,7 @@
             <h2 class="section-title" id="transformationsHeading">Transformations</h2>
             <div class="edit-section-heading" data-section="transformationsHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addTransformationBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addTransformationBtn">Add</button>
         </div>
         <div class="transform-cards" id="transformationsContainer"></div>
       </div>
@@ -433,7 +1094,7 @@
             <h2 class="section-title gold-full" id="membersHeading">Gym Members</h2>
             <div class="edit-section-heading" data-section="membersHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addMemberBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addMemberBtn">Add</button>
         </div>
         <div class="members-carousel-container">
           <div class="carousel-main">
@@ -444,7 +1105,7 @@
             <button class="carousel-btn" id="membersNextBtn"><i class="fas fa-chevron-right"></i></button>
           </div>
           <div class="carousel-dots" id="membersDots"></div>
-          <div class="update-btn-wrapper">
+          <div class="update-btn-wrapper" style="text-align: center; margin-top: 1rem;">
             <a href="admin-members.html" class="standard-update-btn" id="viewMembersBtn">View Members</a>
           </div>
         </div>
@@ -459,7 +1120,7 @@
             <h2 class="section-title" id="dietHeading">Diet Plans</h2>
             <div class="edit-section-heading" data-section="dietHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addDietBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addDietBtn">Add</button>
         </div>
         <div class="diet-plans-grid" id="dietGrid"></div>
       </div>
@@ -473,7 +1134,7 @@
             <h2 class="section-title" id="workoutHeading">Workout Plan</h2>
             <div class="edit-section-heading" data-section="workoutHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addWorkoutBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addWorkoutBtn">Add</button>
         </div>
         <div class="workout-plans-grid" id="workoutGrid"></div>
       </div>
@@ -487,7 +1148,7 @@
             <h2 class="section-title gold-full" id="membershipHeading">Gym Membership</h2>
             <div class="edit-section-heading" data-section="membershipHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addMembershipBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addMembershipBtn">Add</button>
         </div>
         <div class="membership-cards" id="membershipGrid"></div>
       </div>
@@ -498,10 +1159,10 @@
       <div class="container">
         <div class="section-header-flex">
           <div class="section-title-wrapper">
-            <h2 class="section-title" id="shopHeading"><span class="ultra-white">ULTRA</span><span class="fit-gold">FIT</span> Shop</h2>
+            <h2 class="section-title" id="shopHeading"><span class="ultra-white">Ultra</span><span class="fit-gold">Fit</span> Shop</h2>
             <div class="edit-section-heading" data-section="shopHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addProductBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addProductBtn">Add</button>
         </div>
         <div class="shop-static-grid" id="productsGrid"></div>
         <div class="shop-cta-wrapper">
@@ -510,7 +1171,7 @@
       </div>
     </section>
 
-    <!-- GALLERY CAROUSEL -->
+    <!-- GALLERY CAROUSEL (auto-slide) -->
     <section class="premium-carousel-section">
       <div class="container">
         <div class="section-header-flex">
@@ -518,7 +1179,7 @@
             <h2 class="section-title" id="galleryHeading"><span class="ultra-white">Ultra</span><span class="fit-gold">Fit</span> Gallery</h2>
             <div class="edit-section-heading" data-section="galleryHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addGalleryBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addGalleryBtn">Add</button>
         </div>
         <div class="carousel-container" id="galleryCarouselContainer">
           <div class="carousel-main">
@@ -533,7 +1194,7 @@
       </div>
     </section>
 
-    <!-- REELS CAROUSEL -->
+    <!-- REELS CAROUSEL (auto-play videos) -->
     <section class="premium-carousel-section" style="background:#000000;">
       <div class="container">
         <div class="section-header-flex">
@@ -541,7 +1202,7 @@
             <h2 class="section-title" id="reelsHeading"><span class="ultra-white">Ultra</span><span class="fit-gold">Fit</span> Reels</h2>
             <div class="edit-section-heading" data-section="reelsHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addReelBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addReelBtn">Add</button>
         </div>
         <div class="carousel-container reels-carousel" id="reelsCarouselContainer">
           <div class="carousel-main">
@@ -556,7 +1217,7 @@
       </div>
     </section>
 
-    <!-- REVIEWS CAROUSEL -->
+    <!-- REVIEWS CAROUSEL (auto-slide) -->
     <section class="reviews-luxury-section">
       <div class="container">
         <div class="section-header-flex">
@@ -564,7 +1225,7 @@
             <h2 class="section-title gold-full" id="reviewsHeading">Reviews</h2>
             <div class="edit-section-heading" data-section="reviewsHeading"><i class="fas fa-pencil-alt"></i></div>
           </div>
-          <button class="admin-add-icon" id="addReviewBtn"><i class="fas fa-plus"></i> Add</button>
+          <button class="admin-add-icon" id="addReviewBtn">Add</button>
         </div>
         <div class="carousel-container" id="reviewsCarouselContainer">
           <div class="carousel-main">
@@ -579,7 +1240,7 @@
       </div>
     </section>
 
-    <!-- CONTACT SECTION -->
+    <!-- CONTACT SECTION (redesigned like index.html with cool social buttons) -->
     <section class="contact-visit-section" id="contact-section">
       <div class="container">
         <div class="contact-visit-grid">
@@ -606,7 +1267,12 @@
               <button class="standard-update-btn" id="editContactBtn"><i class="fas fa-pencil-alt"></i> Edit</button>
             </div>
           </div>
-          <div class="visit-map"><h3 class="visit-map-title">Visit Us</h3><div class="map-wrapper"><iframe src="https://maps.google.com/maps?q=The+Ultra+Fit+Gym+Unnao&t=&z=16&ie=UTF8&iwloc=&output=embed" style="filter: grayscale(100%) invert(100%) contrast(90%);" loading="lazy"></iframe></div></div>
+          <div class="visit-map">
+            <h3 class="visit-map-title">Visit Us</h3>
+            <div class="map-wrapper">
+              <iframe src="https://maps.google.com/maps?q=The+Ultra+Fit+Gym+Unnao&t=&z=16&ie=UTF8&iwloc=&output=embed" style="filter: grayscale(100%) invert(100%) contrast(90%);" loading="lazy"></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -631,7 +1297,43 @@
     <button class="floating-trial-btn" id="floatingCtaBtn">Book 3-Day Free Trial</button>
   </div>
 
-  <!-- Modal containers -->
+  <!-- AI CHAT BUBBLE (same as index.html) -->
+  <div class="ai-chat-container">
+    <div class="chat-bubble" id="chatBubble">
+      <div class="ai-icon"><i class="fas fa-comment-dots"></i></div>
+      <span class="ai-text">UltraFit AI Coach</span>
+    </div>
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <h3><i class="fas fa-brain"></i> UltraFit AI Coach</h3>
+        <button class="chat-close" id="chatCloseBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">💪 Hey! I'm your UltraFit AI Coach. Ask me anything about workouts, nutrition, or gym plans.</div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask your fitness question...">
+        <button class="chat-send" id="chatSendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREE TRIAL MODAL (same as index.html) -->
+  <div id="modalOverlay" class="premium-modal">
+    <div class="premium-modal-card">
+      <span class="close-modal" id="closeModalBtn">&times;</span>
+      <div class="modal-title">✨ Claim Your Free Trial</div>
+      <form id="trialForm" class="trial-form">
+        <input type="text" id="trialName" placeholder="Full Name" required>
+        <input type="tel" id="trialPhone" placeholder="Phone Number" required>
+        <input type="email" id="trialEmail" placeholder="Email Address" required>
+        <button type="submit" id="submitTrialBtn">Get My Free Pass</button>
+        <div id="trialMessage" class="trial-message" style="display: none;"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal containers for admin edits -->
   <div id="modalContainer" class="premium-modal"></div>
   <div id="confirmModal" class="confirm-modal"><div class="confirm-card"><p id="confirmMessage">Are you sure?</p><button class="confirm-yes" id="confirmYesBtn">Yes</button><button class="confirm-no" id="confirmNoBtn">No</button></div></div>
   <div id="adminToast" class="admin-toast"></div>
@@ -642,7 +1344,6 @@
     let adminToken = localStorage.getItem('adminToken');
     let isAuthenticated = !!adminToken;
 
-    // Helper to add token to fetch headers
     function getAuthHeaders() {
       return adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
     }
@@ -792,7 +1493,7 @@
       dietHeading: "Diet Plans",
       workoutHeading: "Workout Plan",
       membershipHeading: "Gym Membership",
-      shopHeading: "ULTRAFIT Shop",
+      shopHeading: "UltraFit Shop",
       galleryHeading: "UltraFit Gallery",
       reelsHeading: "UltraFit Reels",
       reviewsHeading: "Reviews"
@@ -831,12 +1532,21 @@
     }
 
     function renderHero() {
-      document.getElementById('heroLogo').src = siteSettings.logoUrl || '/UltraFit logo.png';
-      document.getElementById('navLogo').src = siteSettings.logoUrl || '/UltraFit logo.png';
+      document.getElementById('heroLogo').src = siteSettings.logoUrl || 'UltraFit logo.png';
       document.getElementById('heroSubheading').innerText = siteSettings.heroSubheading || 'The Standard of Strength';
       document.getElementById('heroCtaBtn').innerText = siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass';
       document.getElementById('liveStatusText').innerText = siteSettings.liveStatusText || 'Open Now – Closing at 10 PM';
       document.getElementById('floatingCtaBtn').innerText = siteSettings.floatingButtonText || 'Book 3-Day Free Trial';
+      const brandEl = document.getElementById('heroBrandText');
+      if (brandEl && siteSettings.heroBrand) brandEl.innerText = siteSettings.heroBrand;
+      else if (brandEl) brandEl.innerText = 'ULTRAFIT';
+      // Hero background image (from siteSettings)
+      const heroBg = document.querySelector('.hero .hero-video-wrapper');
+      if (siteSettings.heroBackgroundImage && heroBg) {
+        heroBg.style.backgroundImage = `url('${siteSettings.heroBackgroundImage}')`;
+        heroBg.style.backgroundSize = 'cover';
+        heroBg.style.backgroundPosition = 'center';
+      }
     }
 
     function renderStats() {
@@ -857,11 +1567,37 @@
             <a href="https://wa.me/${t.whatsappNumber}" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
             <a href="${t.instagramUrl}" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
           </div>
-          <button class="btn-outline-gold view-profile-btn">View Profile</button>
+          <button class="btn-outline-gold view-profile-btn" data-id="${t._id}">View Profile</button>
           <button class="card-update-btn" data-type="trainer" data-id="${t._id}">✏️ Update</button>
         </div>
       `).join('');
       attachUpdateButtons();
+      document.querySelectorAll('.view-profile-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = btn.getAttribute('data-id');
+          const trainer = trainers.find(t => t._id === id);
+          if (trainer) showTrainerProfile(trainer);
+        });
+      });
+    }
+
+    function showTrainerProfile(trainer) {
+      const modal = document.getElementById('modalContainer');
+      modal.innerHTML = `
+        <div class="premium-modal-card">
+          <div style="text-align:center;">
+            <img src="${trainer.photoUrl}" style="width:120px;height:120px;border-radius:50%;border:2px solid #FFD700;margin-bottom:1rem;">
+            <h2 style="color:#FFD700;">${escapeHtml(trainer.name)}</h2>
+            <p style="color:#bbb;">${escapeHtml(trainer.position)}</p>
+            <p style="line-height:1.5;margin-top:1rem;">${escapeHtml(trainer.bio || 'No bio available.')}</p>
+          </div>
+          <div class="modal-buttons">
+            <button class="modal-btn-cancel" id="closeProfileBtn">Close</button>
+          </div>
+        </div>
+      `;
+      modal.style.display = 'flex';
+      document.getElementById('closeProfileBtn').onclick = () => modal.style.display = 'none';
     }
 
     function renderTransformations() {
@@ -880,6 +1616,11 @@
       `).join('');
       document.querySelectorAll('.luxury-comparison-slider').forEach(slider => initLuxurySlider(slider));
       attachUpdateButtons();
+      document.querySelectorAll('.btn-see-more').forEach(btn => {
+        btn.addEventListener('click', () => {
+          window.location.href = 'admin-members.html';
+        });
+      });
     }
 
     function renderMembersCarousel() {
@@ -894,13 +1635,12 @@
             <div class="member-role">${escapeHtml(m.position || 'Member')}</div>
             <div class="member-age">${m.age} years old</div>
             <div class="member-bio">“${escapeHtml(m.feedback || 'No feedback')}”</div>
-            <button class="btn-outline-gold view-members-btn" onclick="window.location.href='admin-members.html'">View Members</button>
             <button class="card-update-btn" data-type="member" data-id="${m._id}">✏️ Update</button>
           </div>
         </div>
       `).join('');
       attachUpdateButtons();
-      setupCarousel('membersCarouselItems', 'membersPrevBtn', 'membersNextBtn', 'membersDots', items.length);
+      setupCarouselWithAuto('membersCarouselItems', 'membersPrevBtn', 'membersNextBtn', 'membersDots', items.length, true);
     }
 
     function renderDietPlans() {
@@ -919,6 +1659,11 @@
         </div>
       `).join('');
       attachUpdateButtons();
+      document.querySelectorAll('.full-plan-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          window.location.href = 'admin-diet.html';
+        });
+      });
     }
 
     function renderWorkoutPlans() {
@@ -937,6 +1682,11 @@
         </div>
       `).join('');
       attachUpdateButtons();
+      document.querySelectorAll('.full-workout-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          window.location.href = 'admin-workout.html';
+        });
+      });
     }
 
     function renderMemberships() {
@@ -977,6 +1727,7 @@
       });
     }
 
+    let galleryAutoInterval = null;
     function renderGalleryCarousel() {
       const track = document.getElementById('galleryTrack');
       if (!track) return;
@@ -987,20 +1738,23 @@
         </div>
       `).join('');
       attachUpdateButtons();
-      setupCarouselTrack('galleryTrack', 'galleryPrevBtn', 'galleryNextBtn', 'galleryDots', galleryImages.length);
+      if (galleryAutoInterval) clearInterval(galleryAutoInterval);
+      setupCarouselTrackWithAuto('galleryTrack', 'galleryPrevBtn', 'galleryNextBtn', 'galleryDots', galleryImages.length, true);
     }
 
+    let reelsAutoTimer = null;
     function renderReelsCarousel() {
       const track = document.getElementById('reelsTrack');
       if (!track) return;
-      track.innerHTML = reels.map(r => `
+      track.innerHTML = reels.map((r, idx) => `
         <div class="carousel-slide">
-          <video src="${r.videoUrl}" controls muted></video>
+          <video src="${r.videoUrl}" muted playsinline></video>
           <button class="card-update-btn" data-type="reel" data-id="${r._id}" style="margin-top:0.5rem;">✏️ Update</button>
         </div>
       `).join('');
       attachUpdateButtons();
-      setupCarouselTrack('reelsTrack', 'reelsPrevBtn', 'reelsNextBtn', 'reelsDots', reels.length);
+      if (reelsAutoTimer) clearTimeout(reelsAutoTimer);
+      setupCarouselTrackWithAuto('reelsTrack', 'reelsPrevBtn', 'reelsNextBtn', 'reelsDots', reels.length, false, true);
     }
 
     function renderReviewsCarousel() {
@@ -1018,15 +1772,7 @@
         </div>
       `).join('');
       attachUpdateButtons();
-      setupCarouselTrack('reviewsTrack', 'reviewsPrevBtn', 'reviewsNextBtn', 'reviewsDots', reviews.length);
-    }
-
-    function renderContact() {
-      document.getElementById('contactPhone').innerText = contactInfo.phone || '+1 (212) 555-7890';
-      document.getElementById('contactWhatsapp').innerText = contactInfo.whatsappNumber || '+1 (212) 555-7891';
-      document.getElementById('contactAddress').innerText = contactInfo.address || '123 Strength Avenue, Manhattan, NY 10001, USA';
-      document.getElementById('contactFb').href = contactInfo.facebookUrl || '#';
-      document.getElementById('contactIg').href = contactInfo.instagramUrl || '#';
+      setupCarouselTrackWithAuto('reviewsTrack', 'reviewsPrevBtn', 'reviewsNextBtn', 'reviewsDots', reviews.length, true);
     }
 
     function setupCarousel(itemsId, prevId, nextId, dotsId, total) {
@@ -1057,6 +1803,64 @@
       update();
     }
 
+    function setupCarouselWithAuto(itemsId, prevId, nextId, dotsId, total, autoSlide = true) {
+      let current = 0;
+      const container = document.getElementById(itemsId);
+      const prev = document.getElementById(prevId);
+      const next = document.getElementById(nextId);
+      const dotsContainer = document.getElementById(dotsId);
+      if (!container || !total) return;
+      let autoInterval = null;
+
+      function update() {
+        container.style.transform = `translateX(-${current * 100}%)`;
+        if (dotsContainer) {
+          Array.from(dotsContainer.children).forEach((dot, i) => dot.classList.toggle('active', i === current));
+        }
+      }
+      function goTo(i) {
+        current = i;
+        update();
+        if (autoSlide) resetAuto();
+      }
+      function nextSlide() { goTo((current + 1) % total); }
+      function prevSlide() { goTo((current - 1 + total) % total); }
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('dot');
+          dot.addEventListener('click', () => goTo(i));
+          dotsContainer.appendChild(dot);
+        }
+      }
+      if (prev) prev.onclick = prevSlide;
+      if (next) next.onclick = nextSlide;
+
+      if (autoSlide) {
+        function startAuto() {
+          if (autoInterval) clearInterval(autoInterval);
+          autoInterval = setInterval(() => {
+            nextSlide();
+          }, 3000);
+        }
+        function resetAuto() {
+          if (autoInterval) clearInterval(autoInterval);
+          startAuto();
+        }
+        startAuto();
+        const carouselMain = container.closest('.carousel-main');
+        if (carouselMain) {
+          carouselMain.addEventListener('mouseenter', () => {
+            if (autoInterval) clearInterval(autoInterval);
+          });
+          carouselMain.addEventListener('mouseleave', startAuto);
+        }
+      }
+      update();
+    }
+
     function setupCarouselTrack(trackId, prevId, nextId, dotsId, total) {
       let current = 0;
       const track = document.getElementById(trackId);
@@ -1083,6 +1887,108 @@
       if (prev) prev.onclick = () => goTo((current - 1 + total) % total);
       if (next) next.onclick = () => goTo((current + 1) % total);
       update();
+    }
+
+    function setupCarouselTrackWithAuto(trackId, prevId, nextId, dotsId, total, isImageAuto = false, isVideoAuto = false) {
+      let current = 0;
+      const track = document.getElementById(trackId);
+      const prev = document.getElementById(prevId);
+      const next = document.getElementById(nextId);
+      const dotsContainer = document.getElementById(dotsId);
+      if (!track || !total) return;
+      let autoInterval = null;
+
+      function update() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        if (dotsContainer) {
+          Array.from(dotsContainer.children).forEach((dot, i) => dot.classList.toggle('active', i === current));
+        }
+        if (isVideoAuto) {
+          const slides = track.children;
+          for (let i = 0; i < slides.length; i++) {
+            const video = slides[i].querySelector('video');
+            if (video) {
+              if (i === current) {
+                video.currentTime = 0;
+                video.play().catch(e => console.log);
+              } else {
+                video.pause();
+                video.currentTime = 0;
+              }
+            }
+          }
+        }
+      }
+
+      function goTo(i) {
+        if (autoInterval) clearInterval(autoInterval);
+        current = i;
+        update();
+        if (isImageAuto) startAuto();
+      }
+
+      function nextSlide() { goTo((current + 1) % total); }
+      function prevSlide() { goTo((current - 1 + total) % total); }
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('div');
+          dot.classList.add('dot');
+          dot.addEventListener('click', () => goTo(i));
+          dotsContainer.appendChild(dot);
+        }
+      }
+      if (prev) prev.onclick = prevSlide;
+      if (next) next.onclick = nextSlide;
+
+      if (isImageAuto) {
+        function startAuto() {
+          if (autoInterval) clearInterval(autoInterval);
+          autoInterval = setInterval(() => {
+            nextSlide();
+          }, 3000);
+        }
+        startAuto();
+        const container = track.parentElement.parentElement;
+        container.addEventListener('mouseenter', () => { if (autoInterval) clearInterval(autoInterval); });
+        container.addEventListener('mouseleave', startAuto);
+      }
+
+      if (isVideoAuto) {
+        function onVideoEnd() {
+          nextSlide();
+        }
+        function attachVideoEnd() {
+          const slides = track.children;
+          for (let i = 0; i < slides.length; i++) {
+            const video = slides[i].querySelector('video');
+            if (video) {
+              video.removeEventListener('ended', onVideoEnd);
+              if (i === current) {
+                video.addEventListener('ended', onVideoEnd);
+              }
+            }
+          }
+        }
+        const origUpdate = update;
+        const newUpdate = () => {
+          origUpdate();
+          attachVideoEnd();
+        };
+        track.update = newUpdate;
+        update = newUpdate;
+        update();
+      }
+      update();
+    }
+
+    function renderContact() {
+      document.getElementById('contactPhone').innerText = contactInfo.phone || '+1 (212) 555-7890';
+      document.getElementById('contactWhatsapp').innerText = contactInfo.whatsappNumber || '+1 (212) 555-7891';
+      document.getElementById('contactAddress').innerText = contactInfo.address || '123 Strength Avenue, Manhattan, NY 10001, USA';
+      document.getElementById('contactFb').href = contactInfo.facebookUrl || '#';
+      document.getElementById('contactIg').href = contactInfo.instagramUrl || '#';
     }
 
     function initLuxurySlider(slider) {
@@ -1599,31 +2505,171 @@
       else if (type && id) openEditModal(type, id);
     }
 
+    // ========== FIXED EDIT HERO MODAL ==========
     function openHeroModal() {
+  const modal = document.getElementById('modalContainer');
+  // IMPORTANT: siteSettings must be loaded already (from loadAllData)
+  const currentImageUrl = siteSettings.heroBackgroundImage || '';
+
+  modal.innerHTML = `
+    <div class="premium-modal-card">
+      <h3>Edit Hero Section</h3>
+      <div class="field-group">
+        <label>Current Hero Background Image</label>
+        <div class="modal-image-container">
+          <img id="heroBgPreview" class="modal-image" style="max-width:100%; max-height:200px; object-fit:contain; border:1px solid #FFD700;" 
+               src="${currentImageUrl}" 
+               onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
+        </div>
+        <div class="image-upload-area" id="heroBgUpload">Upload New Background Image</div>
+      </div>
+      <div class="field-group">
+        <label>Subheading</label>
+        <input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.heroSubheading || 'The Standard of Strength')}">
+      </div>
+      <div class="field-group">
+        <label>Button Text</label>
+        <input type="text" id="heroCtaInput" value="${escapeHtml(siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass')}">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn-cancel" id="cancelBtn">Cancel</button>
+        <button class="modal-btn-save" id="saveBtn">Save</button>
+      </div>
+    </div>
+  `;
+  modal.style.display = 'flex';
+
+  let newImageUrl = currentImageUrl;
+  const previewImg = document.getElementById('heroBgPreview');
+
+  // Handle image upload
+  const uploadArea = document.getElementById('heroBgUpload');
+  uploadArea.onclick = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append('image', file);
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: formData
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('adminToken');
+          adminToken = null;
+          isAuthenticated = false;
+          showLoginModal();
+          return;
+        }
+        if (!res.ok) throw new Error(`Upload failed: HTTP ${res.status}`);
+        const data = await res.json();
+        if (data.url) {
+          newImageUrl = data.url;
+          previewImg.src = newImageUrl;
+          showToast('Image uploaded. Click Save to apply.');
+        } else {
+          showToast('Upload failed: no URL returned', true);
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Upload error: ' + err.message, true);
+      }
+    };
+    input.click();
+  };
+
+  // Cancel button
+  document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
+
+  // Save button
+  document.getElementById('saveBtn').onclick = async () => {
+    const updatedSettings = {
+      heroSubheading: document.getElementById('heroSubInput').value,
+      heroButtonText: document.getElementById('heroCtaInput').value,
+      heroBackgroundImage: newImageUrl
+    };
+    const res = await fetchJSON('/api/sitesettings', {
+      method: 'PUT',
+      body: JSON.stringify(updatedSettings)
+    });
+    if (res) {
+      // Update local siteSettings
+      siteSettings = { ...siteSettings, ...updatedSettings };
+      // Update the hero background on the page
+      renderHero();
+      modal.style.display = 'none';
+      showToast('Hero section updated');
+    } else {
+      showToast('Update failed', true);
+    }
+  };
+}
+    function openLogoModal() {
       const modal = document.getElementById('modalContainer');
+      const currentLogo = siteSettings.logoUrl || 'UltraFit logo.png';
       modal.innerHTML = `
         <div class="premium-modal-card">
-          <h3>Edit Hero Section</h3>
-          <div class="field-group"><label>Subheading</label><input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.heroSubheading || 'The Standard of Strength')}"></div>
-          <div class="field-group"><label>CTA Button Text</label><input type="text" id="heroCtaInput" value="${escapeHtml(siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass')}"></div>
-          <div class="field-group"><label>Live Status Text</label><input type="text" id="liveStatusInput" value="${escapeHtml(siteSettings.liveStatusText || 'Open Now – Closing at 10 PM')}"></div>
-          <div class="modal-buttons"><button class="modal-btn-cancel" id="cancelBtn">Cancel</button><button class="modal-btn-save" id="saveBtn">Save</button></div>
+          <h3>Edit Logo</h3>
+          <div class="modal-image-container">
+            <img id="currentLogoPreview" src="${currentLogo}" class="modal-image" style="max-width:150px;">
+          </div>
+          <div class="image-upload-area" id="logoUploadArea">Upload New Logo</div>
+          <div class="modal-buttons">
+            <button class="modal-btn-cancel" id="cancelBtn">Cancel</button>
+            <button class="modal-btn-save" id="saveBtn">Save</button>
+          </div>
         </div>
       `;
       modal.style.display = 'flex';
+      let newLogoUrl = currentLogo;
+      document.getElementById('logoUploadArea').onclick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const formData = new FormData();
+          formData.append('image', file);
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: getAuthHeaders(),
+              body: formData
+            });
+            if (res.status === 401) {
+              localStorage.removeItem('adminToken');
+              adminToken = null;
+              isAuthenticated = false;
+              showLoginModal();
+              return;
+            }
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            if (data.url) {
+              newLogoUrl = data.url;
+              document.getElementById('currentLogoPreview').src = newLogoUrl;
+              showToast('Logo uploaded, click Save to apply');
+            } else showToast('Upload failed', true);
+          } catch (err) {
+            showToast('Upload error: ' + err.message, true);
+          }
+        };
+        input.click();
+      };
       document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
       document.getElementById('saveBtn').onclick = async () => {
-        const updates = {
-          heroSubheading: document.getElementById('heroSubInput').value,
-          heroButtonText: document.getElementById('heroCtaInput').value,
-          liveStatusText: document.getElementById('liveStatusInput').value
-        };
-        const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify(updates) });
+        const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify({ logoUrl: newLogoUrl }) });
         if (res) {
-          siteSettings = { ...siteSettings, ...updates };
+          siteSettings.logoUrl = newLogoUrl;
           renderHero();
           modal.style.display = 'none';
-          showToast('Hero updated');
+          showToast('Logo updated');
         } else showToast('Update failed', true);
       };
     }
@@ -1690,29 +2736,6 @@
       };
     }
 
-    function openLogoModal() {
-      const modal = document.getElementById('modalContainer');
-      modal.innerHTML = `
-        <div class="premium-modal-card">
-          <h3>Edit Logo</h3>
-          <div class="field-group"><label>Logo URL</label><input type="text" id="logoUrlInput" value="${escapeHtml(siteSettings.logoUrl || '/UltraFit logo.png')}"></div>
-          <div class="modal-buttons"><button class="modal-btn-cancel" id="cancelBtn">Cancel</button><button class="modal-btn-save" id="saveBtn">Save</button></div>
-        </div>
-      `;
-      modal.style.display = 'flex';
-      document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
-      document.getElementById('saveBtn').onclick = async () => {
-        const newUrl = document.getElementById('logoUrlInput').value;
-        const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify({ logoUrl: newUrl }) });
-        if (res) {
-          siteSettings.logoUrl = newUrl;
-          renderHero();
-          modal.style.display = 'none';
-          showToast('Logo updated');
-        } else showToast('Update failed', true);
-      };
-    }
-
     function editTrialButton() {
       const modal = document.getElementById('modalContainer');
       const currentText = document.getElementById('floatingCtaBtn').innerText;
@@ -1737,7 +2760,6 @@
       };
     }
 
-    // ========== SECTION HEADING EDIT (now saves to backend) ==========
     function editSectionHeading(sectionId) {
       const modal = document.getElementById('modalContainer');
       const currentText = document.getElementById(sectionId).innerText;
@@ -1753,10 +2775,8 @@
       document.getElementById('saveBtn').onclick = async () => {
         const newText = document.getElementById('headingText').value;
         if (!newText) return;
-        // Update DOM immediately
         document.getElementById(sectionId).innerHTML = newText;
         sectionHeadings[sectionId] = newText;
-        // Map sectionId to backend field name
         const fieldMap = {
           trainersHeading: 'trainersHeading',
           transformationsHeading: 'transformationsHeading',
@@ -1780,7 +2800,85 @@
       };
     }
 
-    // ========== INITIALIZE ==========
+    // AI Chat functionality (same as index.html)
+    const chatBubble = document.getElementById('chatBubble');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatClose = document.getElementById('chatCloseBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSendBtn');
+
+    function toggleChatWindow(open) {
+      if (open) chatWindow.classList.add('open');
+      else chatWindow.classList.remove('open');
+    }
+
+    chatBubble.addEventListener('click', () => toggleChatWindow(true));
+    chatClose.addEventListener('click', () => toggleChatWindow(false));
+
+    async function sendChatMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      const userMsgDiv = document.createElement('div');
+      userMsgDiv.className = 'message user-message';
+      userMsgDiv.textContent = message;
+      chatMessages.appendChild(userMsgDiv);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      const typingDiv = document.createElement('div');
+      typingDiv.classList.add('typing-indicator');
+      typingDiv.innerHTML = '<span></span><span></span><span></span>';
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      try {
+        const response = await fetch(`${API_BASE}/chat-groq`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+
+        chatMessages.removeChild(typingDiv);
+
+        if (response.ok && data.reply) {
+          const botMsgDiv = document.createElement('div');
+          botMsgDiv.className = 'message bot-message';
+          botMsgDiv.textContent = data.reply;
+          chatMessages.appendChild(botMsgDiv);
+        } else {
+          throw new Error(data.error || 'No response');
+        }
+      } catch (err) {
+        console.error('Chat error:', err);
+        chatMessages.removeChild(typingDiv);
+        const errorMsgDiv = document.createElement('div');
+        errorMsgDiv.className = 'message bot-message';
+        errorMsgDiv.textContent = '🏋️ Sorry, I’m having trouble connecting. Please try again later.';
+        chatMessages.appendChild(errorMsgDiv);
+      }
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    chatSend.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendChatMessage();
+    });
+
+    // Trial modal openers
+    function openTrialModal() {
+      const modal = document.getElementById('modalOverlay');
+      if (modal) {
+        document.getElementById('trialForm').reset();
+        const msgDiv = document.getElementById('trialMessage');
+        msgDiv.style.display = 'none';
+        msgDiv.innerHTML = '';
+        modal.style.display = 'flex';
+      }
+    }
+
     async function init() {
       if (!isAuthenticated) return;
       await loadAllData();
@@ -1798,7 +2896,6 @@
       renderReviewsCarousel();
       renderContact();
 
-      // Apply saved section headings from siteSettings
       if (siteSettings.trainersHeading) document.getElementById('trainersHeading').innerHTML = siteSettings.trainersHeading;
       if (siteSettings.transformationsHeading) document.getElementById('transformationsHeading').innerHTML = siteSettings.transformationsHeading;
       if (siteSettings.membersHeading) document.getElementById('membersHeading').innerHTML = siteSettings.membersHeading;
@@ -1827,9 +2924,71 @@
       document.getElementById('editHeroLogoBtn').onclick = openLogoModal;
       document.getElementById('editTrialBtn').onclick = editTrialButton;
 
+      // Trial modal triggers
+      document.getElementById('heroCtaBtn')?.addEventListener('click', openTrialModal);
+      document.getElementById('floatingCtaBtn')?.addEventListener('click', openTrialModal);
+
       document.querySelectorAll('.edit-section-heading').forEach(btn => {
         const sectionId = btn.getAttribute('data-section');
         btn.onclick = () => editSectionHeading(sectionId);
+      });
+
+      // Close modal when clicking outside or on close button
+      const modalOverlay = document.getElementById('modalOverlay');
+      const closeBtn = document.getElementById('closeModalBtn');
+      if (closeBtn) closeBtn.onclick = () => modalOverlay.style.display = 'none';
+      if (modalOverlay) modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) modalOverlay.style.display = 'none';
+      };
+
+      // Handle trial form submission (same as index.html)
+      document.getElementById('submitTrialBtn')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('trialName').value.trim();
+        const phone = document.getElementById('trialPhone').value.trim();
+        const email = document.getElementById('trialEmail').value.trim();
+        if (!name || !phone || !email) {
+          const msgDiv = document.getElementById('trialMessage');
+          msgDiv.innerText = 'Please fill in all fields.';
+          msgDiv.className = 'trial-message error';
+          msgDiv.style.display = 'block';
+          setTimeout(() => msgDiv.style.display = 'none', 3000);
+          return;
+        }
+        const submitBtn = document.getElementById('submitTrialBtn');
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = 'Sending...';
+        submitBtn.disabled = true;
+        try {
+          const response = await fetch(`${API_BASE}/book-trial`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, phone, email })
+          });
+          const data = await response.json();
+          const msgDiv = document.getElementById('trialMessage');
+          if (response.ok && data.success) {
+            msgDiv.innerText = data.message || '✅ Trial booked! Check your email.';
+            msgDiv.className = 'trial-message success';
+            msgDiv.style.display = 'block';
+            setTimeout(() => {
+              modalOverlay.style.display = 'none';
+              document.getElementById('trialForm').reset();
+            }, 3000);
+          } else {
+            msgDiv.innerText = data.message || 'Something went wrong. Please try again.';
+            msgDiv.className = 'trial-message error';
+            msgDiv.style.display = 'block';
+          }
+        } catch (err) {
+          const msgDiv = document.getElementById('trialMessage');
+          msgDiv.innerText = 'Network error. Please try again.';
+          msgDiv.className = 'trial-message error';
+          msgDiv.style.display = 'block';
+        } finally {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }
       });
 
       const navbar = document.getElementById('navbar');

@@ -17,6 +17,7 @@ const siteSettingSchema = new mongoose.Schema({
   dietHeroHeading: { type: String, default: 'Diet & Nutrition Plans' },
   dietHeroSubheading: { type: String, default: 'Scientifically crafted · Michelin-inspired meals · Unlock your potential' },
   calorieCalculatorHeading: { type: String, default: '⚡ Daily Calorie Calculator' },
+  dietHeroImage: { type: String, default: '' },  // NEW: separate hero image for diet page
 
   // Workout Plan page settings
   workoutHeroHeading: { type: String, default: 'Weekly Workout Plan' },
@@ -34,7 +35,20 @@ const siteSettingSchema = new mongoose.Schema({
   shopHeading: { type: String, default: 'ULTRAFIT Shop' },
   galleryHeading: { type: String, default: 'UltraFit Gallery' },
   reelsHeading: { type: String, default: 'UltraFit Reels' },
-  reviewsHeading: { type: String, default: 'Reviews' }
+  reviewsHeading: { type: String, default: 'Reviews' },
+
+  // ========== HERO BACKGROUND IMAGES FOR EACH PAGE ==========
+  heroBackgroundImage: { type: String, default: '' },     // for homepage
+  membersHeroImage: { type: String, default: '' },       // for members.html
+  shopHeroImage: { type: String, default: '' },          // for shop.html
+
+  // Optional: separate subheading/button text for each page (if needed)
+  dietHeroSubheading: { type: String, default: '' },
+  dietHeroButtonText: { type: String, default: '' },
+  membersHeroSubheading: { type: String, default: '' },
+  membersHeroButtonText: { type: String, default: '' },
+  shopHeroSubheading: { type: String, default: '' },
+  shopHeroButtonText: { type: String, default: '' },
 });
 
 module.exports = mongoose.model('SiteSetting', siteSettingSchema);

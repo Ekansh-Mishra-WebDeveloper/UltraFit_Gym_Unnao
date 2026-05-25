@@ -21,11 +21,11 @@
       --glass-edge: 1px solid rgba(255,215,0,0.2);
     }
 
-    /* Hero Premium */
+    /* Hero Premium – fixed background opacity (same as diet.html) */
     .workout-hero {
       position: relative;
       min-height: 65vh;
-      background: linear-gradient(115deg, #000000d9 0%, #0a0a0a 100%), url('https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background: linear-gradient(115deg, #000000d0 0%, #0a0a0a 100%), url('https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1600');
       background-size: cover;
       background-position: center 35%;
       background-attachment: fixed;
@@ -36,12 +36,7 @@
       margin-top: 0;
       border-bottom: 2px solid rgba(255,215,0,0.3);
     }
-    .workout-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 20%, rgba(0,0,0,0.4) 0%, #000000cc 100%);
-    }
+    /* Removed the extra dark radial overlay */
     .hero-content-center {
       position: relative;
       z-index: 2;
@@ -323,7 +318,7 @@
 </head>
 <body>
 
-<!-- ===== PREMIUM NAVBAR (IDENTICAL TO DIET/HOME) ===== -->
+<!-- ===== PREMIUM NAVBAR (links fixed) ===== -->
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
@@ -335,8 +330,8 @@
       <li><a href="index.html#contact-section" class="nav-link">Contact Us</a></li>
       <li><a href="diet.html" class="nav-link">Diet Plan</a></li>
       <li><a href="workout.html" class="nav-link">Workout Plan</a></li>
-      <li><a href="index.html#members-section" class="nav-link">Gym Members</a></li>
-      <li><a href="index.html#proshop-preview" class="nav-link">Shop</a></li>
+      <li><a href="members.html" class="nav-link">Gym Members</a></li>
+      <li><a href="shop.html" class="nav-link">Shop</a></li>
     </ul>
     <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
   </div>
@@ -389,7 +384,7 @@
   let siteSettings = {};
   let categories = [];
   let allDays = [];
-  const API_BASE = '/api';
+  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
 
   async function fetchJSON(url) {
     try {
@@ -420,7 +415,7 @@
     if (heroTitle && siteSettings.workoutHeroHeading) heroTitle.innerText = siteSettings.workoutHeroHeading;
     if (heroSub && siteSettings.workoutHeroSubheading) heroSub.innerText = siteSettings.workoutHeroSubheading;
     if (heroBg && siteSettings.workoutHeroImage) {
-      heroBg.style.backgroundImage = `linear-gradient(115deg, #000000d9 0%, #0a0a0a 100%), url('${siteSettings.workoutHeroImage}')`;
+      heroBg.style.backgroundImage = `linear-gradient(115deg, #000000d0 0%, #0a0a0a 100%), url('${siteSettings.workoutHeroImage}')`;
     }
     const bmiHeading = document.querySelector('.category-luxury:last-of-type span');
     if (bmiHeading && siteSettings.bmiCalculatorHeading) bmiHeading.innerText = siteSettings.bmiCalculatorHeading;
@@ -479,8 +474,8 @@
       if (!catDays.length) return;
       const sectionDiv = document.createElement('div');
       sectionDiv.innerHTML = `
-        <div class="category-luxury"><span>${cat.displayName}</span></div>
-        <div class="category-sub">${cat.subheading || ''}</div>
+        <div class="category-luxury"><span>${escapeHtml(cat.displayName)}</span></div>
+        <div class="category-sub">${escapeHtml(cat.subheading || '')}</div>
         <div class="pdf-group"><button class="btn-pdf" data-pdf-category="${cat.key}">📄 Download Plan PDF</button></div>
         <div class="workout-cards-grid" id="grid-${cat.key}"></div>
       `;
@@ -489,9 +484,9 @@
       catDays.forEach(day => {
         const card = document.createElement('div');
         card.className = 'workout-card';
-        const exercisesHtml = day.exercises.map(ex => `<div class="exercise-item"><span class="exercise-name">${ex.name}</span><span class="exercise-reps">${ex.reps}</span></div>`).join('');
+        const exercisesHtml = day.exercises.map(ex => `<div class="exercise-item"><span class="exercise-name">${escapeHtml(ex.name)}</span><span class="exercise-reps">${escapeHtml(ex.reps)}</span></div>`).join('');
         card.innerHTML = `
-          <div class="card-header"><h3>${day.dayTitle}</h3></div>
+          <div class="card-header"><h3>${escapeHtml(day.dayTitle)}</h3></div>
           <div class="exercise-list">${exercisesHtml}</div>
           <div class="card-carousel-container"></div>
         `;
@@ -499,18 +494,18 @@
         createCarousel(card, day.images);
       });
     });
-    // attach PDF download events
+
+    // ATTACH PDF DOWNLOAD EVENTS – using dynamic PDF generator (pdf-workout.html)
     document.querySelectorAll('[data-pdf-category]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const catKey = btn.getAttribute('data-pdf-category');
-        const category = categories.find(c => c.key === catKey);
-        if (category && category.pdfUrl) window.open(category.pdfUrl, '_blank');
-        else alert('No PDF uploaded for this plan yet.');
+        // Open the PDF generator page – it will auto-download and close
+        window.open(`pdf-workout.html?category=${catKey}`, '_blank');
       });
     });
   }
 
-  // Body Mass Calculator (same as before, but heading dynamic)
+  // Body Mass Calculator
   const calcBtn = document.getElementById('calculateBmiBtn');
   const bmiOutputDiv = document.getElementById('bmiOutput');
   calcBtn.addEventListener('click', () => {
@@ -536,6 +531,16 @@
     pdfContent.innerHTML = `<h2 style="color:#FFD700;">UltraFit Body Mass Report</h2><p>BMI: <strong style="font-size:1.8rem;">${bmiVal}</strong></p><p>${catText}</p><p>Height: ${document.getElementById('bmiHeight').value} cm | Weight: ${document.getElementById('bmiWeight').value} kg</p>`;
     html2pdf().set({ margin: 0.5, filename: 'UltraFit_BMI_Report.pdf' }).from(pdfContent).save();
   });
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, (m) => {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
 
   // ========== INIT ==========
   (async function init() {
