@@ -561,7 +561,9 @@
 
 <script>
   // ========== DYNAMIC DIET PAGE – WITH LIVE PDF GENERATION ==========
-  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
+  const API_BASE = window.location.hostname === 'localhost' 
+    ? '/api' 
+    : 'https://ultrafit-gym-unnao.onrender.com/api';
   let siteSettings = {};
   let dietCategories = [];
   let dietMeals = [];

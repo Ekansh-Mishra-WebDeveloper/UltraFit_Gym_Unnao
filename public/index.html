@@ -1859,7 +1859,9 @@ input, textarea, [contenteditable="true"] {
 <script>
   // ===== SELF-CONTAINED JAVASCRIPT (unchanged) =====
   (function() {
-    const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
+    const API_BASE = window.location.hostname === 'localhost' 
+    ? '/api' 
+    : 'https://ultrafit-gym-unnao.onrender.com/api';
 
     async function fetchJSON(url) {
       try {

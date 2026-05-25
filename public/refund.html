@@ -71,7 +71,9 @@
   else if (path.includes('terms')) pageKey = 'terms';
   else pageKey = 'refund';
 
-  const API_BASE = '/api';
+  const API_BASE = window.location.hostname === 'localhost' 
+    ? '/api' 
+    : 'https://ultrafit-gym-unnao.onrender.com/api';
 
   async function fetchJSON(url) {
     try {

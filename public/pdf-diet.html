@@ -158,7 +158,9 @@
 </div>
 
 <script>
-  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
+  const API_BASE = window.location.hostname === 'localhost' 
+    ? '/api' 
+    : 'https://ultrafit-gym-unnao.onrender.com/api';
   const urlParams = new URLSearchParams(window.location.search);
   const categoryKey = urlParams.get('category');
   const planType = urlParams.get('type');
