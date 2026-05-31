@@ -3,30 +3,46 @@
   const API_BASE = '/api';
 
   // ===== PWA INSTALL FIX (no alert, iOS support) =====
+   // ===== PWA INSTALL LOGIC (button always visible, no alert) =====
   let deferredPrompt;
   const installBtn = document.getElementById('installAppBtn');
   const iosHint = document.getElementById('iosInstallHint');
-  if (installBtn) installBtn.style.display = 'none';
+
+  // Detect iOS
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
   if (isIOS && iosHint) {
+    // iOS: hide button, show manual hint
+    if (installBtn) installBtn.style.display = 'none';
     iosHint.style.display = 'block';
   } else {
+    // Non-iOS: show button by default (it was hidden in HTML, so remove inline style)
+    if (installBtn) installBtn.style.display = 'inline-block';
+
+    // Listen for beforeinstallprompt (supported browsers)
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      if (installBtn) installBtn.style.display = 'inline-block';
+      // Button is already visible, no need to show again
+      console.log('✅ PWA install supported');
     });
+
+    // Handle click
     if (installBtn) {
       installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installBtn.style.display = 'none';
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          console.log(`Install outcome: ${outcome}`);
+        } else {
+          // No install prompt available – do nothing (no alert)
+          // Optionally, you could show a small non-intrusive message here
+          console.log('Install not supported on this browser');
+        }
       });
     }
   }
-
   // ===== SERVICE WORKER REGISTRATION =====
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js')
