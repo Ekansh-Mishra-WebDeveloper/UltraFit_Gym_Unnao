@@ -7,24 +7,19 @@ const urlsToCache = [
   '/members.html',
   '/shop.html',
   '/index.css',
-  '/index.js',
-  '/ultrafit-logo.png'
+  '/UltraFit logo.png'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache).catch(err => {
-        console.error('Failed to cache one or more files:', err);
-      });
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
   );
 });
