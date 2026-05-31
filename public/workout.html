@@ -36,7 +36,6 @@
       margin-top: 0;
       border-bottom: 2px solid rgba(255,215,0,0.3);
     }
-    /* Removed the extra dark radial overlay */
     .hero-content-center {
       position: relative;
       z-index: 2;
@@ -101,12 +100,13 @@
       font-weight: 500;
     }
 
-    /* Premium Workout Cards Grid */
+    /* Premium Workout Cards Grid - centered like diet.html */
     .workout-cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
       gap: 2rem;
-      margin: 2rem 0 3rem;
+      margin: 2rem auto;
+      justify-items: center;
     }
 
     .workout-card {
@@ -117,6 +117,9 @@
       overflow: hidden;
       transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
       box-shadow: 0 12px 30px -8px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
     }
     .workout-card:hover {
       transform: translateY(-6px);
@@ -156,7 +159,7 @@
       font-weight: 600;
     }
 
-    /* Carousel inside card (matches diet page quality) */
+    /* Carousel inside card */
     .card-carousel-container {
       padding: 1rem 1rem 0.5rem;
     }
@@ -264,7 +267,7 @@
       box-shadow: 0 0 12px gold;
     }
 
-    /* Body Mass Calculator (Glass luxury) */
+    /* Body Mass Calculator */
     .calculator-luxury {
       background: rgba(20,20,28,0.85);
       backdrop-filter: blur(12px);
@@ -309,28 +312,27 @@
       display: none;
     }
 
-    /* ===== MOBILE FIXES (cards alignment, no gap on right) ===== */
+    /* Mobile & responsive */
     @media (max-width: 768px) {
       .hero-content-center h1 { font-size: 2.5rem; }
       .category-luxury { font-size: 2rem; }
       .workout-cards-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
         gap: 1.5rem;
-        margin: 1.5rem 0;
+        justify-items: center;
+      }
+      .workout-card {
+        max-width: 100%;
+        width: 100%;
       }
       .card-header h3 { font-size: 1.3rem; }
       .container {
-        padding: 0 1rem; /* consistent padding on small screens */
+        padding: 0 1rem;
         width: 100%;
         overflow-x: hidden;
       }
       body {
         overflow-x: hidden;
-      }
-      .workout-card {
-        width: 100%;
-        margin: 0;
-        box-sizing: border-box;
       }
       .card-carousel-container {
         padding: 0.5rem;
@@ -381,7 +383,7 @@
 </head>
 <body>
 
-<!-- ===== PREMIUM NAVBAR (links fixed) ===== -->
+<!-- Navbar -->
 <header class="navbar" id="navbar">
   <div class="container nav-container">
     <div class="logo-wrapper">
@@ -401,7 +403,6 @@
 </header>
 
 <main>
-  <!-- Hero Cinematic Section -->
   <div class="workout-hero">
     <div class="hero-content-center">
       <h1>Weekly Workout Plan</h1>
@@ -410,10 +411,9 @@
   </div>
 
   <div class="container">
-    <!-- Workout Categories will be injected dynamically -->
     <div id="workoutRoot"></div>
 
-    <!-- Body Mass Calculator Section -->
+    <!-- Body Mass Calculator (no download button) -->
     <div class="category-luxury" style="margin-top: 2rem;"><span>⚖️ Body Mass Index</span></div>
     <div class="calculator-luxury" id="bmiCalculatorCard">
       <div class="input-group-custom"><label>Height (cm)</label><input type="number" id="bmiHeight" value="175" placeholder="cm"></div>
@@ -422,7 +422,6 @@
       <div id="bmiOutput" class="calc-result hidden">
         <div><span id="bmiValue" style="font-size:2rem; font-weight:800; color:#FFD700;">0</span> <span style="color:#FFD700;">BMI</span></div>
         <p id="bmiCategoryText" style="color:#ccc; margin:0.5rem 0;">—</p>
-        <button id="downloadBmiPdfBtn" class="btn-pdf" style="margin-top:0.8rem;">📥 Download Results PDF</button>
       </div>
     </div>
   </div>
@@ -443,11 +442,12 @@
 </footer>
 
 <script>
-  // ========== GLOBAL STATE ==========
+  // ========== FIXED API_BASE – uses relative path for both local and Render ==========
+  const API_BASE = '/api';
+
   let siteSettings = {};
   let categories = [];
   let allDays = [];
-  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
 
   async function fetchJSON(url) {
     try {
@@ -485,7 +485,7 @@
   }
 
   function createCarousel(cardElement, imagesArray) {
-    // imagesArray is [{ url, label }]
+    if (!imagesArray.length) return;
     const carouselDiv = document.createElement('div');
     carouselDiv.className = 'workout-carousel';
     const track = document.createElement('div');
@@ -493,7 +493,7 @@
     imagesArray.forEach(img => {
       const slide = document.createElement('div');
       slide.className = 'carousel-slide';
-      slide.innerHTML = `<img src="${img.url}" alt="exercise" loading="lazy"><div class="image-label">${img.label}</div>`;
+      slide.innerHTML = `<img src="${img.url}" alt="exercise" loading="lazy"><div class="image-label">${escapeHtml(img.label)}</div>`;
       track.appendChild(slide);
     });
     carouselDiv.appendChild(track);
@@ -522,7 +522,7 @@
     function resetAutoTimer() { if (pauseTimer) clearTimeout(pauseTimer); if (autoTimer) clearInterval(autoTimer); pauseTimer = setTimeout(startAuto, 6000); }
     startAuto();
     update();
-    // swipe support
+
     let startX = 0, isDragging = false;
     track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; isDragging = true; });
     track.addEventListener('touchmove', (e) => { if (!isDragging) return; const diff = e.touches[0].clientX - startX; if (Math.abs(diff) > 40) { if (diff > 0) prevBtn.click(); else nextBtn.click(); isDragging = false; } });
@@ -558,20 +558,16 @@
       });
     });
 
-    // ATTACH PDF DOWNLOAD EVENTS – using dynamic PDF generator (pdf-workout.html)
     document.querySelectorAll('[data-pdf-category]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const catKey = btn.getAttribute('data-pdf-category');
-        // Open the PDF generator page – it will auto-download and close
         window.open(`pdf-workout.html?category=${catKey}`, '_blank');
       });
     });
   }
 
-  // Body Mass Calculator
-  const calcBtn = document.getElementById('calculateBmiBtn');
-  const bmiOutputDiv = document.getElementById('bmiOutput');
-  calcBtn.addEventListener('click', () => {
+  // BMI Calculator
+  document.getElementById('calculateBmiBtn').addEventListener('click', () => {
     const heightCm = parseFloat(document.getElementById('bmiHeight').value);
     const weightKg = parseFloat(document.getElementById('bmiWeight').value);
     if (isNaN(heightCm) || isNaN(weightKg) || heightCm <= 0) { alert('Enter valid height and weight'); return; }
@@ -584,15 +580,7 @@
     else category = 'Obese';
     document.getElementById('bmiValue').innerText = bmi;
     document.getElementById('bmiCategoryText').innerHTML = `<strong>${category}</strong> · BMI ${bmi}`;
-    bmiOutputDiv.classList.remove('hidden');
-  });
-  document.getElementById('downloadBmiPdfBtn').addEventListener('click', () => {
-    const bmiVal = document.getElementById('bmiValue').innerText;
-    const catText = document.getElementById('bmiCategoryText').innerText;
-    const pdfContent = document.createElement('div');
-    pdfContent.style.background = '#121212'; pdfContent.style.padding = '2rem'; pdfContent.style.color = '#fff';
-    pdfContent.innerHTML = `<h2 style="color:#FFD700;">UltraFit Body Mass Report</h2><p>BMI: <strong style="font-size:1.8rem;">${bmiVal}</strong></p><p>${catText}</p><p>Height: ${document.getElementById('bmiHeight').value} cm | Weight: ${document.getElementById('bmiWeight').value} kg</p>`;
-    html2pdf().set({ margin: 0.5, filename: 'UltraFit_BMI_Report.pdf' }).from(pdfContent).save();
+    document.getElementById('bmiOutput').classList.remove('hidden');
   });
 
   function escapeHtml(str) {
@@ -605,14 +593,12 @@
     });
   }
 
-  // ========== INIT ==========
   (async function init() {
     await loadData();
     renderHero();
     renderWorkoutSections();
   })();
 
-  // Navbar & animations
   const hamburger = document.getElementById('hamburger');
   const navLinksEl = document.getElementById('navLinks');
   if(hamburger) hamburger.addEventListener('click', () => navLinksEl.classList.toggle('active'));
