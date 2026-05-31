@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#121212" />
   <title>UltraFit Gym | The Standard of Strength</title>
+  <!-- PWA meta links -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="UltraFit logo.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="UltraFit Gym">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
@@ -1630,7 +1636,8 @@ input, textarea, [contenteditable="true"] {
       </div>
       <div class="hero-brand">ULTRAFIT</div>
       <h1 class="hero-title" id="heroTitle">The Standard of Strength</h1>
-      <button class="btn-primary btn-vip" id="heroVipBtn">Claim Your 3-Day VIP Pass</button>
+      <!-- Updated button: triggers PWA install (no trial modal) -->
+      <button class="btn-primary btn-vip" id="installAppBtn">📱 Download UltraFit App</button>
       <div class="live-status">
         <span class="pulse-dot"></span>
         <span id="statusText">Open Now – Closing at 10 PM</span>
@@ -1762,7 +1769,7 @@ input, textarea, [contenteditable="true"] {
     </div>
   </section>
 
-  <!-- CONTACT + MAP -->
+  <!-- CONTACT + MAP (with updated WhatsApp messages) -->
   <section class="contact-visit-section" id="contact-section">
     <div class="container">
       <div class="contact-visit-grid">
@@ -1778,15 +1785,12 @@ input, textarea, [contenteditable="true"] {
             <i class="fab fa-whatsapp"></i>
             <span class="contact-label">WhatsApp</span>
             <span class="contact-value" id="contactWhatsapp">+1 (212) 555-7891</span>
-            <a href="https://wa.me/12125557891?text=Hello%20UltraFit%2C%20I'm%20interested" target="_blank" class="contact-button">Chat Now</a>
+            <!-- Updated default message -->
+            <a href="https://wa.me/12125557891?text=Hi%2C%20I%20want%20to%20join%20UltraFit%20Gym" target="_blank" class="contact-button">Chat Now</a>
           </div>
           <div class="contact-social">
-            <a href="https://facebook.com/ultrafitgym" target="_blank" class="social-link">
-  <i class="fab fa-facebook-f"></i> Facebook
-</a>
-<a href="https://instagram.com/ultrafitgym" target="_blank" class="social-link">
-  <i class="fab fa-instagram"></i> Instagram
-</a>
+            <a href="https://facebook.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <a href="https://instagram.com/ultrafitgym" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
           </div>
           <div class="contact-address">
             <i class="fas fa-map-marker-alt"></i>
@@ -1818,14 +1822,14 @@ input, textarea, [contenteditable="true"] {
   </div>
 </footer>
 
-<!-- MODAL FOR FREE TRIAL (premium) -->
+<!-- MODAL FOR FREE TRIAL – "Phone Number" changed to "WhatsApp Number" -->
 <div id="modalOverlay" class="modal-overlay">
   <div class="modal-content">
     <span class="close-modal">&times;</span>
     <div class="modal-title">✨ Claim Your Free Trial</div>
     <form id="trialForm" class="trial-form">
       <input type="text" id="trialName" placeholder="Full Name" required>
-      <input type="tel" id="trialPhone" placeholder="Phone Number" required>
+      <input type="tel" id="trialPhone" placeholder="WhatsApp Number" required>
       <input type="email" id="trialEmail" placeholder="Email Address" required>
       <button type="submit" id="submitTrialBtn">Get My Free Pass</button>
       <div id="trialMessage" class="trial-message" style="display: none;"></div>
@@ -1833,7 +1837,7 @@ input, textarea, [contenteditable="true"] {
   </div>
 </div>
 
-<!-- ===== PREMIUM AI CHAT BUBBLE & WINDOW (updated icon and hover text) ===== -->
+<!-- AI CHAT BUBBLE -->
 <div class="ai-chat-container">
   <div class="chat-bubble" id="chatBubble">
     <div class="ai-icon"><i class="fas fa-comment-dots"></i></div>
@@ -1857,11 +1861,34 @@ input, textarea, [contenteditable="true"] {
 <div class="floating-cta"><button class="floating-trial-btn" id="floatingTrialBtn">Book 3-Day Free Trial</button></div>
 
 <script>
-  // ===== SELF-CONTAINED JAVASCRIPT (unchanged) =====
+  // ===== PWA INSTALL PROMPT LOGIC (hero button) =====
+  let deferredPrompt;
+  const installBtn = document.getElementById('installAppBtn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = 'inline-block';
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted install');
+        }
+        deferredPrompt = null;
+      });
+    } else {
+      alert('Your browser does not support app installation. You can manually add this site to your home screen.');
+    }
+  });
+
+  // ===== MAIN SCRIPT (FULLY MERGED FROM YOUR ORIGINAL WORKING INDEX.HTML) =====
   (function() {
-    const API_BASE = window.location.hostname === 'localhost' 
-    ? '/api' 
-    : 'https://ultrafit-gym-unnao.onrender.com/api';
+    // FIXED: use relative path for both local and Render
+    const API_BASE = '/api';
 
     async function fetchJSON(url) {
       try {
@@ -1992,6 +2019,7 @@ input, textarea, [contenteditable="true"] {
       const container = document.getElementById('trainersContainer');
       if (!container) return;
       if (!trainers.length) { container.innerHTML = '<p style="color:white;">No trainers found.</p>'; return; }
+      // Updated WhatsApp message: "Hi, {name} I want to join UltraFit Gym."
       container.innerHTML = trainers.map(t => `
         <div class="leader-card" data-trainer-id="${t._id}">
           <img src="${t.photoUrl}" alt="${t.name}" loading="lazy">
@@ -1999,11 +2027,12 @@ input, textarea, [contenteditable="true"] {
           <p>${escapeHtml(t.position)}</p>
           <button class="btn-outline-gold view-profile-btn">View Profile</button>
           <div class="trainer-socials">
-            <a href="https://wa.me/${t.whatsappNumber}?text=Hello%20UltraFit%2C%20I'm%20interested%20in%20training%20with%20${encodeURIComponent(t.name)}" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/${t.whatsappNumber}?text=Hi%2C%20${encodeURIComponent(t.name)}%20I%20want%20to%20join%20UltraFit%20Gym" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
             <a href="${t.instagramUrl}" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
       `).join('');
+      // View profile logic
       document.querySelectorAll('.leader-card .view-profile-btn').forEach((btn, idx) => {
         btn.addEventListener('click', () => {
           const trainer = trainers[idx];
@@ -2273,7 +2302,7 @@ input, textarea, [contenteditable="true"] {
       const whatsappEl = document.getElementById('contactWhatsapp');
       if (whatsappEl && contactInfo.whatsappNumber) whatsappEl.innerText = contactInfo.whatsappNumber;
       const waLink = document.querySelector('.contact-info-item a[href*="wa.me"]');
-      if (waLink && contactInfo.whatsappNumber) waLink.href = `https://wa.me/${contactInfo.whatsappNumber}?text=Hello%20UltraFit%2C%20I'm%20interested`;
+      if (waLink && contactInfo.whatsappNumber) waLink.href = `https://wa.me/${contactInfo.whatsappNumber}?text=Hi%2C%20I%20want%20to%20join%20UltraFit%20Gym`;
       const fbLink = document.querySelector('.contact-social a[href*="facebook"]');
       if (fbLink && contactInfo.facebookUrl) fbLink.href = contactInfo.facebookUrl;
       const igLink = document.querySelector('.contact-social a[href*="instagram"]');
@@ -2561,7 +2590,7 @@ input, textarea, [contenteditable="true"] {
 
     document.getElementById('trialForm')?.addEventListener('submit', submitTrialForm);
 
-    // ----- AI CHAT functionality (unchanged) -----
+    // AI CHAT functionality (unchanged)
     const chatBubble = document.getElementById('chatBubble');
     const chatWindow = document.getElementById('chatWindow');
     const chatClose = document.getElementById('chatCloseBtn');
