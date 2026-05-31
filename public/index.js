@@ -1,54 +1,67 @@
-// ===== MAIN SCRIPT =====
+// ===== PWA INSTALL LOGIC (MUST BE FIRST, BEFORE ANY OTHER CODE) =====
 (function() {
-  const API_BASE = '/api';
-
-  // ===== PWA INSTALL FIX (no alert, iOS support) =====
-   // ===== PWA INSTALL LOGIC (button always visible, no alert) =====
   let deferredPrompt;
   const installBtn = document.getElementById('installAppBtn');
   const iosHint = document.getElementById('iosInstallHint');
 
-  // Detect iOS
+  // If the button doesn't exist, exit early
+  if (!installBtn) {
+    console.warn('Install button not found – check ID');
+    return;
+  }
+
+  // iOS detection
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   if (isIOS && iosHint) {
-    // iOS: hide button, show manual hint
-    if (installBtn) installBtn.style.display = 'none';
+    // iOS: hide the button, show the manual hint
+    installBtn.style.display = 'none';
     iosHint.style.display = 'block';
+    console.log('🍎 iOS mode – manual hint shown');
   } else {
-    // Non-iOS: show button by default (it was hidden in HTML, so remove inline style)
-    if (installBtn) installBtn.style.display = 'inline-block';
+    // Non-iOS: make the button visible
+    installBtn.style.display = 'inline-block';
+    console.log('🖥️ Non-iOS – button visible');
 
-    // Listen for beforeinstallprompt (supported browsers)
+    // Listen for the beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      // Button is already visible, no need to show again
-      console.log('✅ PWA install supported');
+      console.log('✅ beforeinstallprompt fired – ready to install');
     });
 
-    // Handle click
-    if (installBtn) {
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          deferredPrompt = null;
-          console.log(`Install outcome: ${outcome}`);
-        } else {
-          // No install prompt available – do nothing (no alert)
-          // Optionally, you could show a small non-intrusive message here
-          console.log('Install not supported on this browser');
-        }
-      });
-    }
+    // Handle button click
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        console.log('📲 Showing native install prompt');
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User ${outcome} the installation`);
+        deferredPrompt = null;
+      } else {
+        // No deferredPrompt – likely the site isn't installable yet
+        console.warn('⚠️ Install prompt not available yet. Try visiting again or use browser menu.');
+        // Optional: show a temporary friendly message
+        const originalText = installBtn.innerHTML;
+        installBtn.innerHTML = '⚠️ Tap ⋮ menu → Install app';
+        setTimeout(() => {
+          installBtn.innerHTML = originalText;
+        }, 3000);
+      }
+    });
   }
-  // ===== SERVICE WORKER REGISTRATION =====
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('✅ Service Worker registered', reg))
-      .catch(err => console.log('❌ SW registration failed', err));
-  }
+})();
+
+// ===== SERVICE WORKER REGISTRATION =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(reg => console.log('✅ Service Worker registered', reg))
+    .catch(err => console.error('❌ SW registration failed', err));
+}
+
+// ===== MAIN APPLICATION SCRIPT (ALL YOUR EXISTING LOGIC) =====
+(function() {
+  const API_BASE = '/api';
 
   // ===== HELPER FUNCTIONS =====
   const DEFAULT_PROFILE = "https://img.freepik.com/premium-vector/vector-flat-illustration-grayscale-avatar-user-profile-person-icon-gender-neutral-silhouette_719432-3512.jpg?semt=ais_hybrid&w=740&q=80";
@@ -124,7 +137,7 @@
     if (contactRes) contactInfo = contactRes;
   }
 
-  // ===== RENDER FUNCTIONS =====
+  // ===== RENDER FUNCTIONS (all unchanged from your original) =====
   function renderSiteSettings() {
     const logoImgs = document.querySelectorAll('.nav-logo-img, .hero-logo-img');
     logoImgs.forEach(img => { if (siteSettings.logoUrl) img.src = siteSettings.logoUrl; });

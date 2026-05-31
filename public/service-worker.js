@@ -7,7 +7,8 @@ const urlsToCache = [
   '/members.html',
   '/shop.html',
   '/index.css',
-  '/UltraFit logo.png'
+  '/index.js',          // add your main JS file
+  '/ultrafit-logo.png'
 ];
 
 self.addEventListener('install', event => {
