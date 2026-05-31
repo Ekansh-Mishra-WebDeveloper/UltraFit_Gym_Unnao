@@ -308,11 +308,74 @@
     .hidden {
       display: none;
     }
+
+    /* ===== MOBILE FIXES (cards alignment, no gap on right) ===== */
     @media (max-width: 768px) {
       .hero-content-center h1 { font-size: 2.5rem; }
       .category-luxury { font-size: 2rem; }
-      .workout-cards-grid { grid-template-columns: 1fr; }
+      .workout-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
       .card-header h3 { font-size: 1.3rem; }
+      .container {
+        padding: 0 1rem; /* consistent padding on small screens */
+        width: 100%;
+        overflow-x: hidden;
+      }
+      body {
+        overflow-x: hidden;
+      }
+      .workout-card {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .card-carousel-container {
+        padding: 0.5rem;
+      }
+      .carousel-slide img {
+        aspect-ratio: 4/3;
+        width: 100%;
+      }
+      .carousel-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+      }
+      .pdf-group {
+        justify-content: center;
+        margin: 0.5rem 0 1rem;
+      }
+      .btn-pdf {
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+      }
+      .calculator-luxury {
+        padding: 1.2rem;
+        margin: 1rem auto 2rem;
+      }
+      .input-group-custom input, .input-group-custom select {
+        padding: 0.6rem 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content-center h1 { font-size: 2rem; }
+      .category-luxury { font-size: 1.6rem; }
+      .card-header h3 { font-size: 1.2rem; }
+      .exercise-item {
+        font-size: 0.75rem;
+        padding: 0.3rem 0;
+      }
+      .btn-pdf {
+        font-size: 0.7rem;
+      }
     }
   </style>
 </head>
@@ -384,9 +447,7 @@
   let siteSettings = {};
   let categories = [];
   let allDays = [];
-  const API_BASE = window.location.hostname === 'localhost' 
-    ? '/api' 
-    : 'https://ultrafit-gym-unnao.onrender.com/api';
+  const API_BASE = window.location.hostname === 'localhost' ? '/api' : 'https://ultrafit-gym-unnao.onrender.com';
 
   async function fetchJSON(url) {
     try {
