@@ -1,63 +1,89 @@
-// ===== PWA INSTALL LOGIC (MUST BE FIRST, BEFORE ANY OTHER CODE) =====
-(function() {
-  let deferredPrompt;
-  const installBtn = document.getElementById('installAppBtn');
-  const iosHint = document.getElementById('iosInstallHint');
-
-  // If the button doesn't exist, exit early
-  if (!installBtn) {
-    console.warn('Install button not found – check ID');
-    return;
-  }
-
-  // iOS detection
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-  if (isIOS && iosHint) {
-    // iOS: hide the button, show the manual hint
-    installBtn.style.display = 'none';
-    iosHint.style.display = 'block';
-    console.log('🍎 iOS mode – manual hint shown');
-  } else {
-    // Non-iOS: make the button visible
-    installBtn.style.display = 'inline-block';
-    console.log('🖥️ Non-iOS – button visible');
-
-    // Listen for the beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      console.log('✅ beforeinstallprompt fired – ready to install');
-    });
-
-    // Handle button click
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        console.log('📲 Showing native install prompt');
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User ${outcome} the installation`);
-        deferredPrompt = null;
-      } else {
-        // No deferredPrompt – likely the site isn't installable yet
-        console.warn('⚠️ Install prompt not available yet. Try visiting again or use browser menu.');
-        // Optional: show a temporary friendly message
-        const originalText = installBtn.innerHTML;
-        installBtn.innerHTML = '⚠️ Tap ⋮ menu → Install app';
-        setTimeout(() => {
-          installBtn.innerHTML = originalText;
-        }, 3000);
-      }
-    });
-  }
-})();
-
 // ===== SERVICE WORKER REGISTRATION =====
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
     .then(reg => console.log('✅ Service Worker registered', reg))
     .catch(err => console.error('❌ SW registration failed', err));
 }
+
+// ===== PWA INSTALL LOGIC (always visible button, clean modals) =====
+(function() {
+  const installBtn = document.getElementById('installAppBtn');
+  if (!installBtn) return;
+
+  let deferredPrompt = null;
+
+  // Listen for the beforeinstallprompt event (Android Chrome, Edge, etc.)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('✅ beforeinstallprompt fired – native install available');
+  });
+
+  // Button click handler
+  installBtn.addEventListener('click', async () => {
+    // Detect platform
+    const userAgent = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /Android/.test(userAgent);
+    const isDesktop = !isIOS && !isAndroid;
+
+    // Case 1: iOS – show modal with Safari instructions
+    if (isIOS) {
+      showInstructionModal(
+        'Install on iPhone / iPad',
+        '📱 Tap the <strong>Share</strong> button <span style="font-size:18px;">⎙</span> in Safari, then scroll down and tap <strong>Add to Home Screen</strong>.'
+      );
+      return;
+    }
+
+    // Case 2: Desktop (PC) – suggest using mobile
+    if (isDesktop) {
+      showInstructionModal(
+        'Best on Mobile',
+        'For the best experience, install UltraFit on your Android or iOS device. Open this page in Chrome or Safari and tap the install button.'
+      );
+      return;
+    }
+
+    // Case 3: Android – use native prompt if available
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`Install outcome: ${outcome}`);
+      deferredPrompt = null;
+    } else {
+      // Fallback for Android if beforeinstallprompt hasn't fired yet
+      showInstructionModal(
+        'Install UltraFit',
+        'Tap the browser menu (⋮) and select <strong>Install app</strong> or <strong>Add to Home screen</strong>.'
+      );
+    }
+  });
+
+  // Helper: show the clean modal
+  function showInstructionModal(title, message) {
+    const modal = document.getElementById('instructionModal');
+    const titleEl = document.getElementById('modalTitle');
+    const msgEl = document.getElementById('modalMessage');
+    if (modal && titleEl && msgEl) {
+      titleEl.innerHTML = title;
+      msgEl.innerHTML = message;
+      modal.style.display = 'flex';
+    }
+  }
+
+  // Close modal when clicking the button or outside
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modal = document.getElementById('instructionModal');
+  if (closeModalBtn && modal) {
+    closeModalBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  }
+})();
 
 // ===== MAIN APPLICATION SCRIPT (ALL YOUR EXISTING LOGIC) =====
 (function() {
@@ -137,7 +163,7 @@ if ('serviceWorker' in navigator) {
     if (contactRes) contactInfo = contactRes;
   }
 
-  // ===== RENDER FUNCTIONS (all unchanged from your original) =====
+  // ===== RENDER FUNCTIONS =====
   function renderSiteSettings() {
     const logoImgs = document.querySelectorAll('.nav-logo-img, .hero-logo-img');
     logoImgs.forEach(img => { if (siteSettings.logoUrl) img.src = siteSettings.logoUrl; });
