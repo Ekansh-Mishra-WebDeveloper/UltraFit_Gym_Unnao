@@ -25,18 +25,6 @@ input, textarea, [contenteditable="true"] {
   cursor: text;
   user-select: text;
 }
-#installAdminAppBtn i {
-  vertical-align: middle;
-  line-height: 1;
-  display: inline-block;
-}
-.btn-primary i,
-.floating-trial-btn i,
-.install-app-btn i {
-  vertical-align: middle;
-  line-height: 1;
-  display: inline-block;
-}
 .container {
   max-width: 1300px;
   margin: 0 auto;

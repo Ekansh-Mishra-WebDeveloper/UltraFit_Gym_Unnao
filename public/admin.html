@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#121212">
   <title>UltraFit Admin | Live Editor</title>
+  <!-- PWA manifest for admin app -->
+  <link rel="manifest" href="admin-manifest.json">
+  <link rel="apple-touch-icon" href="admin-ultrafit-logo.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Admin UltraFit Gym">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="index.css">
@@ -1035,7 +1041,10 @@
         </div>
         <div class="hero-brand" id="heroBrandText">ULTRAFIT</div>
         <h1 class="hero-title" id="heroSubheading">The Standard of Strength</h1>
-        <button class="btn-primary btn-vip" id="heroCtaBtn">Claim Your 3-Day VIP Pass</button>
+        <!-- Changed: replaced trial button with PWA install button -->
+        <button class="btn-primary btn-vip" id="installAdminAppBtn">
+  <i class="fas fa-mobile-alt" style="margin-right: 8px;"></i> Download Admin App
+</button>
         <div class="hero-update-wrapper">
           <button class="standard-update-btn" id="openHeroModalBtn"><i class="fas fa-pencil-alt"></i> Update</button>
         </div>
@@ -1339,6 +1348,30 @@
   <div id="adminToast" class="admin-toast"></div>
 
   <script>
+    // ==================== PWA INSTALL LOGIC FOR ADMIN ====================
+    let deferredAdminPrompt;
+    const installAdminBtn = document.getElementById('installAdminAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredAdminPrompt = e;
+      installAdminBtn.style.display = 'inline-block';
+    });
+
+    installAdminBtn.addEventListener('click', () => {
+      if (deferredAdminPrompt) {
+        deferredAdminPrompt.prompt();
+        deferredAdminPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Admin accepted install');
+          }
+          deferredAdminPrompt = null;
+        });
+      } else {
+        alert('Your browser does not support app installation. You can manually add this site to your home screen.');
+      }
+    });
+
     // ==================== ADMIN LOGIC WITH AUTHENTICATION ====================
     const API_BASE = '/api';
     let adminToken = localStorage.getItem('adminToken');
@@ -1534,13 +1567,14 @@
     function renderHero() {
       document.getElementById('heroLogo').src = siteSettings.logoUrl || 'UltraFit logo.png';
       document.getElementById('heroSubheading').innerText = siteSettings.heroSubheading || 'The Standard of Strength';
-      document.getElementById('heroCtaBtn').innerText = siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass';
+      // The hero button is now the install button – its text is static, not from settings
+      // We keep the original `heroCtaBtn` id but we changed it to `installAdminAppBtn` – remove old listener
+      // The button text is set in HTML, not from settings
       document.getElementById('liveStatusText').innerText = siteSettings.liveStatusText || 'Open Now – Closing at 10 PM';
       document.getElementById('floatingCtaBtn').innerText = siteSettings.floatingButtonText || 'Book 3-Day Free Trial';
       const brandEl = document.getElementById('heroBrandText');
       if (brandEl && siteSettings.heroBrand) brandEl.innerText = siteSettings.heroBrand;
       else if (brandEl) brandEl.innerText = 'ULTRAFIT';
-      // Hero background image (from siteSettings)
       const heroBg = document.querySelector('.hero .hero-video-wrapper');
       if (siteSettings.heroBackgroundImage && heroBg) {
         heroBg.style.backgroundImage = `url('${siteSettings.heroBackgroundImage}')`;
@@ -2507,108 +2541,99 @@
 
     // ========== FIXED EDIT HERO MODAL ==========
     function openHeroModal() {
-  const modal = document.getElementById('modalContainer');
-  // IMPORTANT: siteSettings must be loaded already (from loadAllData)
-  const currentImageUrl = siteSettings.heroBackgroundImage || '';
-
-  modal.innerHTML = `
-    <div class="premium-modal-card">
-      <h3>Edit Hero Section</h3>
-      <div class="field-group">
-        <label>Current Hero Background Image</label>
-        <div class="modal-image-container">
-          <img id="heroBgPreview" class="modal-image" style="max-width:100%; max-height:200px; object-fit:contain; border:1px solid #FFD700;" 
-               src="${currentImageUrl}" 
-               onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
+      const modal = document.getElementById('modalContainer');
+      const currentImageUrl = siteSettings.heroBackgroundImage || '';
+      modal.innerHTML = `
+        <div class="premium-modal-card">
+          <h3>Edit Hero Section</h3>
+          <div class="field-group">
+            <label>Current Hero Background Image</label>
+            <div class="modal-image-container">
+              <img id="heroBgPreview" class="modal-image" style="max-width:100%; max-height:200px; object-fit:contain; border:1px solid #FFD700;" 
+                   src="${currentImageUrl}" 
+                   onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22100%22%3E%3Crect%20width%3D%22200%22%20height%3D%22100%22%20fill%3D%22%23333%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20fill%3D%22%23FFD700%22%3ENo%20Image%3C%2Ftext%3E%3C%2Fsvg%3E'">
+            </div>
+            <div class="image-upload-area" id="heroBgUpload">Upload New Background Image</div>
+          </div>
+          <div class="field-group">
+            <label>Subheading</label>
+            <input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.heroSubheading || 'The Standard of Strength')}">
+          </div>
+          <div class="field-group">
+            <label>Button Text</label>
+            <input type="text" id="heroCtaInput" value="${escapeHtml(siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass')}">
+          </div>
+          <div class="modal-buttons">
+            <button class="modal-btn-cancel" id="cancelBtn">Cancel</button>
+            <button class="modal-btn-save" id="saveBtn">Save</button>
+          </div>
         </div>
-        <div class="image-upload-area" id="heroBgUpload">Upload New Background Image</div>
-      </div>
-      <div class="field-group">
-        <label>Subheading</label>
-        <input type="text" id="heroSubInput" value="${escapeHtml(siteSettings.heroSubheading || 'The Standard of Strength')}">
-      </div>
-      <div class="field-group">
-        <label>Button Text</label>
-        <input type="text" id="heroCtaInput" value="${escapeHtml(siteSettings.heroButtonText || 'Claim Your 3-Day VIP Pass')}">
-      </div>
-      <div class="modal-buttons">
-        <button class="modal-btn-cancel" id="cancelBtn">Cancel</button>
-        <button class="modal-btn-save" id="saveBtn">Save</button>
-      </div>
-    </div>
-  `;
-  modal.style.display = 'flex';
+      `;
+      modal.style.display = 'flex';
 
-  let newImageUrl = currentImageUrl;
-  const previewImg = document.getElementById('heroBgPreview');
-
-  // Handle image upload
-  const uploadArea = document.getElementById('heroBgUpload');
-  uploadArea.onclick = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const formData = new FormData();
-      formData.append('image', file);
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: getAuthHeaders(),
-          body: formData
+      let newImageUrl = currentImageUrl;
+      const previewImg = document.getElementById('heroBgPreview');
+      const uploadArea = document.getElementById('heroBgUpload');
+      uploadArea.onclick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const formData = new FormData();
+          formData.append('image', file);
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: getAuthHeaders(),
+              body: formData
+            });
+            if (res.status === 401) {
+              localStorage.removeItem('adminToken');
+              adminToken = null;
+              isAuthenticated = false;
+              showLoginModal();
+              return;
+            }
+            if (!res.ok) throw new Error(`Upload failed: HTTP ${res.status}`);
+            const data = await res.json();
+            if (data.url) {
+              newImageUrl = data.url;
+              previewImg.src = newImageUrl;
+              showToast('Image uploaded. Click Save to apply.');
+            } else {
+              showToast('Upload failed: no URL returned', true);
+            }
+          } catch (err) {
+            console.error(err);
+            showToast('Upload error: ' + err.message, true);
+          }
+        };
+        input.click();
+      };
+      document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
+      document.getElementById('saveBtn').onclick = async () => {
+        const updatedSettings = {
+          heroSubheading: document.getElementById('heroSubInput').value,
+          heroButtonText: document.getElementById('heroCtaInput').value,
+          heroBackgroundImage: newImageUrl
+        };
+        const res = await fetchJSON('/api/sitesettings', {
+          method: 'PUT',
+          body: JSON.stringify(updatedSettings)
         });
-        if (res.status === 401) {
-          localStorage.removeItem('adminToken');
-          adminToken = null;
-          isAuthenticated = false;
-          showLoginModal();
-          return;
-        }
-        if (!res.ok) throw new Error(`Upload failed: HTTP ${res.status}`);
-        const data = await res.json();
-        if (data.url) {
-          newImageUrl = data.url;
-          previewImg.src = newImageUrl;
-          showToast('Image uploaded. Click Save to apply.');
+        if (res) {
+          siteSettings = { ...siteSettings, ...updatedSettings };
+          renderHero();
+          modal.style.display = 'none';
+          showToast('Hero section updated');
         } else {
-          showToast('Upload failed: no URL returned', true);
+          showToast('Update failed', true);
         }
-      } catch (err) {
-        console.error(err);
-        showToast('Upload error: ' + err.message, true);
-      }
-    };
-    input.click();
-  };
-
-  // Cancel button
-  document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
-
-  // Save button
-  document.getElementById('saveBtn').onclick = async () => {
-    const updatedSettings = {
-      heroSubheading: document.getElementById('heroSubInput').value,
-      heroButtonText: document.getElementById('heroCtaInput').value,
-      heroBackgroundImage: newImageUrl
-    };
-    const res = await fetchJSON('/api/sitesettings', {
-      method: 'PUT',
-      body: JSON.stringify(updatedSettings)
-    });
-    if (res) {
-      // Update local siteSettings
-      siteSettings = { ...siteSettings, ...updatedSettings };
-      // Update the hero background on the page
-      renderHero();
-      modal.style.display = 'none';
-      showToast('Hero section updated');
-    } else {
-      showToast('Update failed', true);
+      };
     }
-  };
-}
+
     function openLogoModal() {
       const modal = document.getElementById('modalContainer');
       const currentLogo = siteSettings.logoUrl || 'UltraFit logo.png';
@@ -2867,7 +2892,7 @@
       if (e.key === 'Enter') sendChatMessage();
     });
 
-    // Trial modal openers
+    // Trial modal openers (keep floating button only, hero button is now install)
     function openTrialModal() {
       const modal = document.getElementById('modalOverlay');
       if (modal) {
@@ -2924,8 +2949,7 @@
       document.getElementById('editHeroLogoBtn').onclick = openLogoModal;
       document.getElementById('editTrialBtn').onclick = editTrialButton;
 
-      // Trial modal triggers
-      document.getElementById('heroCtaBtn')?.addEventListener('click', openTrialModal);
+      // Trial modal triggers: only floating button, hero button is install
       document.getElementById('floatingCtaBtn')?.addEventListener('click', openTrialModal);
 
       document.querySelectorAll('.edit-section-heading').forEach(btn => {
@@ -2933,7 +2957,6 @@
         btn.onclick = () => editSectionHeading(sectionId);
       });
 
-      // Close modal when clicking outside or on close button
       const modalOverlay = document.getElementById('modalOverlay');
       const closeBtn = document.getElementById('closeModalBtn');
       if (closeBtn) closeBtn.onclick = () => modalOverlay.style.display = 'none';
@@ -2941,7 +2964,6 @@
         if (e.target === modalOverlay) modalOverlay.style.display = 'none';
       };
 
-      // Handle trial form submission (same as index.html)
       document.getElementById('submitTrialBtn')?.addEventListener('click', async (e) => {
         e.preventDefault();
         const name = document.getElementById('trialName').value.trim();

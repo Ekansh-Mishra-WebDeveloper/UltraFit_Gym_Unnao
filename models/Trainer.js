@@ -1,3 +1,4 @@
+// models/Trainer.js (public-facing trainers for website)
 const mongoose = require('mongoose');
 
 const trainerSchema = new mongoose.Schema({

@@ -14,7 +14,8 @@ const DietPlan = require('./models/DietPlan');
 const WorkoutPlan = require('./models/WorkoutPlan');
 const Membership = require('./models/Membership');
 const LegalContent = require('./models/LegalContent');
-const ContactInfo = require('./models/ContactInfo'); // assuming you have this model
+const ContactInfo = require('./models/ContactInfo');
+const StaffTrainer = require('./models/StaffTrainer');
 
 // Import routes
 const trainerRoutes = require('./routes/trainers');
@@ -37,6 +38,13 @@ const workoutDaysRoutes = require('./routes/workoutDays');
 const legalRoutes = require('./routes/legal');
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/upload');
+
+// Trainer authentication & panel routes
+const trainerAuthRoutes = require('./routes/trainerAuth');
+const trainerPanelRoutes = require('./routes/trainerPanel');
+
+// Admin panel routes (NEW)
+const adminPanelRoutes = require('./routes/adminPanel');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -117,28 +125,25 @@ app.post('/api/book-trial', async (req, res) => {
   }
 });
 
-// ========== GROQ CHATBOT (full website data) ==========
+// ========== GROQ CHATBOT ==========
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 async function getWebsiteDataForAI() {
-  // Fetch all necessary collections
   const memberships = await Membership.find().lean();
   const members = await Member.find().lean();
   const products = await Product.find().lean().limit(30);
   const dietPlans = await DietPlan.find().lean();
   const workoutPlans = await WorkoutPlan.find().lean();
   const trainers = await Trainer.find().lean();
-  const contact = await ContactInfo.findOne().lean(); // assuming single document
-  const legalDocs = await LegalContent.find().lean(); // pageKey: 'privacy', 'refund', 'terms'
+  const contact = await ContactInfo.findOne().lean();
+  const legalDocs = await LegalContent.find().lean();
 
-  // Extract legal summaries
   const privacyDoc = legalDocs.find(d => d.pageKey === 'privacy');
   const refundDoc = legalDocs.find(d => d.pageKey === 'refund');
   const termsDoc = legalDocs.find(d => d.pageKey === 'terms');
 
   const getLegalSummary = (doc) => {
     if (!doc || !doc.sections || doc.sections.length === 0) return null;
-    // take first section content (first 500 chars) as summary
     const firstSection = doc.sections[0];
     let summary = firstSection.content;
     if (summary.length > 500) summary = summary.substring(0, 500) + '...';
@@ -149,34 +154,23 @@ async function getWebsiteDataForAI() {
   const refundSummary = getLegalSummary(refundDoc) || 'Refund policy available on refund.html.';
   const termsSummary = getLegalSummary(termsDoc) || 'Terms & conditions available on terms.html.';
 
-  // Members stats
   const activeMembers = members.filter(m => m.status === 'active').length;
   const inactiveMembers = members.filter(m => m.status === 'inactive').length;
 
-  // Format trainers information (include phone/whatsapp)
   const trainersStr = trainers.map(t => 
     `- ${t.name} (${t.position}): WhatsApp ${t.whatsappNumber || 'N/A'}, Instagram: ${t.instagramUrl || 'N/A'}, Bio: ${t.bio || 'No bio'}`
   ).join('\n');
 
-  // Format membership plans
   const membershipStr = memberships.map(m => `- ${m.planName}: ₹${m.price} / ${m.duration} (${m.description || ''})`).join('\n');
-
-  // Format products
   const productsStr = products.map(p => `- ${p.name}: ₹${p.price} | Tags: ${(p.tags || []).join(', ')} | ${p.shortDescription || ''}`).join('\n');
-
-  // Format diet plans
   const dietStr = dietPlans.map(d => `- ${d.title}: ${d.shortDescription} | Targets: ${(d.targets || []).join(', ')}`).join('\n');
-
-  // Format workout plans
   const workoutStr = workoutPlans.map(w => `- ${w.title}: ${w.shortDescription} | Targets: ${(w.targets || []).join(', ')}`).join('\n');
 
-  // Contact info
   let contactStr = 'Contact details not available.';
   if (contact) {
     contactStr = `Phone: ${contact.phone || 'N/A'}, WhatsApp: ${contact.whatsappNumber || 'N/A'}, Email: ${contact.email || 'N/A'}, Address: ${contact.address || 'N/A'}`;
   }
 
-  // 3-day trial process (hardcoded but can be made dynamic if you store it in DB)
   const trialProcess = `To book a 3-day free trial, click the "Book 3-Day Free Trial" button on any page, or the "Claim Your 3-Day VIP Pass" button on the homepage. Fill in your full name, phone number, and email address. You will receive a confirmation email and our team will call you to schedule your trial slot. The trial includes full access to gym facilities and one free personal training session.`;
 
   return {
@@ -297,6 +291,13 @@ app.use('/api/workoutdays', workoutDaysRoutes);
 app.use('/api/legal', legalRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
+
+// Trainer authentication & panel routes
+app.use('/api/auth', trainerAuthRoutes);
+app.use('/api/trainer', trainerPanelRoutes);
+
+// Admin panel routes (NEW)
+app.use('/api/admin', adminPanelRoutes);
 
 // ========== STATIC FILES & FALLBACK ==========
 app.use(express.static(path.join(__dirname, 'public')));

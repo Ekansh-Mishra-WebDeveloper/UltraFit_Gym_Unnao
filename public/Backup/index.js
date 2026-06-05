@@ -1,46 +1,32 @@
-// ===== SERVICE WORKER REGISTRATION =====
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('✅ Service worker registered:', reg))
-      .catch(err => console.error('❌ Service worker registration failed:', err));
-  });
-}
-
-// ===== PWA INSTALL PROMPT =====
+// ===== PWA INSTALL PROMPT LOGIC =====
 let deferredPrompt;
 const installBtn = document.getElementById('installAppBtn');
-
-// Always show the button
-if (installBtn) installBtn.style.display = 'inline-flex';
 
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  console.log('✅ beforeinstallprompt fired – install available');
+  if (installBtn) installBtn.style.display = 'inline-block';
 });
 
 if (installBtn) {
   installBtn.addEventListener('click', () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choice) => {
-        if (choice.outcome === 'accepted') console.log('User accepted install');
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted install');
+        }
         deferredPrompt = null;
       });
     } else {
-      console.log('❌ No install prompt available. Check: HTTPS? Manifest? SW?');
-      // You can add a manual instruction if needed, but no alert.
+      alert('Your browser does not support app installation. You can manually add this site to your home screen.');
     }
   });
 }
 
-// ===== YOUR ORIGINAL MAIN SCRIPT (everything below is unchanged) =====
-// ... paste your entire original (function() { ... })(); here ...
-
-// ===== YOUR ORIGINAL MAIN SCRIPT (unchanged) =====
+// ===== MAIN SCRIPT =====
 (function() {
-  const API_BASE = '/api';
+  const API_BASE = '/api';   // relative path works for both local and Render
 
   async function fetchJSON(url) {
     try {
@@ -171,6 +157,7 @@ if (installBtn) {
     const container = document.getElementById('trainersContainer');
     if (!container) return;
     if (!trainers.length) { container.innerHTML = '<p style="color:white;">No trainers found.</p>'; return; }
+    // Updated WhatsApp message: "Hi, {name} I want to join UltraFit Gym."
     container.innerHTML = trainers.map(t => `
       <div class="leader-card" data-trainer-id="${t._id}">
         <img src="${t.photoUrl}" alt="${t.name}" loading="lazy">

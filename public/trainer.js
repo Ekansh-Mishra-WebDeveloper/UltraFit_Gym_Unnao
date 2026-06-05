@@ -1,47 +1,34 @@
-// ===== SERVICE WORKER REGISTRATION =====
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('✅ Service worker registered:', reg))
-      .catch(err => console.error('❌ Service worker registration failed:', err));
-  });
-}
-
-// ===== PWA INSTALL PROMPT =====
-let deferredPrompt;
-const installBtn = document.getElementById('installAppBtn');
-
-// Always show the button
-if (installBtn) installBtn.style.display = 'inline-flex';
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  console.log('✅ beforeinstallprompt fired – install available');
-});
-
-if (installBtn) {
-  installBtn.addEventListener('click', () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choice) => {
-        if (choice.outcome === 'accepted') console.log('User accepted install');
-        deferredPrompt = null;
-      });
-    } else {
-      console.log('❌ No install prompt available. Check: HTTPS? Manifest? SW?');
-      // You can add a manual instruction if needed, but no alert.
-    }
-  });
-}
-
-// ===== YOUR ORIGINAL MAIN SCRIPT (everything below is unchanged) =====
-// ... paste your entire original (function() { ... })(); here ...
-
-// ===== YOUR ORIGINAL MAIN SCRIPT (unchanged) =====
+// ===== TRAINER PAGE – FIXED PWA INSTALL BUTTON =====
 (function() {
   const API_BASE = '/api';
 
+  // ===== PWA INSTALL PROMPT LOGIC (trainer app) – FIXED ID =====
+  let deferredTrainerPrompt;
+  const installTrainerBtn = document.getElementById('installAdminAppBtn'); // Fixed ID
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredTrainerPrompt = e;
+    if (installTrainerBtn) installTrainerBtn.style.display = 'inline-flex'; // Show button
+  });
+
+  if (installTrainerBtn) {
+    installTrainerBtn.addEventListener('click', () => {
+      if (deferredTrainerPrompt) {
+        deferredTrainerPrompt.prompt();
+        deferredTrainerPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Trainer app install accepted');
+          }
+          deferredTrainerPrompt = null;
+        });
+      } else {
+        alert('Your browser does not support app installation. You can manually add this site to your home screen.');
+      }
+    });
+  }
+
+  // ========== REST OF THE SCRIPT (exactly the same as before) ==========
   async function fetchJSON(url) {
     try {
       const res = await fetch(url);
