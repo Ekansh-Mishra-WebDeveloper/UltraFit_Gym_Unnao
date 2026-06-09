@@ -5,6 +5,9 @@ const cors = require('cors');
 const path = require('path');
 const mailjet = require('node-mailjet');
 const Groq = require('groq-sdk');
+const jwt = require('jsonwebtoken');
+const multer = require('multer'); // ✅ ADDED FOR SIGNUP UPLOAD
+const fs = require('fs');          // ✅ ADDED FOR SIGNUP UPLOAD
 
 // Import models
 const Trainer = require('./models/Trainer');
@@ -16,6 +19,11 @@ const Membership = require('./models/Membership');
 const LegalContent = require('./models/LegalContent');
 const ContactInfo = require('./models/ContactInfo');
 const StaffTrainer = require('./models/StaffTrainer');
+const Admin = require('./models/Admin');
+const Payment = require('./models/Payment');
+const Attendance = require('./models/Attendance');
+const MemberWeight = require('./models/MemberWeight');
+const MemberPR = require('./models/MemberPR');
 
 // Import routes
 const trainerRoutes = require('./routes/trainers');
@@ -43,8 +51,12 @@ const uploadRoutes = require('./routes/upload');
 const trainerAuthRoutes = require('./routes/trainerAuth');
 const trainerPanelRoutes = require('./routes/trainerPanel');
 
-// Admin panel routes (NEW)
+// Admin panel routes
 const adminPanelRoutes = require('./routes/adminPanel');
+
+// Member auth & member panel routes
+const memberAuthRoutes = require('./routes/memberAuthRoutes');
+const memberSelfRoutes = require('./routes/memberRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -57,7 +69,33 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// ========== STATIC FILES FOR UPLOADS (MUST COME BEFORE app.use(express.static('public'))) ==========
+// ✅ ADDED: ensure uploads directory exists
+const uploadDir = path.join(__dirname, 'public/uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+// Serve uploaded files statically
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
+// Regular static files (HTML, CSS, JS)
 app.use(express.static('public'));
+
+// ========== PUBLIC UPLOAD FOR SIGNUP (no authentication required) ==========
+// ✅ ADDED: multer configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, unique + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB limit
+
+app.post('/api/upload-signup', upload.single('image'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  const url = `/uploads/${req.file.filename}`;
+  res.json({ url });
+});
 
 // ========== MAILJET ==========
 const sendEmail = async (toEmail, toName, subject, htmlContent) => {
@@ -125,7 +163,7 @@ app.post('/api/book-trial', async (req, res) => {
   }
 });
 
-// ========== GROQ CHATBOT ==========
+// ========== GROQ CHATBOT (ROLE‑AWARE) ==========
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 async function getWebsiteDataForAI() {
@@ -190,59 +228,168 @@ async function getWebsiteDataForAI() {
   };
 }
 
+// Role‑aware chat endpoint
 app.post('/api/chat-groq', async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'No message provided' });
 
+  // 1. Extract and verify token
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing or invalid token' });
+  }
+  const token = authHeader.split(' ')[1];
+
+  let userId = null;
+  let role = null; // 'admin', 'trainer', or 'member'
+
   try {
-    const data = await getWebsiteDataForAI();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    userId = decoded.id;
 
-    const systemPrompt = `You are "UltraFit Coach", the official AI assistant for UltraFit Gym. You are both a fitness coach and a customer support agent. Answer all questions based ONLY on the following REAL data. If the user asks something not covered here, say "I don't have that information yet. Please contact the gym directly or visit the relevant page on our website."
+    const admin = await Admin.findById(userId);
+    if (admin) {
+      role = 'admin';
+    } else {
+      const trainer = await StaffTrainer.findById(userId);
+      if (trainer) {
+        role = 'trainer';
+      } else {
+        const member = await Member.findById(userId);
+        if (member) {
+          role = 'member';
+        }
+      }
+    }
+    if (!role) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error('Token verification failed:', err);
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
 
-=== REAL GYM DATA ===
+  // 2. Fetch role‑specific data
+  let systemPrompt = '';
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-**Membership Plans:**
-${data.membershipStr || 'No membership plans found.'}
+  try {
+    // ----- PUBLIC GYM INFO (same for all roles) -----
+    const publicData = await getWebsiteDataForAI();
+    const publicInfo = `
+=== GYM INFORMATION ===
+${publicData.membershipStr}
+${publicData.productsStr ? 'Products: ' + publicData.productsStr : ''}
+${publicData.dietStr ? 'Diet Plans: ' + publicData.dietStr : ''}
+${publicData.workoutStr ? 'Workout Plans: ' + publicData.workoutStr : ''}
+${publicData.trainersStr ? 'Trainers: ' + publicData.trainersStr : ''}
+Contact: ${publicData.contactStr}
+3‑Day Free Trial: ${publicData.trialProcess}
+Privacy Policy: ${publicData.privacySummary} (see privacy.html)
+Refund Policy: ${publicData.refundSummary} (see refund.html)
+Terms: ${publicData.termsSummary} (see terms.html)
+`;
 
-**Members Overview:**
-Total members: ${data.membersCount}, Active: ${data.activeMembers}, Inactive: ${data.inactiveMembers}.
+    if (role === 'admin') {
+      // Admin gets aggregated dashboard + member contact details (admin needs to call them)
+      const totalMembers = await Member.countDocuments();
+      const activeMembers = await Member.countDocuments({ status: 'active' });
+      const unpaidMembers = await Member.countDocuments({ feeStatus: 'unpaid' });
+      const revenueThisMonth = await Payment.aggregate([
+        { $match: { paymentDate: { $gte: startOfMonth } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]);
+      const revenue = revenueThisMonth[0]?.total || 0;
+      const presentToday = await Attendance.countDocuments({ type: 'member', date: todayStr, status: 'present' });
+      const totalStaff = await StaffTrainer.countDocuments();
 
-**Shop Products:**
-${data.productsStr || 'No products found.'}
+      // Member list with contact details (admin can see everything)
+      const allMembers = await Member.find({}, 'name phone email feeStatus status').lean();
+      const attendanceTodayMap = new Map();
+      const todayAttendances = await Attendance.find({ type: 'member', date: todayStr }).lean();
+      todayAttendances.forEach(a => attendanceTodayMap.set(a.memberId.toString(), a.status === 'present'));
+      let membersList = '';
+      for (const m of allMembers) {
+        const present = attendanceTodayMap.get(m._id.toString()) ? 'Yes' : 'No';
+        membersList += `- ${m.name} | Phone: ${m.phone || 'N/A'} | Email: ${m.email || 'N/A'} | Fee: ${m.feeStatus || 'unpaid'} | Active: ${m.status || 'active'} | Present today: ${present}\n`;
+      }
 
-**Diet Plans:**
-${data.dietStr || 'No diet plans found.'}
+      systemPrompt = `You are UltraFit Coach (admin assistant). You have full access to gym operations and member contact details because you need to call members when required. Never invent numbers. Use the data below.
 
-**Workout Plans:**
-${data.workoutStr || 'No workout plans found.'}
+${publicInfo}
 
-**Trainers (with contact info):**
-${data.trainersStr || 'No trainers found.'}
+=== ADMIN DASHBOARD ===
+Total members: ${totalMembers}
+Active members: ${activeMembers}
+Unpaid fees members: ${unpaidMembers}
+Revenue this month: ₹${revenue}
+Members present today: ${presentToday}
+Total staff: ${totalStaff}
 
-**Gym Contact Information:**
-${data.contactStr}
+=== ALL MEMBERS (full details for admin) ===
+${membersList || 'No members found.'}
 
-**3-Day Free Trial Process:**
-${data.trialProcess}
+If asked about attendance history or other specific details, politely direct the admin to use the admin panel for comprehensive reports.`;
+    } 
+    else if (role === 'trainer') {
+      // Trainer sees all members with contact details (for contacting them)
+      const members = await Member.find({}, 'name phone email feeStatus status').lean();
+      const attendanceToday = await Attendance.find({ type: 'member', date: todayStr }).lean();
+      const attendanceMap = new Map();
+      attendanceToday.forEach(a => attendanceMap.set(a.memberId.toString(), a.status === 'present'));
 
-**Legal Policies (summaries):**
-- Privacy Policy: ${data.privacySummary}
-- Refund Policy: ${data.refundSummary}
-- Terms & Conditions: ${data.termsSummary}
+      let membersList = '';
+      for (const m of members) {
+        const isPresent = attendanceMap.get(m._id.toString()) ? 'Yes' : 'No';
+        membersList += `- ${m.name} | Phone: ${m.phone || 'N/A'} | Email: ${m.email || 'N/A'} | Fee: ${m.feeStatus || 'unpaid'} | Active: ${m.status || 'active'} | Present today: ${isPresent}\n`;
+      }
 
-=== RULES ===
-- Never invent prices, plan names, product details, trainer contacts, or policy details.
-- If asked about membership fees, refer ONLY to the plans above.
-- If asked about products (name, price, qualities), use ONLY the products list.
-- For diet and workout plan details, use the listed plans.
-- For trainer questions, provide name, position, WhatsApp number, and bio.
-- For contact info, give the phone, WhatsApp, email, and address.
-- For the free trial, explain the process exactly as described.
-- For legal questions, provide the summary and direct the user to the full policy page (privacy.html, refund.html, terms.html).
-- You may give general fitness advice (exercise, nutrition) using your own knowledge, but always prioritize real gym data when available.
-- Keep answers concise, helpful, and professional.
-- Never share personal member information beyond counts.`;
+      systemPrompt = `You are UltraFit Coach (trainer assistant). You can see all gym members and their contact info because trainers need to contact them. You can also give general fitness advice. Never share revenue or staff salary data.
 
+${publicInfo}
+
+=== ALL MEMBERS (trainer view) ===
+${membersList || 'No members found.'}
+
+If asked about member attendance history, you can say "I can only see today's attendance. For detailed logs, please use the trainer panel or ask the admin."`;
+    } 
+    else if (role === 'member') {
+      // Member sees only their own data
+      const member = await Member.findById(userId).lean();
+      if (!member) throw new Error('Member not found');
+
+      const attendanceLogs = await Attendance.find({ type: 'member', memberId: userId })
+        .sort({ date: -1 })
+        .limit(30)
+        .lean();
+      const attendanceSummary = attendanceLogs.map(a => `${a.date}: ${a.status}`).join(', ');
+
+      const lastPayment = await Payment.findOne({ memberId: userId }).sort({ paymentDate: -1 }).lean();
+      const lastPaymentInfo = lastPayment ? `₹${lastPayment.amount} on ${lastPayment.paymentDate.toDateString()}` : 'No payment recorded';
+
+      const weightHistory = await MemberWeight.find({ memberId: userId }).sort({ date: -1 }).limit(5).lean();
+      const weightStr = weightHistory.map(w => `${w.date.toDateString()}: ${w.weight} kg`).join(', ');
+
+      systemPrompt = `You are UltraFit Coach (member assistant). The person asking is ${member.name}. You can answer questions about their personal data and the gym. Never share this data with anyone else.
+
+${publicInfo}
+
+=== YOUR PERSONAL DATA ===
+Name: ${member.name}
+Email: ${member.email}
+Phone: ${member.phone || 'Not provided'}
+Membership status: ${member.status || 'active'}
+Fee status: ${member.feeStatus || 'unpaid'}
+Last payment: ${lastPaymentInfo}
+Recent attendance (last 30 days): ${attendanceSummary || 'No records'}
+Weight history (last 5): ${weightStr || 'No entries'}
+
+You may also give fitness advice, diet tips, and answer gym policy questions.`;
+    }
+
+    // 3. Call Groq
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [
@@ -256,7 +403,7 @@ ${data.trialProcess}
     const reply = completion.choices[0]?.message?.content || "Sorry, I couldn't generate a response.";
     res.json({ reply });
   } catch (error) {
-    console.error('Groq API error:', error);
+    console.error('Role‑aware AI error:', error);
     res.status(500).json({ error: 'AI service unavailable. Please try again later.' });
   }
 });
@@ -289,18 +436,25 @@ app.use('/api/dietmeals', dietMealsRoutes);
 app.use('/api/workoutcategories', workoutCategoriesRoutes);
 app.use('/api/workoutdays', workoutDaysRoutes);
 app.use('/api/legal', legalRoutes);
-app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// Trainer authentication & panel routes
-app.use('/api/auth', trainerAuthRoutes);
+// Authentication routes (admin, trainer, member)
+app.use('/api/auth', authRoutes);                 // existing admin login
+app.use('/api/auth', trainerAuthRoutes);          // trainer login
+app.use('/api/auth', memberAuthRoutes);           // member register/login
+
+// Trainer panel routes
 app.use('/api/trainer', trainerPanelRoutes);
 
-// Admin panel routes (NEW)
+// Admin panel routes
 app.use('/api/admin', adminPanelRoutes);
 
-// ========== STATIC FILES & FALLBACK ==========
-app.use(express.static(path.join(__dirname, 'public')));
+// Member self-service routes (protected)
+app.use('/api/member', memberSelfRoutes);
+
+// ========== STATIC FILES & FALLBACK (duplicate removed – already served above) ==========
+// The line below would duplicate static serving – we already have app.use(express.static('public'))
+// So we keep only the fallback for SPA routing.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

@@ -1137,6 +1137,242 @@
     }
     .footer-links a { color: #ccc; text-decoration: none; }
     .footer-links a:hover { color: #FFD700; }
+
+    /* ===== CHAT BOT OVERLAY (copied from admin-panel.html, only chat) ===== */
+    .popup-window {
+      position: fixed !important;
+      bottom: 90px;
+      right: 30px;
+      width: 360px;
+      height: 500px;
+      background: #1a1a1a;
+      border-radius: 28px;
+      border: 1px solid rgba(255,215,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      pointer-events: none;
+      z-index: 2100;
+    }
+    .popup-window.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .popup-header {
+      background: #FFD700;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #121212;
+      font-weight: 800;
+    }
+    .popup-header h3 {
+      font-size: 1.2rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .popup-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #121212;
+      transition: transform 0.2s;
+    }
+    .popup-close:hover {
+      transform: scale(1.1);
+    }
+    .popup-content {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.3);
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .message {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .user-message {
+      background: #FFD700;
+      color: #121212;
+      align-self: flex-end;
+      border-bottom-right-radius: 6px;
+    }
+    .bot-message {
+      background: #2a2a2a;
+      color: #eee;
+      align-self: flex-start;
+      border-bottom-left-radius: 6px;
+      border: 1px solid rgba(255,215,0,0.2);
+    }
+    .chat-input-area {
+      display: flex;
+      padding: 12px;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      gap: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      padding: 10px 16px;
+      color: white;
+      font-family: inherit;
+      outline: none;
+    }
+    .chat-input:focus {
+      border-color: #FFD700;
+    }
+    .chat-send {
+      background: #FFD700;
+      border: none;
+      border-radius: 40px;
+      padding: 0 18px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #121212;
+      transition: all 0.2s;
+    }
+    .chat-send:hover {
+      background: #e6c300;
+      transform: scale(1.02);
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      background: #2a2a2a;
+      border-radius: 20px;
+      width: fit-content;
+    }
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #aaa;
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .floating-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-end;
+    }
+    .floating-btn {
+      background: linear-gradient(135deg, #1e1e1e, #0a0a0a);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 60px;
+      padding: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 15px rgba(255,215,0,0.2);
+      transition: all 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+      backdrop-filter: blur(8px);
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      gap: 0px;
+    }
+    .floating-btn:hover {
+      gap: 12px;
+      padding: 0.7rem 1.5rem 0.7rem 1rem;
+    }
+    .btn-icon {
+      background: #FFD700;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #121212;
+      box-shadow: 0 0 12px rgba(255,215,0,0.6);
+      transition: transform 0.2s;
+    }
+    .floating-btn:hover .btn-icon {
+      transform: scale(1.05);
+    }
+    .btn-text {
+      font-weight: 700;
+      font-size: 0rem;
+      letter-spacing: 1px;
+      background: linear-gradient(120deg, #fff, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+      transition: font-size 0.2s ease;
+    }
+    .floating-btn:hover .btn-text {
+      font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+      .popup-window {
+        bottom: 90px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: calc(100% - 30px);
+        max-width: 360px;
+        height: 480px;
+        max-height: 70vh;
+        border-radius: 24px;
+      }
+      .popup-window.open {
+        transform: translateX(-50%) translateY(0);
+      }
+      .floating-buttons {
+        right: 10px;
+        bottom: 20px;
+      }
+      .floating-btn {
+        padding: 0.5rem;
+      }
+      .btn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+      }
+      .floating-btn:hover {
+        padding: 0.5rem 1rem 0.5rem 0.8rem;
+      }
+      .floating-btn:hover .btn-text {
+        font-size: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1265,6 +1501,27 @@
 <div id="squarePopup" class="square-popup"><div class="animated-circle"><i class="fas fa-check"></i></div><p id="popupText"></p><div class="small-text" id="popupSubtext"></div></div>
 <div id="shiftSummaryPopup" class="square-popup shift-summary"><div id="shiftSummaryContent"></div></div>
 
+<!-- ===== CHAT BOT FLOATING BUTTON & WINDOW (only chat, no notification) ===== -->
+<div class="floating-buttons">
+  <div class="floating-btn" id="chatBubble">
+    <div class="btn-icon"><i class="fas fa-comment-dots"></i></div>
+    <span class="btn-text">UltraFit Coach</span>
+  </div>
+</div>
+
+<!-- Chat Popup Window -->
+<div id="chatWindow" class="popup-window">
+  <div class="popup-header">
+    <h3><i class="fas fa-brain"></i> UltraFit Coach</h3>
+    <button class="popup-close" id="chatCloseBtn">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="message bot-message">💪 Hey! I'm your UltraFit AI Coach. Ask me anything about workouts, nutrition, or gym plans.</div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Ask your fitness question...">
+    <button class="chat-send" id="chatSendBtn">Send</button>
+  </div>
 </div>
 
 <script>
@@ -2456,6 +2713,94 @@
     document.getElementById('passwordCloseBtn').onclick = () => modal.style.display = 'none';
     modal.onclick = (e) => { if(e.target === modal) modal.style.display = 'none'; };
   }
+
+  // ========== CHAT BOT FUNCTIONALITY (with trainerToken) ==========
+  // Floating button controls
+  const chatBubbleDiv = document.getElementById('chatBubble');
+  const chatWindowDiv = document.getElementById('chatWindow');
+  const chatCloseBtn = document.getElementById('chatCloseBtn');
+
+  function openChat() { chatWindowDiv.classList.add('open'); }
+  function closeChat() { chatWindowDiv.classList.remove('open'); }
+  chatBubbleDiv.addEventListener('click', openChat);
+  chatCloseBtn.addEventListener('click', closeChat);
+
+  // Chat send function
+  const chatMessagesDiv = document.getElementById('chatMessages');
+  const chatInputField = document.getElementById('chatInput');
+  const chatSendBtn = document.getElementById('chatSendBtn');
+
+  async function sendChatMessage() {
+    const message = chatInputField.value.trim();
+    if (!message) return;
+
+    const token = localStorage.getItem('trainerToken');
+    if (!token) {
+      showSquarePopup('Session expired. Please login again.', '', false);
+      showLoginModal();
+      return;
+    }
+
+    // Add user message
+    const userMsgDiv = document.createElement('div');
+    userMsgDiv.className = 'message user-message';
+    userMsgDiv.textContent = message;
+    chatMessagesDiv.appendChild(userMsgDiv);
+    chatInputField.value = '';
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+
+    // Add typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.classList.add('typing-indicator');
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    chatMessagesDiv.appendChild(typingDiv);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+
+    try {
+      const response = await fetch(`${API_BASE}/chat-groq`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ message })
+      });
+
+      // Remove typing indicator safely
+      if (typingDiv && typingDiv.parentNode === chatMessagesDiv) {
+        chatMessagesDiv.removeChild(typingDiv);
+      }
+
+      if (response.status === 401) {
+        localStorage.removeItem('trainerToken');
+        showSquarePopup('Session expired. Please login again.', '', false);
+        showLoginModal();
+        return;
+      }
+
+      const data = await response.json();
+      if (response.ok && data.reply) {
+        const botMsgDiv = document.createElement('div');
+        botMsgDiv.className = 'message bot-message';
+        botMsgDiv.textContent = data.reply;
+        chatMessagesDiv.appendChild(botMsgDiv);
+      } else {
+        throw new Error(data.error || 'No response');
+      }
+    } catch (err) {
+      if (typingDiv && typingDiv.parentNode === chatMessagesDiv) {
+        chatMessagesDiv.removeChild(typingDiv);
+      }
+      const errorMsgDiv = document.createElement('div');
+      errorMsgDiv.className = 'message bot-message';
+      errorMsgDiv.textContent = '🏋️ Sorry, I’m having trouble connecting. Please try again later.';
+      chatMessagesDiv.appendChild(errorMsgDiv);
+    }
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+  }
+
+  chatSendBtn.addEventListener('click', sendChatMessage);
+  chatInputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
 
   function escapeHtml(str) { return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 

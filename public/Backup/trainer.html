@@ -904,116 +904,221 @@
       background: rgba(255,215,0,0.1);
     }
     .amount-input {
-  width: 160px;
-  text-align: center;
-  background: #1e1e1e;
-  border: 1px solid #FFD700;
-  border-radius: 60px;
-  padding: 0.8rem 1rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #FFD700;
-  outline: none;
-  /* Remove spinner arrows */
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-.amount-input::-webkit-inner-spin-button,
-.amount-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* ===== Profile modal avatar (small circular) ===== */
-.profile-avatar-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-.profile-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #FFD700;
-}
-.profile-edit-icon {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background: #FFD700;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.2s;
-  color: #121212;
-}
-.profile-edit-icon:hover {
-  transform: scale(1.1);
-}
-
-/* ===== Click to upload button (matching admin-members.html) ===== */
-.click-to-upload {
-  text-align: center;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #FFD700;
-  cursor: pointer;
-  background: transparent;
-  border: 1.5px solid #FFD700;
-  border-radius: 40px;
-  padding: 0.4rem 1rem;
-  display: inline-block;
-  transition: all 0.2s ease;
-}
-.click-to-upload:hover {
-  background: #FFD700;
-  color: #121212;
-  transform: translateY(-1px);
-  box-shadow: 0 0 8px rgba(255,215,0,0.4);
-}
-
-/* ===== Amount input without spinner arrows ===== */
-.amount-input {
-  width: 160px;
-  text-align: center;
-  background: #1e1e1e;
-  border: 1px solid #FFD700;
-  border-radius: 60px;
-  padding: 0.8rem 1rem;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #FFD700;
-  outline: none;
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-.amount-input::-webkit-inner-spin-button,
-.amount-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-    /* Editable amount in fee modal (centered) */
-    .editable-amount {
+      width: 160px;
+      text-align: center;
+      background: #1e1e1e;
+      border: 1px solid #FFD700;
+      border-radius: 60px;
+      padding: 0.8rem 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #FFD700;
+      outline: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .amount-input::-webkit-inner-spin-button,
+    .amount-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* ===== Profile modal avatar (small circular) ===== */
+    .profile-avatar-wrapper {
+      position: relative;
       display: inline-block;
-      background: #2a2a2a;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
+      margin-bottom: 1rem;
+    }
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #FFD700;
+    }
+    .profile-edit-icon {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: #FFD700;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: 0.2s;
-    }
-    .editable-amount:hover {
-      background: #FFD700;
       color: #121212;
     }
-    .amount-input {
-      width: 120px;
+    .profile-edit-icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* ===== Click to upload button (matching admin-members.html) ===== */
+    .click-to-upload {
       text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #FFD700;
+      cursor: pointer;
+      background: transparent;
+      border: 1.5px solid #FFD700;
+      border-radius: 40px;
+      padding: 0.4rem 1rem;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+    .click-to-upload:hover {
+      background: #FFD700;
+      color: #121212;
+      transform: translateY(-1px);
+      box-shadow: 0 0 8px rgba(255,215,0,0.4);
+    }
+
+    /* ===== Phone & WhatsApp Icons (Golden Circle + Hover) ===== */
+    .contact-icons {
+      display: flex;
+      gap: 1rem;
+      font-size: 1.2rem;
+    }
+    .contact-icons i {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,215,0,0.1);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .contact-icons i.fa-phone-alt {
+      color: #3498db; /* blue */
+    }
+    .contact-icons i.fa-whatsapp {
+      color: #25D366; /* green */
+    }
+    .contact-icons i:hover {
+      background: #FFD700;
+      transform: scale(1.05);
+    }
+    .contact-icons i.fa-phone-alt:hover {
+      color: #121212;
+    }
+    .contact-icons i.fa-whatsapp:hover {
+      color: #121212;
+    }
+
+    /* ===== DESKTOP LAYOUT FOR ACTION-ROW (restores original appearance) ===== */
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-left: auto;
+    }
+
+    /* ===== MOBILE ONLY LAYOUT CHANGES (phone users) ===== */
+    @media (max-width: 768px) {
+      .container { padding: 0 1rem; }
+      .hero-brand { font-size: 2.8rem; }
+      .hero-title { font-size: 1.2rem; }
+      .premium-modal-card { padding: 1.5rem; }
+
+      /* General member row becomes grid for two‑line layout */
+      .member-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.5rem 0.8rem;
+        border-radius: 20px;
+        padding: 0.8rem;
+      }
+
+      /* Attendance modal: pfp + name on first line, buttons on second line */
+      .member-row .member-avatar-small {
+        grid-row: 1;
+        grid-column: 1;
+        width: 44px;
+        height: 44px;
+      }
+      .member-row .member-name {
+        grid-row: 1;
+        grid-column: 2;
+        margin-left: 0;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .member-row .action-buttons {
+        grid-row: 2;
+        grid-column: 1 / span 2;
+        justify-content: center;
+        width: 100%;
+      }
+
+      /* For logs and fees: the second row container takes both columns */
+      .member-row .action-row {
+        grid-row: 2;
+        grid-column: 1 / span 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-left: 0;
+      }
+
+      /* Adjust tags and buttons size */
+      .status-badge {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.6rem;
+      }
+      .check-btn, .btn-yellow-small {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.75rem;
+      }
+
+      /* ===== SUBMIT FEES MODAL: tag on first line right, button centered below ===== */
+      #submitFeesModal .member-row {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 0.5rem;
+      }
+      #submitFeesModal .member-avatar-small {
+        grid-row: 1;
+        grid-column: 1;
+      }
+      #submitFeesModal .member-name {
+        grid-row: 1;
+        grid-column: 2;
+        margin-left: 0;
+      }
+      #submitFeesModal .tags-container {
+        grid-row: 1;
+        grid-column: 3;
+        justify-self: end;
+      }
+      #submitFeesModal .btn-yellow-small {
+        grid-row: 2;
+        grid-column: 1 / span 3;
+        justify-self: center;
+        width: auto;
+        padding: 0.4rem 1rem;
+      }
+    }
+
+    /* Staff heatmap zoom (inside the popup, not popup itself) */
+    #staffModal .compact-calendar {
+      transform: scale(0.95);
+      margin: 0 auto;
+    }
+
+    /* Center the Back button in member heatmap */
+    .back-button-centered {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
     }
 
     footer {
@@ -1032,109 +1137,6 @@
     }
     .footer-links a { color: #ccc; text-decoration: none; }
     .footer-links a:hover { color: #FFD700; }
-
-    @media (max-width: 768px) {
-      .container { padding: 0 1rem; }
-      .hero-brand { font-size: 2.8rem; }
-      .hero-title { font-size: 1.2rem; }
-      .member-row { flex-direction: column; align-items: stretch; }
-      .action-buttons { justify-content: center; }
-      .premium-modal-card { padding: 1.5rem; }
-
-        .member-row {
-    display: flex;
-    flex-direction: column;
-    background: #1e1e1e;
-    border-radius: 16px !important;
-    padding: 0.8rem;
-    margin: 0.6rem 0;
-    gap: 0.8rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  }
-
-  /* Top line: avatar + name + tags (all in one row) */
-  .member-row-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 0.8rem;
-  }
-
-  /* Avatar fixed size */
-  .member-avatar-small {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  /* Name – left side, beside avatar */
-  .member-name {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    text-align: left;
-  }
-
-  /* Tags container – right side of same line */
-  .tags-container {
-    display: flex;
-    gap: 0.4rem;
-    flex-shrink: 0;
-    margin-left: auto;
-  }
-  .status-badge {
-    font-size: 0.65rem !important;
-    padding: 0.2rem 0.6rem !important;
-    white-space: nowrap;
-  }
-
-  /* Buttons row – centered below */
-  .action-buttons,
-  .shift-buttons,
-  .member-row .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    width: 100%;
-  }
-  .btn-checkin, .btn-checkout, .btn-yellow-small, .check-btn {
-    padding: 0.3rem 0.8rem !important;
-    font-size: 0.75rem !important;
-    white-space: nowrap;
-  }
-
-  /* Circular icons for call & WhatsApp */
-  .contact-icons-large {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .contact-icons-large i {
-    font-size: 1.4rem;
-    background: rgba(255,215,0,0.1);
-    border-radius: 50%;
-    padding: 0.5rem;
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-  .contact-icons-large i:hover {
-    background: #FFD700;
-    color: #121212;
-    transform: scale(1.05);
-  }
-    }
   </style>
 </head>
 <body>
@@ -1198,7 +1200,7 @@
     <h2 class="section-title">Attendance</h2>
     <div class="button-group-center">
       <button class="btn-solid-gold" id="takeAttendanceBtn">Attendance</button>
-      <button class="btn-outline-gold" id="logsBtn">Logs</button>
+      <button class="btn-outline-gold" id="logsBtn">Check</button>
     </div>
     <div class="stats-row" id="attendanceStats">
       <div class="stat-card"><div class="stat-number green" id="presentToday">0</div><div>Present</div></div>
@@ -1214,7 +1216,7 @@
     <h2 class="section-title">Staff Attendance</h2>
     <div class="button-group-center">
       <button class="btn-solid-gold" id="staffAttendanceBtn">Staff Attendance</button>
-      <button class="btn-outline-gold" id="staffLogsBtn">Logs</button>
+      <button class="btn-outline-gold" id="staffLogsBtn">Check</button>
     </div>
     <div class="stats-row" id="staffStats">
       <div class="stat-card"><div class="stat-number green" id="staffTimeToday">0</div><div>Time (hrs)</div></div>
@@ -1592,8 +1594,17 @@
     document.getElementById('profileBtn').onclick = (e) => { e.preventDefault(); openProfileModal(); };
   }
 
+  // Helper to reset scroll position when opening a modal
+  function resetModalScroll(modalElement) {
+    if (modalElement) {
+      const card = modalElement.querySelector('.premium-modal-card');
+      if (card) card.scrollTop = 0;
+    }
+  }
+
   // ========== ADD NEW MEMBER MODAL ==========
   async function openAddMemberModal() {
+    await loadMembers();
     const modal = document.getElementById('addMemberModal');
     const content = document.getElementById('addMemberModalContent');
     content.innerHTML = `
@@ -1632,6 +1643,7 @@
       </div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let uploadedPhotoUrl = '';
     const avatar = document.getElementById('newMemberAvatar');
     const clickUpload = document.getElementById('clickToUpload');
@@ -1708,6 +1720,7 @@
       </div>
       <div id="memberList"></div>`;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     renderAttendanceMemberList('');
     document.getElementById('searchMember').addEventListener('input', (e) => renderAttendanceMemberList(e.target.value));
     document.getElementById('attendanceCloseBtn').onclick = () => modal.style.display = 'none';
@@ -1759,14 +1772,14 @@
     } catch(err) { showSquarePopup('Network error', 'Please try again', false); }
   }
 
-  // ========== LOGS MODAL ==========
+  // ========== LOGS MODAL (now titled "Attendance") ==========
   async function openLogsModal() {
     await loadMembers();
     const modal = document.getElementById('logsModal');
     const content = document.getElementById('logsModalContent');
     content.innerHTML = `
       <button class="modal-close-btn" id="logsCloseBtn">&times;</button>
-      <div class="modal-title-center">Logs</div>
+      <div class="modal-title-center">Attendance</div>
       <div class="filter-bar">
         <input type="text" id="logSearch" placeholder="🔍 Search member...">
         <div class="filter-dropdown" id="logsFilterDropdown">
@@ -1782,6 +1795,7 @@
       </div>
       <div id="logMemberList"></div>`;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let currentFilter = 'all';
     renderLogMemberList(currentFilter, '');
     document.getElementById('logSearch').addEventListener('input', (e) => renderLogMemberList(currentFilter, e.target.value));
@@ -1818,11 +1832,13 @@
         <div class="member-row">
           <img class="member-avatar-small" src="${m.photoUrl || 'defaultpfp.png'}">
           <span class="member-name">${escapeHtml(m.name)}</span>
-          <div class="tags-container">
-            <span class="status-badge ${statusClass}">${statusText}</span>
-            <span class="status-badge ${feeClass}">${feeText}</span>
+          <div class="action-row">
+            <div class="tags-container">
+              <span class="status-badge ${statusClass}">${statusText}</span>
+              <span class="status-badge ${feeClass}">${feeText}</span>
+            </div>
+            <button class="check-btn" data-id="${m._id}" data-name="${escapeHtml(m.name)}">Check</button>
           </div>
-          <button class="check-btn" data-id="${m._id}" data-name="${escapeHtml(m.name)}">Check</button>
         </div>
       `;
     }).join('');
@@ -1878,7 +1894,7 @@
     }
     content.innerHTML = `
       <button class="modal-close-btn" id="heatmapBackBtn">&times;</button>
-      <div class="modal-title-center">Attendance: ${escapeHtml(memberName)}</div>
+      <div class="modal-title-center">${escapeHtml(memberName)}</div>
       <div class="compact-calendar">
         <div class="compact-calendar-header">
           <h4 id="memberCalendarMonthYear"></h4>
@@ -1890,7 +1906,9 @@
         <div class="compact-weekdays">${weekdays.map(day => `<div class="compact-weekday">${day}</div>`).join('')}</div>
         <div class="compact-days" id="memberCalendarDays"></div>
       </div>
-      <button class="btn-outline-gold" id="backToLogsBtn" style="margin-top:1rem;">← Back to Logs</button>
+      <div class="back-button-centered">
+        <button class="btn-outline-gold" id="backToLogsBtn">Back</button>
+      </div>
     `;
     renderMemberCalendar();
     document.getElementById('memberPrevMonth').onclick = () => changeMemberMonth(-1);
@@ -1923,6 +1941,7 @@
       </div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     document.getElementById('staffCheckInBtn').onclick = async () => {
       await staffRecordAttendance('checkin');
       modal.style.display = 'none';
@@ -1962,7 +1981,7 @@
     } catch(err) { showSquarePopup('Network error', 'Please try again', false); }
   }
 
-  // ========== STAFF LOGS HEATMAP ==========
+  // ========== STAFF LOGS HEATMAP (now titled "My Attendance") ==========
   async function openStaffLogsModal() {
     const res = await fetch(`${API_BASE}/trainer/attendance/trainer/my`, {
       headers: { 'Authorization': `Bearer ${trainerToken}` }
@@ -2010,7 +2029,7 @@
     }
     content.innerHTML = `
       <button class="modal-close-btn" id="staffLogsCloseBtn">&times;</button>
-      <div class="modal-title-center">My Attendance Heatmap</div>
+      <div class="modal-title-center">My Attendance</div>
       <div class="compact-calendar">
         <div class="compact-calendar-header">
           <h4 id="staffCalendarMonthYear"></h4>
@@ -2024,6 +2043,7 @@
       </div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     renderStaffCalendar();
     document.getElementById('staffPrevMonth').onclick = () => changeStaffMonth(-1);
     document.getElementById('staffNextMonth').onclick = () => changeStaffMonth(1);
@@ -2031,7 +2051,7 @@
     modal.onclick = (e) => { if(e.target === modal) modal.style.display = 'none'; };
   }
 
-  // ========== SUBMIT FEES MODAL (with Pay button, duration picker, amount editor – CENTERED) ==========
+  // ========== SUBMIT FEES MODAL ==========
   async function openSubmitFeesModal() {
     await loadMembers();
     const modal = document.getElementById('submitFeesModal');
@@ -2053,6 +2073,7 @@
       <div id="submitFeeMemberList"></div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let currentFilter = 'all';
     renderSubmitFeeMemberList(currentFilter, '');
     document.getElementById('submitFeeSearch').addEventListener('input', (e) => renderSubmitFeeMemberList(currentFilter, e.target.value));
@@ -2113,6 +2134,7 @@
       <div style="text-align:center;"><button class="btn-outline-gold" id="cancelDurationBtn">Cancel</button></div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     document.getElementById('duration1Month').onclick = async () => {
       modal.style.display = 'none';
       await openAmountModal(memberId, memberName, 1);
@@ -2127,7 +2149,6 @@
   }
 
   async function openAmountModal(memberId, memberName, months) {
-    // Fetch default price from membership plans
     let defaultPrice = months === 1 ? 2000 : 4500;
     if (membershipPlans.length) {
       const plan = membershipPlans.find(p => (months === 1 && p.duration === 'month') || (months === 3 && p.duration === '3 months'));
@@ -2135,7 +2156,6 @@
     }
     const modal = document.getElementById('paymentAmountModal');
     const content = document.getElementById('paymentAmountModalContent');
-    // CENTERED VERSION – amount heading and value bar are centered
     content.innerHTML = `
       <button class="modal-close-btn" id="amountCloseBtn">&times;</button>
       <div class="modal-title-center">Fees</div>
@@ -2149,6 +2169,7 @@
       </div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let currentAmount = defaultPrice;
     const displayDiv = document.getElementById('amountDisplay');
     const inputField = document.getElementById('amountInput');
@@ -2198,7 +2219,7 @@
     const content = document.getElementById('feesModalContent');
     content.innerHTML = `
       <button class="modal-close-btn" id="feesCloseBtn">&times;</button>
-      <div class="modal-title-center">Fee Management</div>
+      <div class="modal-title-center">Check Fees</div>
       <div class="filter-bar">
         <input type="text" id="feeSearch" placeholder="🔍 Search by name...">
         <div class="filter-dropdown" id="feesFilterDropdown">
@@ -2214,6 +2235,7 @@
       </div>
       <div id="feeMemberList"></div>`;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let currentFilter = 'all';
     renderFeeMemberList(currentFilter, '');
     document.getElementById('feeSearch').addEventListener('input', (e) => renderFeeMemberList(currentFilter, e.target.value));
@@ -2247,23 +2269,25 @@
       const feeClass = m.feeStatus === 'paid' ? 'fee-tag-paid' : 'fee-tag-unpaid';
       const feeText = m.feeStatus === 'paid' ? 'Paid' : 'Unpaid';
       return `
-        <div class="member-row" style="justify-content: space-between;">
+        <div class="member-row">
           <img class="member-avatar-small" src="${m.photoUrl || 'defaultpfp.png'}">
           <span class="member-name">${escapeHtml(m.name)}</span>
-          <div class="tags-container">
-            <span class="status-badge ${statusClass}">${statusText}</span>
-            <span class="status-badge ${feeClass}">${feeText}</span>
-          </div>
-          <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
-            <i class="fas fa-phone-alt" style="color:#2ecc2e; cursor:pointer;" onclick="window.location.href='tel:${m.phone || ''}'"></i>
-            <i class="fab fa-whatsapp" style="color:#25D366; cursor:pointer;" onclick="window.open('https://wa.me/${m.phone || ''}?text=${encodeURIComponent('Hello, this is a reminder from UltraFit Gym. Please submit your pending fees.')}', '_blank')"></i>
+          <div class="action-row">
+            <div class="tags-container">
+              <span class="status-badge ${statusClass}">${statusText}</span>
+              <span class="status-badge ${feeClass}">${feeText}</span>
+            </div>
+            <div class="contact-icons">
+              <i class="fas fa-phone-alt" onclick="window.location.href='tel:${m.phone || ''}'"></i>
+              <i class="fab fa-whatsapp" onclick="window.open('https://wa.me/${m.phone || ''}?text=${encodeURIComponent('Hello, this is a reminder from UltraFit Gym. Please submit your pending fees.')}', '_blank')"></i>
+            </div>
           </div>
         </div>
       `;
     }).join('');
   }
 
-  // ========== PROFILE MODAL (unchanged) ==========
+  // ========== PROFILE MODAL ==========
   async function openProfileModal() {
     const modal = document.getElementById('profileModal');
     const content = document.getElementById('profileModalContent');
@@ -2307,6 +2331,7 @@
       </div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let editMode = { firstName:false, lastName:false, age:false, gender:false };
     let originalData = { firstName:firstNameVal, lastName:lastNameVal, age:ageVal, gender:genderVal, photoUrl:currentTrainer?.photoUrl||'ultrafit_logo.png' };
     const updateDisplay = () => {
@@ -2397,6 +2422,7 @@
       <div style="display:flex; gap:1rem; margin-top:1rem;"><button class="btn-outline-gold" id="backToProfileBtn" style="flex:1;">Back</button><button class="btn-solid-gold" id="submitChangesBtn" style="flex:1;">Save Changes</button></div>
     `;
     modal.style.display = 'flex';
+    resetModalScroll(modal);
     let usernameTimeout;
     document.getElementById('newUsername').addEventListener('input', async (e) => {
       clearTimeout(usernameTimeout);

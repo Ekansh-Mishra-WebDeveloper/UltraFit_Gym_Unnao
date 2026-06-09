@@ -156,7 +156,6 @@
       text-align: center;
       border-bottom: 2px solid rgba(255,215,0,0.3);
     }
-    /* Hero overlay (kept for background, but no slider in edit modal) */
     .members-hero::before {
       content: '';
       position: absolute;
@@ -582,7 +581,7 @@
       transform: scale(1.04);
       box-shadow: 0 0 12px rgba(255,215,0,0.4);
     }
-    /* Premium Modal Styles (without opacity slider) */
+    /* Premium Modal Styles */
     .premium-modal {
       position: fixed;
       top: 0;
@@ -597,16 +596,18 @@
       z-index: 5000;
       animation: fadeIn 0.2s ease;
     }
-    .premium-modal-card {
-      background: #121212;
-      border: 1px solid #FFD700;
-      border-radius: 32px;
-      width: 90%;
-      max-width: 550px;
-      padding: 2rem;
-      box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-      animation: scaleIn 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
-    }
+   .premium-modal-card {
+  background: #121212;
+  border: 1px solid #FFD700;
+  border-radius: 32px;
+  width: 90%;
+  max-width: 550px;
+  max-height: 85vh;           /* ← limit height to 85% of viewport */
+  overflow-y: auto;           /* ← enable vertical scrolling */
+  padding: 2rem;
+  box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+  animation: scaleIn 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+}
     .image-preview-large {
       width: 100%;
       max-height: 200px;
@@ -799,9 +800,67 @@
       .filter-bar { flex-direction: column; align-items: stretch; }
       .members-grid { grid-template-columns: 1fr; }
     }
+    /* Login modal */
+    .login-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+    .login-card {
+      background: #121212;
+      border: 1px solid #FFD700;
+      border-radius: 32px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-card input {
+      width: 100%;
+      margin: 1rem 0;
+      padding: 0.8rem;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 40px;
+      color: white;
+    }
+    .login-card button {
+      background: #FFD700;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .error-msg {
+      color: #e74c3c;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
+
+<!-- LOGIN MODAL (shown if no token) -->
+<div id="loginModal" class="login-modal" style="display: flex;">
+  <div class="login-card">
+    <h2 style="color:#FFD700;">Admin Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+    <button id="loginSubmitBtn">Login</button>
+    <div id="loginError" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT (hidden until login) -->
+<div id="mainContent" style="display: none;">
 
 <!-- NAVBAR (Dashboard renamed to Join Now) -->
 <header class="navbar" id="navbar">
@@ -923,13 +982,95 @@
 <div id="successModal" class="success-modal" style="display: none;"><div class="success-card"><p id="successMessage">Success</p><button id="successOkBtn">OK</button></div></div>
 <div id="adminToast" class="admin-toast"></div>
 
+</div> <!-- end mainContent -->
+
 <script>
-  // ========== PREMIUM ADMIN LOGIC (with grid/list toggle) ==========
+  // ========== AUTHENTICATION ==========
   const API_BASE = '/api';
+  let adminToken = localStorage.getItem('adminToken');
+  let isAuthenticated = !!adminToken;
+
+  function getAuthHeaders() {
+    return adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+  }
+
+  async function fetchJSON(url, options = {}) {
+    const headers = {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(),
+      ...options.headers
+    };
+    try {
+      const res = await fetch(url, { ...options, headers });
+      if (res.status === 401) {
+        localStorage.removeItem('adminToken');
+        adminToken = null;
+        isAuthenticated = false;
+        showLoginModal();
+        return null;
+      }
+      if (!res.ok) {
+        const text = await res.text();
+        let errorMsg = `HTTP ${res.status}`;
+        try { const data = JSON.parse(text); errorMsg = data.error || data.message || errorMsg; } catch(e) {}
+        console.error(`Error ${res.status}:`, errorMsg);
+        showToast(errorMsg, true);
+        return null;
+      }
+      return await res.json();
+    } catch (err) {
+      console.error(err);
+      showToast(err.message, true);
+      return null;
+    }
+  }
+
+  function showLoginModal() {
+    if (document.querySelector('.login-modal') && document.querySelector('.login-modal').style.display !== 'none') return;
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) loginModal.style.display = 'flex';
+    // Also hide main content
+    const mainContent = document.getElementById('mainContent');
+    if (mainContent) mainContent.style.display = 'none';
+  }
+
+  document.getElementById('loginSubmitBtn').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        adminToken = data.token;
+        localStorage.setItem('adminToken', adminToken);
+        isAuthenticated = true;
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        initAdminPanel();
+      } else {
+        document.getElementById('loginError').innerText = data.error || 'Invalid credentials';
+      }
+    } catch (err) {
+      document.getElementById('loginError').innerText = 'Login failed';
+    }
+  });
+
+  if (!isAuthenticated) {
+    showLoginModal();
+  } else {
+    document.getElementById('loginModal').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  }
+
   const DEFAULT_AVATAR = "https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3407.jpg?semt=ais_hybrid&w=740&q=80";
 
   function showToast(msg, isError = false) {
     const toast = document.getElementById('adminToast');
+    if (!toast) return;
     toast.innerText = msg;
     toast.style.borderLeftColor = isError ? '#e74c3c' : '#FFD700';
     toast.classList.add('show');
@@ -972,28 +1113,6 @@
     });
   }
 
-  async function fetchJSON(url, options = {}) {
-    try {
-      const res = await fetch(url, {
-        ...options,
-        headers: { 'Content-Type': 'application/json', ...options.headers }
-      });
-      const text = await res.text();
-      let data;
-      try { data = JSON.parse(text); } catch(e) { data = text; }
-      if (!res.ok) {
-        console.error(`Error ${res.status}:`, data);
-        showToast(`Error ${res.status}: ${data.error || data}`, true);
-        return null;
-      }
-      return data;
-    } catch (err) {
-      console.error(err);
-      showToast(err.message, true);
-      return null;
-    }
-  }
-
   // Data stores
   let siteSettings = {};
   let statsData = {};
@@ -1006,11 +1125,12 @@
   let currentView = 'card'; // 'card' or 'list'
 
   async function loadAllData() {
+    if (!isAuthenticated) return;
     const [settings, stats, membershipsRes, membersRes] = await Promise.all([
-      fetchJSON(`${API_BASE}/sitesettings`),
-      fetchJSON(`${API_BASE}/stats`),
-      fetchJSON(`${API_BASE}/memberships`),
-      fetchJSON(`${API_BASE}/members`)
+      fetchJSON(`${API_BASE}/admin/sitesetting`),
+      fetchJSON(`${API_BASE}/admin/stats`),
+      fetchJSON(`${API_BASE}/admin/memberships`),
+      fetchJSON(`${API_BASE}/admin/members`)
     ]);
     if (settings) siteSettings = settings;
     if (stats) statsData = stats;
@@ -1033,15 +1153,9 @@
     if (heroSub && siteSettings.membersHeroSubheading) heroSub.innerText = siteSettings.membersHeroSubheading;
     const floatBtn = document.getElementById('floatingTrialBtn');
     if (floatBtn && siteSettings.membersFloatingButtonText) floatBtn.innerText = siteSettings.membersFloatingButtonText;
-    // Apply hero background image (fix hero image visibility)
     if (siteSettings.membersHeroBg) {
       const heroSection = document.querySelector('.members-hero');
       heroSection.style.backgroundImage = `linear-gradient(115deg, #000000d0 0%, #0a0a0a 100%), url('${siteSettings.membersHeroBg}')`;
-    }
-    // Optional: overlay opacity (no slider in edit modal, but we can still apply stored value)
-    const overlay = document.querySelector('.members-hero::before');
-    if (overlay && siteSettings.membersHeroOverlayOpacity !== undefined) {
-      // Note: pseudo-element opacity is handled via CSS variable or inline style – we can ignore.
     }
   }
 
@@ -1271,7 +1385,7 @@
       const saveBtn = document.getElementById('modalSaveBtn');
       deleteBtn.onclick = async () => {
         if (await confirmAction('Delete this membership plan?')) {
-          const res = await fetchJSON(`${API_BASE}/memberships/${id}`, { method: 'DELETE' });
+          const res = await fetchJSON(`${API_BASE}/admin/memberships/${id}`, { method: 'DELETE' });
           if (res) {
             modalContainer.style.display = 'none';
             await showSuccessModal('Membership Deleted');
@@ -1290,7 +1404,7 @@
           duration: document.getElementById('modalPlanDuration').value,
           description: document.getElementById('modalPlanDesc').value
         };
-        const res = await fetchJSON(`${API_BASE}/memberships/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
+        const res = await fetchJSON(`${API_BASE}/admin/memberships/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
           modalContainer.style.display = 'none';
           await showSuccessModal('Membership Updated');
@@ -1321,12 +1435,25 @@
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
-        input.onchange = (e) => {
+        input.onchange = async (e) => {
           const file = e.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { document.getElementById('modalFeaturedPreview').src = ev.target.result; };
-            reader.readAsDataURL(file);
+          if (!file) return;
+          const formData = new FormData();
+          formData.append('image', file);
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: getAuthHeaders(),
+              body: formData
+            });
+            if (res.status === 401) throw new Error('Unauthorized');
+            const data = await res.json();
+            if (data.url) {
+              document.getElementById('modalFeaturedPreview').src = data.url;
+              showToast('Image uploaded');
+            } else showToast('Upload failed', true);
+          } catch (err) {
+            showToast('Upload error', true);
           }
         };
         input.click();
@@ -1336,7 +1463,7 @@
       const saveBtn = document.getElementById('modalSaveBtn');
       deleteBtn.onclick = async () => {
         if (await confirmAction('Delete this featured member?')) {
-          const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'DELETE' });
+          const res = await fetchJSON(`${API_BASE}/admin/members/${id}`, { method: 'DELETE' });
           if (res) {
             modalContainer.style.display = 'none';
             await showSuccessModal('Featured Member Deleted');
@@ -1355,7 +1482,7 @@
           goal: document.getElementById('modalFeaturedGoal').value,
           photoUrl: document.getElementById('modalFeaturedPreview').src
         };
-        const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
+        const res = await fetchJSON(`${API_BASE}/admin/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
           modalContainer.style.display = 'none';
           await showSuccessModal('Featured Member Updated');
@@ -1391,12 +1518,25 @@
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'image/*';
-        input.onchange = (e) => {
+        input.onchange = async (e) => {
           const file = e.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { document.getElementById('modalMemberPreview').src = ev.target.result; };
-            reader.readAsDataURL(file);
+          if (!file) return;
+          const formData = new FormData();
+          formData.append('image', file);
+          try {
+            const res = await fetch('/api/upload', {
+              method: 'POST',
+              headers: getAuthHeaders(),
+              body: formData
+            });
+            if (res.status === 401) throw new Error('Unauthorized');
+            const data = await res.json();
+            if (data.url) {
+              document.getElementById('modalMemberPreview').src = data.url;
+              showToast('Image uploaded');
+            } else showToast('Upload failed', true);
+          } catch (err) {
+            showToast('Upload error', true);
           }
         };
         input.click();
@@ -1406,7 +1546,7 @@
       const saveBtn = document.getElementById('modalSaveBtn');
       deleteBtn.onclick = async () => {
         if (await confirmAction('Delete this member?')) {
-          const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'DELETE' });
+          const res = await fetchJSON(`${API_BASE}/admin/members/${id}`, { method: 'DELETE' });
           if (res) {
             modalContainer.style.display = 'none';
             await showSuccessModal('Member Deleted');
@@ -1430,7 +1570,7 @@
           feedback: document.getElementById('modalMemberFeedback').value,
           photoUrl: document.getElementById('modalMemberPreview').src
         };
-        const res = await fetchJSON(`${API_BASE}/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
+        const res = await fetchJSON(`${API_BASE}/admin/members/${id}`, { method: 'PUT', body: JSON.stringify(updated) });
         if (res) {
           modalContainer.style.display = 'none';
           await showSuccessModal('Member Updated');
@@ -1448,11 +1588,11 @@
     let url = '';
     let successMsg = '';
     if (type === 'membership') {
-      url = `${API_BASE}/memberships`;
+      url = `${API_BASE}/admin/memberships`;
       defaultData = { planName: 'New Plan ' + Date.now(), price: 100, duration: 'month', description: 'New membership plan' };
       successMsg = 'Membership Plan Added';
     } else if (type === 'member') {
-      url = `${API_BASE}/members`;
+      url = `${API_BASE}/admin/members`;
       defaultData = {
         name: 'New Member', age: 18, since: '2025', photoUrl: DEFAULT_AVATAR,
         experience: 'beginner', goal: 'musclegain', featured: false, featuredTag: '',
@@ -1460,7 +1600,7 @@
       };
       successMsg = 'Member Added';
     } else if (type === 'featured') {
-      url = `${API_BASE}/members`;
+      url = `${API_BASE}/admin/members`;
       defaultData = {
         name: 'New Featured', age: 30, since: '2024', photoUrl: DEFAULT_AVATAR,
         experience: 'intermediate', goal: 'musclegain', featured: true, featuredTag: 'Featured',
@@ -1475,7 +1615,7 @@
     } else showToast('Add failed', true);
   }
 
-  // ========== EDIT SECTION MODAL (exactly like workout.html, no opacity slider) ==========
+  // ========== EDIT SECTION MODAL ==========
   async function editHero() {
     const modalContainer = document.getElementById('modalContainer');
     const currentImageUrl = siteSettings.membersHeroBg || '';
@@ -1527,7 +1667,12 @@
         uploadArea.style.opacity = '0.6';
         uploadArea.style.cursor = 'wait';
         try {
-          const res = await fetch('/api/upload', { method: 'POST', body: formData });
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: formData
+          });
+          if (res.status === 401) throw new Error('Unauthorized');
           const data = await res.json();
           if (data.url) {
             newImageUrl = data.url;
@@ -1554,7 +1699,7 @@
         membersHeroSubheading: document.getElementById('heroSubInput').value,
         membersHeroBg: newImageUrl
       };
-      const res = await fetchJSON(`${API_BASE}/sitesettings`, { method: 'PUT', body: JSON.stringify(updatedSettings) });
+      const res = await fetchJSON(`${API_BASE}/admin/sitesetting`, { method: 'PUT', body: JSON.stringify(updatedSettings) });
       if (res) {
         siteSettings = { ...siteSettings, ...updatedSettings };
         renderHero();
@@ -1593,7 +1738,7 @@
         activeMembers: parseInt(newActive.replace(/[^0-9]/g, '')),
         membersTransformations: parseInt(newTrans.replace(/[^0-9]/g, ''))
       };
-      const res = await fetchJSON(`${API_BASE}/stats`, { method: 'PUT', body: JSON.stringify(updated) });
+      const res = await fetchJSON(`${API_BASE}/admin/stats`, { method: 'PUT', body: JSON.stringify(updated) });
       if (res) {
         modalContainer.style.display = 'none';
         await showSuccessModal('Stats Updated');
@@ -1632,9 +1777,16 @@
   if (hamburger) hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
   // ========== INITIALIZATION ==========
-  loadAllData();
-  initFilters();
-  initViewToggle();
+  async function initAdminPanel() {
+    if (!isAuthenticated) return;
+    await loadAllData();
+    initFilters();
+    initViewToggle();
+  }
+
+  if (isAuthenticated) {
+    initAdminPanel();
+  }
 </script>
 </body>
 </html>

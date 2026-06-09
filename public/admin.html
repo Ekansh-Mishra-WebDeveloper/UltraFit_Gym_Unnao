@@ -1348,7 +1348,7 @@
   <div id="adminToast" class="admin-toast"></div>
 
   <script>
-    // ==================== PWA INSTALL LOGIC FOR ADMIN ====================
+        // ==================== PWA INSTALL LOGIC FOR ADMIN ====================
     let deferredAdminPrompt;
     const installAdminBtn = document.getElementById('installAdminAppBtn');
 
@@ -1502,17 +1502,18 @@
       review: { name: "New Review", photoUrl: DEFAULT_PROFILE, review: "Amazing experience!", rating: 5 }
     };
 
+    // UPDATED endpoints to use /api/admin/
     const endpoints = {
-      trainer: '/api/trainers',
-      transformation: '/api/transformations',
-      member: '/api/members',
-      dietPlan: '/api/dietplans',
-      workoutPlan: '/api/workoutplans',
-      membership: '/api/memberships',
-      product: '/api/products',
-      reel: '/api/reels',
-      review: '/api/reviews',
-      gallery: '/api/gallery'
+      trainer: '/api/admin/trainers',
+      transformation: '/api/admin/transformations',
+      member: '/api/admin/members',
+      dietPlan: '/api/admin/dietplans',
+      workoutPlan: '/api/admin/workoutplans',
+      membership: '/api/admin/memberships',
+      product: '/api/admin/products',
+      reel: '/api/admin/reels',
+      review: '/api/admin/reviews',
+      gallery: '/api/admin/gallery'
     };
 
     let siteSettings = {};
@@ -1534,19 +1535,19 @@
 
     async function loadAllData() {
       const [settings, statsRes, trainersRes, transRes, membersRes, dietRes, workoutRes, membershipRes, productsRes, galleryRes, reelsRes, reviewsRes, contactRes] = await Promise.all([
-        fetchJSON(`${API_BASE}/sitesettings`),
-        fetchJSON(`${API_BASE}/stats`),
-        fetchJSON(`${API_BASE}/trainers`),
-        fetchJSON(`${API_BASE}/transformations`),
-        fetchJSON(`${API_BASE}/members`),
-        fetchJSON(`${API_BASE}/dietplans`),
-        fetchJSON(`${API_BASE}/workoutplans`),
-        fetchJSON(`${API_BASE}/memberships`),
-        fetchJSON(`${API_BASE}/products`),
-        fetchJSON(`${API_BASE}/gallery`),
-        fetchJSON(`${API_BASE}/reels`),
-        fetchJSON(`${API_BASE}/reviews`),
-        fetchJSON(`${API_BASE}/contactinfo`)
+        fetchJSON(`${API_BASE}/admin/sitesetting`),      // note: singular 'sitesetting'
+        fetchJSON(`${API_BASE}/admin/stats`),
+        fetchJSON(`${API_BASE}/admin/trainers`),
+        fetchJSON(`${API_BASE}/admin/transformations`),
+        fetchJSON(`${API_BASE}/admin/members`),
+        fetchJSON(`${API_BASE}/admin/dietplans`),
+        fetchJSON(`${API_BASE}/admin/workoutplans`),
+        fetchJSON(`${API_BASE}/admin/memberships`),
+        fetchJSON(`${API_BASE}/admin/products`),
+        fetchJSON(`${API_BASE}/admin/gallery`),
+        fetchJSON(`${API_BASE}/admin/reels`),
+        fetchJSON(`${API_BASE}/admin/reviews`),
+        fetchJSON(`${API_BASE}/admin/contactinfo`)
       ]);
       if (settings) siteSettings = settings;
       if (statsRes) stats = statsRes;
@@ -1567,9 +1568,6 @@
     function renderHero() {
       document.getElementById('heroLogo').src = siteSettings.logoUrl || 'UltraFit logo.png';
       document.getElementById('heroSubheading').innerText = siteSettings.heroSubheading || 'The Standard of Strength';
-      // The hero button is now the install button – its text is static, not from settings
-      // We keep the original `heroCtaBtn` id but we changed it to `installAdminAppBtn` – remove old listener
-      // The button text is set in HTML, not from settings
       document.getElementById('liveStatusText').innerText = siteSettings.liveStatusText || 'Open Now – Closing at 10 PM';
       document.getElementById('floatingCtaBtn').innerText = siteSettings.floatingButtonText || 'Book 3-Day Free Trial';
       const brandEl = document.getElementById('heroBrandText');
@@ -2096,7 +2094,7 @@
             const data = await res.json();
             if (data.url) {
               const newImages = [...galleryImages, data.url];
-              const updateRes = await fetchJSON('/api/gallery', { method: 'PUT', body: JSON.stringify({ images: newImages }) });
+              const updateRes = await fetchJSON(`${API_BASE}/admin/gallery`, { method: 'PUT', body: JSON.stringify({ images: newImages }) });
               if (updateRes) {
                 galleryImages = newImages;
                 renderGalleryCarousel();
@@ -2118,15 +2116,15 @@
       const res = await fetchJSON(endpoints[type], { method: 'POST', body: JSON.stringify(payload) });
       if (res) {
         showToast(`${type} added successfully`);
-        if (type === 'trainer') { trainers = await fetchJSON('/api/trainers') || []; renderTrainers(); }
-        else if (type === 'transformation') { transformations = await fetchJSON('/api/transformations') || []; renderTransformations(); }
-        else if (type === 'member') { members = await fetchJSON('/api/members') || []; renderMembersCarousel(); }
-        else if (type === 'dietPlan') { dietPlans = await fetchJSON('/api/dietplans') || []; renderDietPlans(); }
-        else if (type === 'workoutPlan') { workoutPlans = await fetchJSON('/api/workoutplans') || []; renderWorkoutPlans(); }
-        else if (type === 'membership') { memberships = await fetchJSON('/api/memberships') || []; renderMemberships(); }
-        else if (type === 'product') { products = await fetchJSON('/api/products') || []; renderProducts(); }
-        else if (type === 'reel') { reels = await fetchJSON('/api/reels') || []; renderReelsCarousel(); }
-        else if (type === 'review') { reviews = await fetchJSON('/api/reviews') || []; renderReviewsCarousel(); }
+        if (type === 'trainer') { trainers = await fetchJSON(`${API_BASE}/admin/trainers`) || []; renderTrainers(); }
+        else if (type === 'transformation') { transformations = await fetchJSON(`${API_BASE}/admin/transformations`) || []; renderTransformations(); }
+        else if (type === 'member') { members = await fetchJSON(`${API_BASE}/admin/members`) || []; renderMembersCarousel(); }
+        else if (type === 'dietPlan') { dietPlans = await fetchJSON(`${API_BASE}/admin/dietplans`) || []; renderDietPlans(); }
+        else if (type === 'workoutPlan') { workoutPlans = await fetchJSON(`${API_BASE}/admin/workoutplans`) || []; renderWorkoutPlans(); }
+        else if (type === 'membership') { memberships = await fetchJSON(`${API_BASE}/admin/memberships`) || []; renderMemberships(); }
+        else if (type === 'product') { products = await fetchJSON(`${API_BASE}/admin/products`) || []; renderProducts(); }
+        else if (type === 'reel') { reels = await fetchJSON(`${API_BASE}/admin/reels`) || []; renderReelsCarousel(); }
+        else if (type === 'review') { reviews = await fetchJSON(`${API_BASE}/admin/reviews`) || []; renderReviewsCarousel(); }
       } else showToast(`Failed to add ${type}`, true);
     }
 
@@ -2166,7 +2164,7 @@
           if (await confirmAction('Delete this image?')) {
             const newImages = [...galleryImages];
             newImages.splice(idx, 1);
-            const res = await fetchJSON('/api/gallery', { method: 'PUT', body: JSON.stringify({ images: newImages }) });
+            const res = await fetchJSON(`${API_BASE}/admin/gallery`, { method: 'PUT', body: JSON.stringify({ images: newImages }) });
             if (res) {
               galleryImages = newImages;
               renderGalleryCarousel();
@@ -2202,7 +2200,7 @@
               if (data.url) {
                 const newImages = [...galleryImages];
                 newImages[idx] = data.url;
-                const updateRes = await fetchJSON('/api/gallery', { method: 'PUT', body: JSON.stringify({ images: newImages }) });
+                const updateRes = await fetchJSON(`${API_BASE}/admin/gallery`, { method: 'PUT', body: JSON.stringify({ images: newImages }) });
                 if (updateRes) {
                   galleryImages = newImages;
                   renderGalleryCarousel();
@@ -2415,28 +2413,28 @@
       document.getElementById('deleteItemBtn').onclick = async () => {
         if (await confirmAction(`Delete this ${type} permanently?`)) {
           let url = '';
-          if (type === 'trainer') url = `/api/trainers/${id}`;
-          else if (type === 'transformation') url = `/api/transformations/${id}`;
-          else if (type === 'member') url = `/api/members/${id}`;
-          else if (type === 'dietPlan') url = `/api/dietplans/${id}`;
-          else if (type === 'workoutPlan') url = `/api/workoutplans/${id}`;
-          else if (type === 'membership') url = `/api/memberships/${id}`;
-          else if (type === 'product') url = `/api/products/${id}`;
-          else if (type === 'reel') url = `/api/reels/${id}`;
-          else if (type === 'review') url = `/api/reviews/${id}`;
+          if (type === 'trainer') url = `${API_BASE}/admin/trainers/${id}`;
+          else if (type === 'transformation') url = `${API_BASE}/admin/transformations/${id}`;
+          else if (type === 'member') url = `${API_BASE}/admin/members/${id}`;
+          else if (type === 'dietPlan') url = `${API_BASE}/admin/dietplans/${id}`;
+          else if (type === 'workoutPlan') url = `${API_BASE}/admin/workoutplans/${id}`;
+          else if (type === 'membership') url = `${API_BASE}/admin/memberships/${id}`;
+          else if (type === 'product') url = `${API_BASE}/admin/products/${id}`;
+          else if (type === 'reel') url = `${API_BASE}/admin/reels/${id}`;
+          else if (type === 'review') url = `${API_BASE}/admin/reviews/${id}`;
           const res = await fetchJSON(url, { method: 'DELETE' });
           if (res !== null) {
             modal.style.display = 'none';
             showToast('Deleted successfully');
-            if (type === 'trainer') { trainers = await fetchJSON('/api/trainers') || []; renderTrainers(); }
-            else if (type === 'transformation') { transformations = await fetchJSON('/api/transformations') || []; renderTransformations(); }
-            else if (type === 'member') { members = await fetchJSON('/api/members') || []; renderMembersCarousel(); }
-            else if (type === 'dietPlan') { dietPlans = await fetchJSON('/api/dietplans') || []; renderDietPlans(); }
-            else if (type === 'workoutPlan') { workoutPlans = await fetchJSON('/api/workoutplans') || []; renderWorkoutPlans(); }
-            else if (type === 'membership') { memberships = await fetchJSON('/api/memberships') || []; renderMemberships(); }
-            else if (type === 'product') { products = await fetchJSON('/api/products') || []; renderProducts(); }
-            else if (type === 'reel') { reels = await fetchJSON('/api/reels') || []; renderReelsCarousel(); }
-            else if (type === 'review') { reviews = await fetchJSON('/api/reviews') || []; renderReviewsCarousel(); }
+            if (type === 'trainer') { trainers = await fetchJSON(`${API_BASE}/admin/trainers`) || []; renderTrainers(); }
+            else if (type === 'transformation') { transformations = await fetchJSON(`${API_BASE}/admin/transformations`) || []; renderTransformations(); }
+            else if (type === 'member') { members = await fetchJSON(`${API_BASE}/admin/members`) || []; renderMembersCarousel(); }
+            else if (type === 'dietPlan') { dietPlans = await fetchJSON(`${API_BASE}/admin/dietplans`) || []; renderDietPlans(); }
+            else if (type === 'workoutPlan') { workoutPlans = await fetchJSON(`${API_BASE}/admin/workoutplans`) || []; renderWorkoutPlans(); }
+            else if (type === 'membership') { memberships = await fetchJSON(`${API_BASE}/admin/memberships`) || []; renderMemberships(); }
+            else if (type === 'product') { products = await fetchJSON(`${API_BASE}/admin/products`) || []; renderProducts(); }
+            else if (type === 'reel') { reels = await fetchJSON(`${API_BASE}/admin/reels`) || []; renderReelsCarousel(); }
+            else if (type === 'review') { reviews = await fetchJSON(`${API_BASE}/admin/reviews`) || []; renderReviewsCarousel(); }
           } else showToast('Delete failed', true);
         }
       };
@@ -2511,15 +2509,15 @@
         if (res) {
           modal.style.display = 'none';
           showToast('Updated successfully');
-          if (type === 'trainer') { trainers = await fetchJSON('/api/trainers') || []; renderTrainers(); }
-          else if (type === 'transformation') { transformations = await fetchJSON('/api/transformations') || []; renderTransformations(); }
-          else if (type === 'member') { members = await fetchJSON('/api/members') || []; renderMembersCarousel(); }
-          else if (type === 'dietPlan') { dietPlans = await fetchJSON('/api/dietplans') || []; renderDietPlans(); }
-          else if (type === 'workoutPlan') { workoutPlans = await fetchJSON('/api/workoutplans') || []; renderWorkoutPlans(); }
-          else if (type === 'membership') { memberships = await fetchJSON('/api/memberships') || []; renderMemberships(); }
-          else if (type === 'product') { products = await fetchJSON('/api/products') || []; renderProducts(); }
-          else if (type === 'reel') { reels = await fetchJSON('/api/reels') || []; renderReelsCarousel(); }
-          else if (type === 'review') { reviews = await fetchJSON('/api/reviews') || []; renderReviewsCarousel(); }
+          if (type === 'trainer') { trainers = await fetchJSON(`${API_BASE}/admin/trainers`) || []; renderTrainers(); }
+          else if (type === 'transformation') { transformations = await fetchJSON(`${API_BASE}/admin/transformations`) || []; renderTransformations(); }
+          else if (type === 'member') { members = await fetchJSON(`${API_BASE}/admin/members`) || []; renderMembersCarousel(); }
+          else if (type === 'dietPlan') { dietPlans = await fetchJSON(`${API_BASE}/admin/dietplans`) || []; renderDietPlans(); }
+          else if (type === 'workoutPlan') { workoutPlans = await fetchJSON(`${API_BASE}/admin/workoutplans`) || []; renderWorkoutPlans(); }
+          else if (type === 'membership') { memberships = await fetchJSON(`${API_BASE}/admin/memberships`) || []; renderMemberships(); }
+          else if (type === 'product') { products = await fetchJSON(`${API_BASE}/admin/products`) || []; renderProducts(); }
+          else if (type === 'reel') { reels = await fetchJSON(`${API_BASE}/admin/reels`) || []; renderReelsCarousel(); }
+          else if (type === 'review') { reviews = await fetchJSON(`${API_BASE}/admin/reviews`) || []; renderReviewsCarousel(); }
         } else showToast('Update failed', true);
       };
     }
@@ -2619,7 +2617,7 @@
           heroButtonText: document.getElementById('heroCtaInput').value,
           heroBackgroundImage: newImageUrl
         };
-        const res = await fetchJSON('/api/sitesettings', {
+        const res = await fetchJSON(`${API_BASE}/admin/sitesetting`, {
           method: 'PUT',
           body: JSON.stringify(updatedSettings)
         });
@@ -2689,7 +2687,7 @@
       };
       document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
       document.getElementById('saveBtn').onclick = async () => {
-        const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify({ logoUrl: newLogoUrl }) });
+        const res = await fetchJSON(`${API_BASE}/admin/sitesetting`, { method: 'PUT', body: JSON.stringify({ logoUrl: newLogoUrl }) });
         if (res) {
           siteSettings.logoUrl = newLogoUrl;
           renderHero();
@@ -2718,7 +2716,7 @@
           trainersCount: parseInt(document.getElementById('statTrainersInput').value),
           transformationsCount: parseInt(document.getElementById('statTransformationsInput').value)
         };
-        const res = await fetchJSON('/api/stats', { method: 'PUT', body: JSON.stringify(updates) });
+        const res = await fetchJSON(`${API_BASE}/admin/stats`, { method: 'PUT', body: JSON.stringify(updates) });
         if (res) {
           stats = { ...stats, ...updates };
           renderStats();
@@ -2751,7 +2749,7 @@
           facebookUrl: document.getElementById('editFb').value,
           instagramUrl: document.getElementById('editIg').value
         };
-        const res = await fetchJSON('/api/contactinfo', { method: 'PUT', body: JSON.stringify(updates) });
+        const res = await fetchJSON(`${API_BASE}/admin/contactinfo`, { method: 'PUT', body: JSON.stringify(updates) });
         if (res) {
           contactInfo = { ...contactInfo, ...updates };
           renderContact();
@@ -2775,7 +2773,7 @@
       document.getElementById('cancelBtn').onclick = () => modal.style.display = 'none';
       document.getElementById('saveBtn').onclick = async () => {
         const newText = document.getElementById('trialText').value;
-        const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify({ floatingButtonText: newText }) });
+        const res = await fetchJSON(`${API_BASE}/admin/sitesetting`, { method: 'PUT', body: JSON.stringify({ floatingButtonText: newText }) });
         if (res) {
           siteSettings.floatingButtonText = newText;
           renderHero();
@@ -2817,7 +2815,7 @@
         const field = fieldMap[sectionId];
         if (field) {
           const update = { [field]: newText };
-          const res = await fetchJSON('/api/sitesettings', { method: 'PUT', body: JSON.stringify(update) });
+          const res = await fetchJSON(`${API_BASE}/admin/sitesetting`, { method: 'PUT', body: JSON.stringify(update) });
           if (res) showToast('Heading saved');
           else showToast('Failed to save heading', true);
         }
